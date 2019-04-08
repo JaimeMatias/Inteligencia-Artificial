@@ -14,3 +14,20 @@ def read_ar(arg):
             archivo[pos]=reg
             pos=pos+1
         return archivo
+
+def read_at(entrada):
+    archivo=[]
+    pos=0
+    for reg in entrada:
+        atributo=[]
+
+        posi=0
+        for i in range(0,(len(reg)-1)):
+            atributo+=[[]]
+            atributo[posi]=reg[i]
+            posi=posi+1
+        print(atributo)
+        archivo+=[[]]
+        archivo[pos]=atributo
+        pos=pos+1
+    return archivo
