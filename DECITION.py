@@ -14,11 +14,9 @@ import GAIN
 
 
 def decisionTree(Data,A=None,T=None):
-    if ACCURACY.accuracy(Data)==1:
+    if ACCURACY.accuracy(Data)==1:# si el acierto es igual a 1, quiere decir que todos los elementos son de la misma clase
         print("funciona")
-    #elif A=None:
-    #    print("Entra en el elif")
-    else:
+    else:# En caso de que no sea asi, entra aquí
         pruebatotal=ENTROPY.entropy(Data)
         print(pruebatotal)
         print(Data)
@@ -33,5 +31,5 @@ def decisionTree(Data,A=None,T=None):
                 maximo[0]=i
                 maximo[1]=incremento
         #if
-        
+
         return maximo
