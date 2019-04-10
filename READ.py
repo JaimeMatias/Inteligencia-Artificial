@@ -5,13 +5,16 @@ import os, sys
 import csv, operator
 
 def read_ar(arg):
-    archivo=[]
-    pos=0
+    archivo=[[],[]]
+    pos=-1
     with open(arg) as csvarchivo:
         entrada = csv.reader(csvarchivo)
         for reg in entrada:
-            archivo+=[[]]
-            archivo[pos]=reg
+            if pos==-1:
+                archivo[0]=reg
+            else:
+                archivo[1]+=[[]]
+                archivo[1][pos]=reg
             pos=pos+1
         return archivo
 
