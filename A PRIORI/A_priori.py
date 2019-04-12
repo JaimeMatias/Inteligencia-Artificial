@@ -21,7 +21,7 @@ def plot(vector):
         print("Candidatos de longitud: ",i+1)
         print(vector[i])
 
-def A_priori(entrada):
+def A_priori(entrada,soporte):
     FK=[[]]
     CK=[[]]
     C1=int_pass(entrada)
@@ -31,7 +31,7 @@ def A_priori(entrada):
     j=0
     k=2
     for reg3 in CK[z]:
-        if support(reg3,entrada)>=0.3:
+        if support(reg3,entrada)>=soporte:
             FK[j]+=[[]]
             FK[j][i]=reg3
             i=i+1
