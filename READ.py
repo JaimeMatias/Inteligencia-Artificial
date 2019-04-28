@@ -5,7 +5,7 @@ import os, sys
 import csv, operator
 
 def read_ar(arg):
-    archivo=[[],[]]
+    archivo=[[],[]]#Posicion 1 titulos atributo, Posicion 2 registros
     pos=-1
     with open(arg) as csvarchivo:
         entrada = csv.reader(csvarchivo)

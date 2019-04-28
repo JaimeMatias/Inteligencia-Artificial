@@ -1,42 +1,58 @@
 #!/usr/bin/python
  #-*- coding: latin-1 -*-
 import os, sys
+from copy import deepcopy
 #Devuelve los subconj de ese atributo
-def subconjunto(entrada,indice=0):
-    final=0 #Variable de control utilizada para saber si estoy analizando atributos o clases
-    devolver=[[],[],[]] #lo que va a devolver un arreglo de 3 posiciones donde cada una significa algo
-                        #Primer posicoin elemento
-                        #Segunda Posición valor
-                        #Tercera Posción acierto
-    if indice==0: #pregunta si el indice es 0, para saber si poner o no la variable de control a 1
-        final=1
-    else:
-        indice=indice-1 #Decremento en 1 el indice por el tema de las posciones (empieza en 0w)
-    elementos=[]
+
+def subconjuntoclase(datos):
     Valor=[]
-    acierto=[]
-    for reg in entrada:
-        if final==1:# Si final verdadedor tengo que ir a la ultima poscion
-            indice=int(len(reg)-1) #obtengo la longitud del registro
-        elem=reg[indice] #a elemento le asigno el contenido en esa posicion
+    elementos=[]
+    for reg in datos:
+        elem=reg[len(reg)-1] #Posicion de la clase
         if elem not in elementos:
-            elementos=elementos+[elem]# Si el elemento no esta en la lista, lo añado a la lista
-            Valor.extend([0])# Creo una posicoin para adjudicar el elemento
-            acierto.extend([[0,0]])# Creo otra posicion en el acierto
-            #
-        i=-1#lo inicio en -1 para que en el bucle no se pase del arreglo
-        for pos in elementos: #sirve para incrementar los valores de valores y de atributos
-            i=i+1
-            if(pos==elem):# busco que el valor en posción final sea igual al contenido del vecto del elemento
-                Valor[i]=Valor[i]+1# incremento el valor de la posicion
-                if reg[len(reg)-1]=='yes':# Pregunto si  es si o no
-                    acierto[i][0]=int(acierto[i][0])+1# Incremento el valor del acierto
-                else:
-                    acierto[i][1]=int(acierto[i][1])+1 #Incremento el alor del fallo
-    devolver[0]=elementos
-    devolver[1]=Valor
-    devolver[2]=acierto
-    #print("Elementos: ",elementos)
-    #print("Valores: ",Valor)
-    #print("Aciertos: ",acierto)
-    return devolver
+            elementos=elementos+[elem]
+            Valor.extend([1])
+        else:
+            i=0
+            for pos in elementos:
+                if pos==elem:
+                    Valor[i]=Valor[i]+1
+                i=i+1
+    return(elementos,Valor)
+
+def subconjuntoatributo(datos,k):
+    Valor=[]
+    elementos=[]
+    var=subconjuntoclase(datos)
+    var3=[]
+    for i in range(0,len(var[1])):
+        var3.extend([0])
+    for reg in datos:
+        elem=reg[k]
+        if elem not in elementos:
+            elementos=elementos+[elem]
+            Valor.extend([deepcopy(var3)])
+        j=0
+        for pos in elementos:
+            if pos==elem:
+                i=0
+                for reg2 in var[0]:
+                    if reg[len(reg)-1]==reg2:
+                        Valor[j][i]=Valor[j][i]+1
+                    i=i+1
+            j=j+1
+
+    return(elementos,Valor)
+
+
+"""PRUEBA """
+#import READ
+#Archivo=READ.read_ar('datos_continuo.csv')
+#Archivo2=READ.read_ar('prestamo.csv')
+#clases=subconjuntoclase(Archivo[1])
+#clases2=subconjuntoatributo(Archivo2[1],0)
+#print(clases)
+#print('hola')
+#print(clases2)
+#clases3=subconjuntoatributo(Archivo[1],0)
+#print(clases3)

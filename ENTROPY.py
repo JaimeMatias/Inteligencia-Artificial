@@ -5,43 +5,39 @@
 import os, sys
 import csv, operator
 import math
-import decimal
 from decimal import Decimal
-from SUBCONJUNTO import subconjunto
-
+from SUBCONJUNTO import *
+from copy import deepcopy
 
 # Me devuelve el nivel de entropia del conjunto
-def entropy(entrada,indice=0):#El indice= 0indica que estamos analizando la clase, sino analizamos un atributo
-    elementos=[] # Posee los valores distintos de los conjuntos
-    Valor=[]# Posee la cantidad de veces que aparece cada atributo(En caso de que el indice sea 0 coincide con el Datributo)
-    Datributo=[]#Posee la cantidad de veces que cada atributo coincide con cada elemeto de la clase
-    subconj=subconjunto(entrada,indice)
-    elementos=subconj[0]# se obtienen los elementos distintos
-    Valor=subconj[1]#Se obtienen las cantidad de los atributos
-    Datributo=subconj[2]#se obtiene la cantidad de veces que cada atributo coincide con cada elemeto
-    resultado=0 #Lo que me va devolver la función
-    i=0
-    if indice==0:#Estamos analizando la clase
-        for reg in Valor:
-            c=int(reg)#transformo el valor a in integer
-            total=contar_tot(entrada)#calculo la cantidad de registros
-            c=Decimal(c)/Decimal(total)#divido
+def entropiaclase(archivo):
+    var1=subconjuntoclase(archivo)
+    entro=deepcopy(var1[1])
+    resultado=0
+    total=contar_tot(archivo)#calculo la cantidad de registros
+    for reg in entro:
+        if reg!=0:
+            c=Decimal(reg)/Decimal(total)#divido
             resultado=resultado-float(c)*math.log(float(c),2)#lo voy resguardando
-        return resultado
-    else:#EStamos analizando los atributos
-        result=Decimal(0)
-        for reg1 in Valor:  #[10,5]
-            total=Datributo[i][1]+Datributo[i][0] #el total ahora es sobre la ocurrencia del atributo
-            resultado=0# cada valor de un atributo tiene su resultado particular
-            for reg2 in Datributo[i]:#[[4,6],[5,0]]
-                c=Decimal(reg2)/Decimal(total) #por la forma que se calcula la entropia, tengo que calcular para cada tipo del atributo
-                if c!=0: #si no pregunto, me puede dar error matematico
-                    resultado=resultado-float(c)*math.log(float(c),2)#parte de la form entropia
-            tot=contar_tot(entrada)# el total de elementos
-            result=result+(Decimal(reg1)/Decimal(tot))*Decimal(resultado) #parte de la formula entropia
-            i=i+1
-        return result
+    return resultado
 
+def entropiaatributo(archivo,i):
+    var1=subconjuntoatributo(archivo,i)
+    entro=deepcopy(var1[1])
+    totalgeneral=contar_tot(archivo)
+    totalparcial=0
+    for reg in entro:
+        resultado=0
+        for reg2 in reg:
+            resultado=resultado+reg2
+        resultado4=0
+        for reg2 in reg:
+            c=0
+            if reg2!=0:
+                c=Decimal(reg2)/Decimal(resultado)
+                resultado4=resultado4-float(c)*math.log(float(c),2)
+        totalparcial=totalparcial+Decimal(resultado4)*Decimal(resultado)/Decimal(totalgeneral)
+    return(round(totalparcial,2))
 
 #Una simple función que cuenta la cantidad de registro
 def contar_tot(entrada):
@@ -49,3 +45,10 @@ def contar_tot(entrada):
     for reg in entrada:
         total=total+1
     return total
+"""PRUEBA """
+#import READ
+#Archivo=READ.read_ar('prestamo.csv')
+#clases=entropiaclase(Archivo[1])
+#clases2=entropiaatributo(Archivo[1],0)
+
+#print(clases2)

@@ -8,9 +8,23 @@ import math
 import decimal
 from decimal import Decimal
 import ENTROPY
-from ENTROPY import entropy
-def gain(entrada,indice=0):
-    data=entropy(entrada)
-    alternativa=entropy(entrada,indice)
+from ENTROPY import *
+def gainRatio(entrada,i):
+    data=entropiaclase(entrada)
+    alternativa=entropiaatributo(entrada,i)
     ganancia=float(data)-float(alternativa)
-    return ganancia
+    return round(ganancia,3)
+
+"""PRUEBA"""
+import READ
+Archivo=READ.read_ar('prestamo.csv')
+clases0=gainRatio(Archivo[1],0)
+clases1=gainRatio(Archivo[1],1)
+clases2=gainRatio(Archivo[1],2)
+clases3=gainRatio(Archivo[1],3)
+#clases2=entropiaatributo(Archivo[1],0)
+
+print('Entropia atributo 0: ',clases0)
+print('Entropia atributo 1: ',clases1)
+print('Entropia atributo 2: ',clases2)
+print('Entropia atributo 3: ',clases3)
