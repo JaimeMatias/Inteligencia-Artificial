@@ -3,7 +3,7 @@
  #-*- Age,Has_job,Own_house,Credit_rating,Class
 import os, sys
 import csv, operator
-
+from copy import deepcopy
 def read_ar(arg):
     archivo=[[],[]]#Posicion 1 titulos atributo, Posicion 2 registros
     pos=-1
@@ -34,3 +34,50 @@ def read_at(entrada):
         archivo[pos]=atributo
         pos=pos+1
     return archivo
+
+
+def genintervalo(entrada,rango,atributo,nuevo_valor):
+    var1=[]
+    var2=[]
+    var3=[]
+    for i in range(0,rango):
+        var3=deepcopy(entrada[i])
+        var3[atributo]=nuevo_valor[0]
+        var1=var1 +[var3]
+    for i in range(rango,len(entrada)):
+        var3=deepcopy(entrada[i])
+        var3[atributo]=nuevo_valor[1]
+        var1=var1+[var3]
+    return(var1)
+
+
+def genproxcorte(entrada, rango,atributo):
+    control=False
+    i=rango
+    while control==False:
+        #print('valor del indice: ',i)
+        #print(entrada)
+        var1=entrada[rango][atributo]
+        var1=float(var1)
+        var2=float(entrada[i][atributo])
+        #print('atributo 1 ',var1,'atributo2 ',var2)
+        if (var2-var1)!=0:
+            #print('distintos')
+            control=True
+            return(i)
+        i=i+1
+        if i==len(entrada):
+            control=True
+            return(-1)
+    pass
+"""Prueba"""
+#Archivo=read_ar('datos_continuo.csv')
+#var3=['si','no']
+#for i in range(0,(len(Archivo))):
+#    var1=genintervalo(Archivo[1],i,0,var3)
+#    print(var1)
+
+#var1=genintervalo(Archivo[1],0,1,var3)
+#var1=genproxcorte(Archivo[1],5,1)
+#print(var1)
+#print(Archivo)

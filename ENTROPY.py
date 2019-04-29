@@ -21,6 +21,23 @@ def entropiaclase(archivo):
             resultado=resultado-float(c)*math.log(float(c),2)#lo voy resguardando
     return resultado
 
+def clase(archivo):
+    var1=entropiaclase(archivo)
+    var2=subconjuntoclase(archivo)
+    if var1==0:
+        return(var2[0])
+    else:
+        var1=0
+        var3=[]
+        i=0
+        for reg in var2[0]:
+            if var2[1][i]>var1:
+                var3=reg
+                var1=var2[0][i]
+            i=i+1
+    return(var3)
+
+
 def entropiaatributo(archivo,i):
     var1=subconjuntoatributo(archivo,i)
     entro=deepcopy(var1[1])
@@ -61,9 +78,11 @@ def contar_tot(entrada):
         total=total+1
     return total
 """PRUEBA """
-import READ
-#Archivo=READ.read_ar('prestamo.csv')
+#import READ
+#Archivo=READ.read_ar('datos_continuo.csv')
+#clases=clase(Archivo[1])
 #clases=entropiaratio(Archivo[1],0)
 #clases2=entropiaatributo(Archivo[1],0)
-
-#print(clases)
+#Archivo=READ.read_ar('datos_continuo.csv')
+#clases2=entropiaclase(Archivo[1])
+#print(clases2)
