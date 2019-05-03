@@ -34,6 +34,46 @@ class Nodo:
                 self.der=elemento
             else:
                 self.izq= elemento
+    def genelemento(self,elemento):
+        self.nombre=elemento.nombre
+        self.cedula=elemento.cedula
+    def agregarele(self,elemento):
+        """if self.nombre==None:
+            self.nombre=elemento.nombre
+            self.cedula=elemento.cedula
+            if elemento.izq!=None:
+                self.izq=elemento.izq
+            if elemento.der!=None:
+                self.der=elemento.der
+        else:"""
+        if self.izq==None and self.der!=elemento:
+            self.izq=elemento
+            return
+        if self.der==None and self.der!=elemento:
+            self.der=elemento
+            return
+
+    def agregarizq(self,elemento):
+        if self.nombre==None:
+            self.nombre=elemento.nombre
+            self.cedula=elemento.cedula
+            if elemento.izq!=None:
+                self.izq=elemento.izq
+            if elemento.der!=None:
+                self.der=elemento.der
+        else:
+            self.izq=elemento
+
+    def agregarder(self,elemento):
+        if self.nombre==None:
+            self.nombre=elemento.nombre
+            self.cedula=elemento.cedula
+            if elemento.izq!=None:
+                self.izq=elemento.izq
+            if elemento.der!=None:
+                self.der=elemento.der
+        else:
+            self.der=elemento
 
 
 class aBinarios: #Al ser un arbol, conoce todas sus hojas
@@ -73,7 +113,7 @@ class aBinarios: #Al ser un arbol, conoce todas sus hojas
             else:
                 print(i,'derecha',desplazamiento,elemento.cedula)
 
-            arreglo[0]=[i,elemento.cedula]
+            arreglo[0]=[i,elemento.nombre,elemento.cedula]
             arreglo+=self.preorder(elemento.izq,0,i+1)
             arreglo+=self.preorder(elemento.der,1,i+1)
         return(arreglo)
@@ -99,7 +139,7 @@ def prueba(numero,arbol,i=0):
         nombre=i
         cedula=numero
         nod=Nodo(nombre,cedula)
-        arbol.agregar2(nod)
+        arbol.agregarder(nod)
         return(arbol)
     else:
         var1=numero-1
@@ -107,7 +147,7 @@ def prueba(numero,arbol,i=0):
         cedula=numero
         nod1=Nodo(nombre,cedula)
         prueba(var1,nod1,i+1)
-        arbol.agregar2(nod1)
+        arbol.agregarder(nod1)
         return(arbol)
 
 
@@ -128,6 +168,7 @@ def plot(Prueba2,nombre):
     arbol.layout()
     arbol.draw(nombre)
     return arbol
+"""PRUEBA """
 #nodo=Nodo()
 #nodo=prueba(9,nodo)
 #Prueba2=aBinarios()
