@@ -37,6 +37,14 @@ def clase(archivo):
             i=i+1
     return(var3)
 
+def confianzaclase(entrada,clase):
+    cuenta=0
+    for reg in entrada:
+        if reg[len(reg)-1]==clase:
+            cuenta=cuenta+1
+    cuenta=Decimal(cuenta)/Decimal(contar_tot(entrada))
+    return cuenta
+    pass
 
 def entropiaatributo(archivo,i):
     var1=subconjuntoatributo(archivo,i)

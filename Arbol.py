@@ -1,18 +1,22 @@
 class Nodo:
     """docstring for Nodo."""
 
-    def __init__(self,nombre=None,cedula=0,izq=None,der=None):
+    def __init__(self,nombre=None,menor=None,mayor=None,cedula=0,confianza=0,hoja=None,izq=None,der=None):
         self.nombre=nombre
         self.cedula=cedula
+        self.confianza=confianza
         self.izq=izq
         self.der=der
+        self.menor=menor
+        self.mayor=mayor
+        self.hoja=hoja
 
     def __str__(self):
         return"%s %s" %(self.nombre,self.cedula)
 
     def listar(self):
         if self!=None:
-            print('lista: ',self.nombre,self.cedula)
+            print('lista: ',self.nombre,self.menor,self.mayor,self.cedula)
             if self.izq!=None:
                 var1=self.izq
                 var1.listar()
@@ -21,38 +25,11 @@ class Nodo:
                 var2.listar()
 
 
-    def agregar2(self,elemento):
-        if self.cedula==0:
-            self.nombre=elemento.nombre
-            self.cedula=elemento.cedula
-            if elemento.izq!=None:
-                self.izq=elemento.izq
-            if elemento.der!=None:
-                self.der=elemento.der
-        else:
-            if int(elemento.cedula) >= int(self.cedula):
-                self.der=elemento
-            else:
-                self.izq= elemento
     def genelemento(self,elemento):
         self.nombre=elemento.nombre
         self.cedula=elemento.cedula
-    def agregarele(self,elemento):
-        """if self.nombre==None:
-            self.nombre=elemento.nombre
-            self.cedula=elemento.cedula
-            if elemento.izq!=None:
-                self.izq=elemento.izq
-            if elemento.der!=None:
-                self.der=elemento.der
-        else:"""
-        if self.izq==None and self.der!=elemento:
-            self.izq=elemento
-            return
-        if self.der==None and self.der!=elemento:
-            self.der=elemento
-            return
-
+        self.menor=elemento.menor
+        self.mayor=elemento.mayor
     def agregarizq(self,elemento):
         if self.nombre==None:
             self.nombre=elemento.nombre
@@ -74,6 +51,37 @@ class Nodo:
                 self.der=elemento.der
         else:
             self.der=elemento
+
+    def plot_recusivo(self,arbol):
+        #print(self.nombre,self)
+        if self!=None and self.izq!=None:
+            var1=self.izq
+            if var1.hoja=='si':
+                arbol.add_edge((self.nombre,self.cedula),(var1.nombre,var1.cedula,var1.confianza),label=self.menor)
+                print(self.nombre,var1.nombre,'entra condicion izq')
+            else:
+                arbol.add_edge((self.nombre,self.cedula),(var1.nombre,var1.cedula),label=self.menor)
+                print(self.nombre,var1.nombre,'no entra condicion izq')
+            var1.plot_recusivo(arbol)
+
+        if self!=None and self.der!=None:
+            var2=self.der
+            if var2.hoja=='si':
+                arbol.add_edge((self.nombre,self.cedula),(var2.nombre,var2.cedula,var2.confianza),label=self.mayor)
+                print(self.nombre,var2.nombre,'entra condicion')
+            else:
+                arbol.add_edge((self.nombre,self.cedula),(var2.nombre,var2.cedula),label=self.mayor)
+                print(self.nombre,var2.nombre,'no entra condicion')
+            var2.plot_recusivo(arbol)
+        return(arbol)
+
+    def plot(self,nombre):
+        import pygraphviz as pgv
+        arbol = pgv.AGraph(directed=True,center=True,ordering="in")
+        self.plot_recusivo(arbol)
+        arbol.layout()
+        arbol.draw(nombre)
+        return arbol
 
 
 class aBinarios: #Al ser un arbol, conoce todas sus hojas
@@ -123,7 +131,7 @@ class aBinarios: #Al ser un arbol, conoce todas sus hojas
     def getRaiz(self):
         return self.raiz
 
-from random import randrange
+        from random import randrange
 
 def limpiar(arreglo):
     arr=[]
