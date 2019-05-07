@@ -1,26 +1,32 @@
+from copy import deepcopy
 class Nodo:
     """docstring for Nodo."""
 
-    def __init__(self,nombre=None,menor=None,mayor=None,cedula=0,confianza=0,hoja=None,izq=None,der=None):
+    def __init__(self,nombre=None,corte=None,cedula=0,confianza=0,hoja=None,izq=None,der=None):
         self.nombre=nombre
         self.cedula=cedula
         self.confianza=confianza
+        self.corte=corte
+        self.hoja=hoja
         self.izq=izq
         self.der=der
-        self.menor=menor
-        self.mayor=mayor
-        self.hoja=hoja
+        #self.menor=menor
+        #self.mayor=mayor
 
     def __str__(self):
         return"%s %s" %(self.nombre,self.cedula)
 
     def listar(self):
         if self!=None:
-            print('lista: ',self.nombre,self.menor,self.mayor,self.cedula)
+            menor=('< '+str(deepcopy(self.corte)))
+            mayor=('> '+str(deepcopy(self.corte)))
+            print('lista: ',self.nombre,menor,mayor,self.cedula)
             if self.izq!=None:
+                print(self.nombre,self.hoja,self.izq)
                 var1=self.izq
                 var1.listar()
             if self.der!=None:
+                print(self.izq)
                 var2=self.der
                 var2.listar()
 
@@ -28,8 +34,7 @@ class Nodo:
     def genelemento(self,elemento):
         self.nombre=elemento.nombre
         self.cedula=elemento.cedula
-        self.menor=elemento.menor
-        self.mayor=elemento.mayor
+        self.corte=elemento.corte
     def agregarizq(self,elemento):
         if self.nombre==None:
             self.nombre=elemento.nombre
@@ -56,21 +61,23 @@ class Nodo:
         #print(self.nombre,self)
         if self!=None and self.izq!=None:
             var1=self.izq
+            menor=('< '+str(self.corte))
+            mayor=('> '+str(self.corte))
             if var1.hoja=='si':
-                arbol.add_edge((self.nombre,self.cedula),(var1.nombre,var1.cedula,var1.confianza),label=self.menor)
+                arbol.add_edge((self.nombre,self.cedula),(var1.nombre,var1.cedula,var1.confianza),label=menor)
                 print(self.nombre,var1.nombre,'entra condicion izq')
             else:
-                arbol.add_edge((self.nombre,self.cedula),(var1.nombre,var1.cedula),label=self.menor)
+                arbol.add_edge((self.nombre,self.cedula),(var1.nombre,var1.cedula),label=menor)
                 print(self.nombre,var1.nombre,'no entra condicion izq')
             var1.plot_recusivo(arbol)
 
         if self!=None and self.der!=None:
             var2=self.der
             if var2.hoja=='si':
-                arbol.add_edge((self.nombre,self.cedula),(var2.nombre,var2.cedula,var2.confianza),label=self.mayor)
+                arbol.add_edge((self.nombre,self.cedula),(var2.nombre,var2.cedula,var2.confianza),label=mayor)
                 print(self.nombre,var2.nombre,'entra condicion')
             else:
-                arbol.add_edge((self.nombre,self.cedula),(var2.nombre,var2.cedula),label=self.mayor)
+                arbol.add_edge((self.nombre,self.cedula),(var2.nombre,var2.cedula),label=mayor)
                 print(self.nombre,var2.nombre,'no entra condicion')
             var2.plot_recusivo(arbol)
         return(arbol)

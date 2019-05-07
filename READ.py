@@ -4,6 +4,7 @@
 import os, sys
 import csv, operator
 from copy import deepcopy
+from decimal import Decimal
 def read_ar(arg):
     archivo=[[],[]]#Posicion 1 titulos atributo, Posicion 2 registros
     pos=-1
@@ -69,7 +70,14 @@ def genproxcorte(entrada, rango,atributo):
         if i==len(entrada):
             control=True
             return(-1)
-    pass
+def valorcorte(entrada,rango,atributo):
+    print('valor  para dividir',entrada[rango][atributo])
+    print('valor  para dividir',entrada[rango-1][atributo])
+    valor=Decimal(float(entrada[rango][atributo])+float(entrada[rango-1][atributo]))/2
+
+    return round( valor,4)
+
+
 """Prueba"""
 #Archivo=read_ar('datos_continuo.csv')
 #var3=['si','no']
