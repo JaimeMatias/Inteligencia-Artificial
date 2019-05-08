@@ -1,49 +1,95 @@
  #-*- coding: latin-1 -*-
 import matplotlib.pyplot as plt
+from READ import *
+from decimal import Decimal
 def puntos(entrada,clase):
     ejex=[]
     ejey=[]
     for registro in entrada:
         #pass
-        print(float(registro[0]),float(registro[1]))
+        #print(float(registro[0]),float(registro[1]))
         if registro[len(registro)-1]==clase:
-            print('entra')
+            #print('entra')
             plt.scatter(float(registro[0]),float(registro[1]),c='red',marker="^")
         else:
             plt.scatter(float(registro[0]),float(registro[1]),c='blue')
             #ejex=ejex+[float(registro[0])]
             #ejey=ejey+[float(registro[1])]
     #return(ejex,ejey)
-def cortes(arbol,min=0,max=0):
-    print(arbol.nombre)
-    print(type(arbol.corte))
-    print(min)
-    print(max)
-    #plt.axhline(1.35, color = 'g')  # Dibujamos una línea vertical verde centrada en x = -0.5
-
+def cortes(arbol,limitex,limitey,restrix=[0,0],restriy=[0,0]):
+    #print('limite que ingresa:',limitex)
+    ancho=float(limitex[1])-float(limitex[0])
+    alto=float(limitey[1])-float(limitey[0])
     if arbol.nombre=="'Eje y'":
-        print('entra')
-        print('Valor Corte: ',arbol.corte)
+        print(arbol.nombre,restrix,restriy)
+        limi=0
+        lims=1
+        if restrix[1]!=0 or restrix[0]!=0:
+            limi=((Decimal(restrix[0]-float(limitex[0]))/Decimal(alto)))
+            #limi=0.1875
+            lims=((Decimal(restrix[1]-float(limitex[0]))/Decimal(alto)))
+        #print(alto)
+        print('limite inferior y: ',limi)
+        print('limite Superior c: ',lims)
+        plt.axhline(float(arbol.corte),limi,lims,color='r')
+        if arbol.izq!=None:
+            restriy=[0,arbol.corte]
+            #print('restry izq',restriy)
+            cortes(arbol.izq,limitex,limitey,restrix,restriy)
+        if arbol.der!=None:
+            restriy=[arbol.corte,limitey[1]]
+            #print('restry der',restriy)
+            cortes(arbol.der,limitex,limitey,restrix,restriy)
 
-        plt.axhline(float(arbol.corte),color='r')
     if arbol.nombre=="'Eje x'":
-        print('entra')
-        print('Valor Corte: ',arbol.corte)
-        plt.axvline(arbol.corte,color='g')
-    if arbol.izq!=None:
-        cortes(arbol.izq,0,arbol.corte)
-    if arbol.der!=None:
-        cortes(arbol.der,arbol.corte,0)
+        print(arbol.nombre,restrix,restriy)
+        if restriy[1]!=0 or restriy[0]!=0:
+            limi=((Decimal(restriy[0])/Decimal(alto)))
+            lims=((Decimal(restriy[1]-float(limitey[0]))/Decimal(alto)))
+        print('limite inferior x: ',limi)
+        print('limite Superior x: ',lims)
+        plt.axvline(float(arbol.corte),limi,lims,color='g')
+        if arbol.izq!=None:
+            restrix=[0,arbol.corte]
+            #print('restry izq',restriy)
+            cortes(arbol.izq,limitex,limitey,restrix,restriy)
+        if arbol.der!=None:
+            restrix=[arbol.corte,limitex[1]]
+
+            #print('restry der',restriy)
+            cortes(arbol.der,limitex,limitey,restrix,restriy)
+
+
+
+
+
+        if arbol.izq!=None:
+            cortes(arbol.izq,limitex,limitey,restrix,restriy)
+        if arbol.der!=None:
+            cortes(arbol.der,limitex,limitey,restrix,restriy)
 
 def plotear(archivo,arbol):
-    print(archivo)
+    #print(archivo)
     puntos(archivo,'yes')
+    limitex= extremos(archivo,0)
+    limitey=extremos(archivo,1)
+    #print('limite: ',limitex,type(limitex[0]),type(limitex[0]))
+    minx=float(limitex[0])#-0.1
+    maxx=float(limitex[1])#+0.1
+    limitex=[minx,maxx]
+    #print('maximo y minimo',maxx,minx)
+    miny=float(limitey[0])#-0.1
+    maxy=float(limitey[1])#+0.1
+    limitey=[miny,maxy]
     #puntosno=puntos(archivo,'no')
     #print(puntosyes)
     #plt.scatter(puntosyes[0],puntosyes[1],'*r')
-    plt.xlim(-1,3.1)
-    plt.ylim(-1,3.1)
-    cortes(arbol)
+    plt.xlim(minx,maxx)
+    plt.ylim(miny,maxy)
+    restrix=[0,0]
+    print(restrix)
+    restriy=[0,0]
+    cortes(arbol,limitex,limitey,restrix,restriy)
     #print('puntos')
     plt.savefig("grafica_desintegracion.png")
     plt.show()

@@ -77,6 +77,15 @@ def valorcorte(entrada,rango,atributo):
 
     return round( valor,4)
 
+def extremos(entrada,atributo):
+    max=0
+    min=0
+    for reg in entrada:
+        if reg[atributo]< min :
+            min=reg[atributo]
+        if reg[atributo]> max :
+            max=reg[atributo]
+    return (min ,max)
 
 """Prueba"""
 #Archivo=read_ar('datos_continuo.csv')
