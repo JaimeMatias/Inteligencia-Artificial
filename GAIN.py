@@ -20,15 +20,15 @@ def gainRatio(entrada,i):
     denominador=entropiaratio(entrada,i)
     return(round((numerado/denominador),2))
 """PRUEBA"""
-import READ
-Archivo=READ.read_ar('datos_continuo.csv')
-clases0=gainRatio(Archivo[1],0)
-clases1=gainRatio(Archivo[1],1)
+#import READ
+#Archivo=READ.read_ar('datos_continuo.csv')
+#clases0=gainRatio(Archivo[1],0)
+#clases1=gainRatio(Archivo[1],1)
 #clases2=gainRatio(Archivo[1],2)
 #clases3=gainRatio(Archivo[1],3)
 #clases2=entropiaatributo(Archivo[1],0)
 
-print('Entropia atributo 0: ',clases0)
-print('Entropia atributo 1: ',clases1)
+#print('Entropia atributo 0: ',clases0)
+#print('Entropia atributo 1: ',clases1)
 #print('Entropia atributo 2: ',clases2)
 #print('Entropia atributo 3: ',clases3)

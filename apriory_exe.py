@@ -21,6 +21,7 @@ def Apriory(archivo,atributos,arbol=None,i=0):
         valor=0
         atributo=0
         control=False
+        archivo=ordenar(archivo,atributo)
         while control==False:
             var1=genintervalo(archivo,corte,atributo,var4)
             var2=gain(var1,atributo)
@@ -33,6 +34,7 @@ def Apriory(archivo,atributos,arbol=None,i=0):
         atributo=1
         corte=0
         control=False
+        archivo=ordenar(archivo,atributo)
         while control==False:
             var1=genintervalo(archivo,corte,atributo,var4)
             var2=gain(var1,atributo)
@@ -44,6 +46,7 @@ def Apriory(archivo,atributos,arbol=None,i=0):
             corte=genproxcorte(archivo,corte,atributo)
             if corte==-1:
                 control=True
+        archivo=ordenar(archivo,posicion[0])
         posicion[2]=valorcorte(archivo,posicion[1],posicion[0])
         conjunto1=deepcopy(archivo[0:posicion[1]])
         conjunto2=deepcopy(archivo[posicion[1]:])

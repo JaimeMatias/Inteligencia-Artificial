@@ -30,12 +30,15 @@ def read_at(entrada):
             atributo+=[[]]
             atributo[posi]=reg[i]
             posi=posi+1
-        print(atributo)
+        #print(atributo)
         archivo+=[[]]
         archivo[pos]=atributo
         pos=pos+1
     return archivo
 
+def ordenar(entrada,atributo):
+    ordenado = sorted(entrada,key=lambda it: it[atributo])
+    return ordenado
 
 def genintervalo(entrada,rango,atributo,nuevo_valor):
     var1=[]
@@ -71,8 +74,8 @@ def genproxcorte(entrada, rango,atributo):
             control=True
             return(-1)
 def valorcorte(entrada,rango,atributo):
-    print('valor  para dividir',entrada[rango][atributo])
-    print('valor  para dividir',entrada[rango-1][atributo])
+    #print('valor  para dividir',entrada[rango][atributo])
+    #print('valor  para dividir',entrada[rango-1][atributo])
     valor=Decimal(float(entrada[rango][atributo])+float(entrada[rango-1][atributo]))/2
 
     return round( valor,4)

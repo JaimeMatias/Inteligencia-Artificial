@@ -21,12 +21,14 @@ def cortes(arbol,limitex,limitey,restrix=[0,0],restriy=[0,0]):
     ancho=float(limitex[1])-float(limitex[0])
     alto=float(limitey[1])-float(limitey[0])
     if arbol.nombre=="'Eje y'":
-        print(arbol.nombre,restrix,restriy)
+        print(arbol.nombre,restrix,restriy,ancho)
         limi=0
         lims=1
-        if restrix[1]!=0 or restrix[0]!=0:
-            limi=((Decimal(restrix[0]-float(limitex[0]))/Decimal(alto)))
-            #limi=0.1875
+        if restrix[0]!=0 :
+            var=round((Decimal(restrix[0]-float(limitex[0]))),2)
+            limi=Decimal(var)/Decimal(alto)
+        if restrix[1]!=0:
+            print(round((Decimal(restrix[1]-float(limitex[0]))),2))
             lims=((Decimal(restrix[1]-float(limitex[0]))/Decimal(alto)))
         #print(alto)
         print('limite inferior y: ',limi)
@@ -43,8 +45,11 @@ def cortes(arbol,limitex,limitey,restrix=[0,0],restriy=[0,0]):
 
     if arbol.nombre=="'Eje x'":
         print(arbol.nombre,restrix,restriy)
-        if restriy[1]!=0 or restriy[0]!=0:
-            limi=((Decimal(restriy[0])/Decimal(alto)))
+        limi=0
+        lims=1
+        if restriy[0]!=0:
+            limi=((Decimal(restriy[0]-float(limitey[0]))/Decimal(alto)))
+        if restriy[1]!=0:
             lims=((Decimal(restriy[1]-float(limitey[0]))/Decimal(alto)))
         print('limite inferior x: ',limi)
         print('limite Superior x: ',lims)
@@ -74,12 +79,12 @@ def plotear(archivo,arbol):
     limitex= extremos(archivo,0)
     limitey=extremos(archivo,1)
     #print('limite: ',limitex,type(limitex[0]),type(limitex[0]))
-    minx=float(limitex[0])#-0.1
-    maxx=float(limitex[1])#+0.1
+    minx=float(limitex[0])-0.5
+    maxx=float(limitex[1])+0.5
     limitex=[minx,maxx]
     #print('maximo y minimo',maxx,minx)
-    miny=float(limitey[0])#-0.1
-    maxy=float(limitey[1])#+0.1
+    miny=float(limitey[0])-0.5
+    maxy=float(limitey[1])+0.5
     limitey=[miny,maxy]
     #puntosno=puntos(archivo,'no')
     #print(puntosyes)
