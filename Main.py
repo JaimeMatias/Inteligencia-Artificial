@@ -1,6 +1,7 @@
-import tkinter as tk
-from tkinter import ttk
-from tkinter import filedialog as fd
+#-*- coding: latin-1 -*-
+"""import Tkinter as tk
+from Tkinter import ttk
+from Tkinter import filedialog as fd
 from READ import *
 
 class Aplicacion:
@@ -11,7 +12,7 @@ class Aplicacion:
         self.ventana1.resizable(0,0)
         self.ventana1.configure(background="light gray")
 
-        self.texto1=tk.Label(self.ventana1, text="Seleccione el archivo donde se encuentra el conjunto de datos:", bg="black", fg="white") 
+        self.texto1=tk.Label(self.ventana1, text="Seleccione el archivo donde se encuentra el conjunto de datos:", bg="black", fg="white")
         self.texto1.pack(fill=tk.X)
 
         self.btnCargar=tk.Button(self.ventana1, text="Cargar", command=self.abrirArchivo)
@@ -43,16 +44,10 @@ class Aplicacion:
         if nombrearch!='':  #Si se apreto cancel devuelve String vacio ""
 
             ################# Muestra Archivo en tabla #####################
-            archivo = read_ar(nombrearch)          
+            archivo = read_ar(nombrearch)
             for reg in archivo[1]:
                 self.tv.insert('', 'end', text=reg[0], values=(reg[1],reg[2]))
             ##############################################################
 
 aplicacion1=Aplicacion()
-
-
-
-
-
-
-
+"""
