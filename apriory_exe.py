@@ -1,6 +1,5 @@
 #-*- coding: latin-1 -*-
 import matplotlib.pyplot as plt
-prin()
 from Arbol import *
 from ENTROPY import*
 from copy import deepcopy
