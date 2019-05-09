@@ -1,4 +1,6 @@
 #-*- coding: latin-1 -*-
+import matplotlib.pyplot as plt
+
 from Arbol import *
 from ENTROPY import*
 from copy import deepcopy
@@ -11,7 +13,6 @@ def Apriory(archivo,atributos,arbol=None,i=0):
     if entropiac==0:
         nombre=clase(archivo)#funcion de ENTROPY
         nod1=Nodo(nombre,None,len(archivo),1,'si')
-
         arbol=nod1
         return(arbol)
     else:
@@ -77,11 +78,7 @@ Archivo=READ.read_ar('datos_continuo.csv')
 #print(Archivo)
 nodo=Nodo()
 nodo=Apriory(Archivo[1],Archivo[0],nodo)
-print('LISTA')
 #nodo.listar()
+print('LISTA')
 nodo.plot('prueba.png')
-print('')
-#Prueba2=aBinarios()
-#Prueba2.agregar(nodo)
-#plot(Prueba2,'opcionrecursiva.png')
 plotear(Archivo[1],nodo)
