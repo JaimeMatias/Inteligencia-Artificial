@@ -53,6 +53,8 @@ def Apriory(archivo,atributos,arbol=None,i=0):
         conjunto2=deepcopy(archivo[posicion[1]:])
         nombre=atributos[posicion[0]]
         corte=posicion[2]
+        #print('entropia: ',entropiac)
+        #print('valor: ',valor)
         if valor>0:
             nod2=Nodo(nombre,corte,len(archivo))
             arbol.genelemento(nod2)
@@ -78,7 +80,7 @@ Archivo=READ.read_ar('datos_continuo.csv')
 #print(Archivo)
 nodo=Nodo()
 nodo=Apriory(Archivo[1],Archivo[0],nodo)
-#nodo.listar()
+nodo.listar()
 print('LISTA')
 nodo.plot('prueba.png')
 plotear(Archivo[1],nodo)

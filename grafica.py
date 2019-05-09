@@ -12,8 +12,8 @@ def puntos(entrada,clase):
             plt.scatter(float(registro[0]),float(registro[1]),c='blue')
 
 def cortes(arbol,limitex,limitey,restrix=[0,0],restriy=[0,0]):
-    arbol.listar()
-    print(arbol.nombre,arbol.izq,arbol.der)
+    #arbol.listar()
+    #print(arbol.nombre,arbol.izq,arbol.der)
     ancho=float(limitex[1])-float(limitex[0])
     alto=float(limitey[1])-float(limitey[0])
     if arbol.nombre=="'Eje y'":
@@ -27,11 +27,11 @@ def cortes(arbol,limitex,limitey,restrix=[0,0],restriy=[0,0]):
             lims=round(Decimal(var)/Decimal(ancho),2)
         plt.axhline(float(arbol.corte),limi,lims,color='r')
         if arbol.izq!=None:
-            restriy=[0,arbol.corte]
-            cortes(arbol.izq,limitex,limitey,restrix,restriy)
+            restriyn=[restriy[0],arbol.corte]
+            cortes(arbol.izq,limitex,limitey,restrix,restriyn)
         if arbol.der!=None:
-            restriy=[arbol.corte,limitey[1]]
-            cortes(arbol.der,limitex,limitey,restrix,restriy)
+            restriyn=[arbol.corte,limitey[1]]
+            cortes(arbol.der,limitex,limitey,restrix,restriyn)
 
     if arbol.nombre=="'Eje x'":
         limi=0
@@ -42,11 +42,11 @@ def cortes(arbol,limitex,limitey,restrix=[0,0],restriy=[0,0]):
             lims=((Decimal(restriy[1]-float(limitey[0]))/Decimal(alto)))
         plt.axvline(float(arbol.corte),limi,lims,color='g')
         if arbol.izq!=None:
-            restrix=[0,arbol.corte]
-            cortes(arbol.izq,limitex,limitey,restrix,restriy)
+            restrixn=[restrix[0],arbol.corte]
+            cortes(arbol.izq,limitex,limitey,restrixn,restriy)
         if arbol.der!=None:
-            restrix=[arbol.corte,limitex[1]]
-            cortes(arbol.der,limitex,limitey,restrix,restriy)
+            restrixn=[arbol.corte,limitex[1]]
+            cortes(arbol.der,limitex,limitey,restrixn,restriy)
 def plotear(archivo,arbol):
     #arbol.listar()
     puntos(archivo,'yes')

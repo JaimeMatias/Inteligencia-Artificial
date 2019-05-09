@@ -22,11 +22,11 @@ class Nodo:
             mayor=('> '+str(deepcopy(self.corte)))
             print('lista: ',self.nombre,menor,mayor,self.cedula)
             if self.izq!=None:
-                print(self.nombre,self.hoja,self.izq)
+                #print(self.nombre,self.hoja,self.izq)
                 var1=self.izq
                 var1.listar()
             if self.der!=None:
-                print(self.izq)
+                #print(self.izq)
                 var2=self.der
                 var2.listar()
 
