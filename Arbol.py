@@ -1,3 +1,4 @@
+#-*- coding: latin-1 -*-
 import pygraphviz as pgv
 import copy as cp
 
@@ -66,10 +67,10 @@ class Nodo:
             menor=('< '+str(self.corte))
             mayor=('> '+str(self.corte))
             if var1.hoja=='si':
-                arbol.add_edge((self.nombre,self.cedula),(var1.nombre,var1.cedula,var1.confianza),label=menor)
+                arbol.add_edge((self.nombre,self.cedula),(var1.nombre,var1.cedula,var1.confianza),label=menor,color='red')
                 #print(self.nombre,var1.nombre,'entra condicion izq')
             else:
-                arbol.add_edge((self.nombre,self.cedula),(var1.nombre,var1.cedula),label=menor)
+                arbol.add_edge((self.nombre,self.cedula,),(var1.nombre,var1.cedula),label=menor,)
                 #print(self.nombre,var1.nombre,'no entra condicion izq')
             var1.plot_recusivo(arbol)
 
@@ -85,9 +86,9 @@ class Nodo:
         return(arbol)
 
     def plot(self,nombre):
-        arbol = pgv.AGraph(directed=True,center=True,ordering="in")
+        arbol = pgv.AGraph(directed=True,label='Arbol Desicion, RESOLVER CON PROFUNDIDAD')
         self.plot_recusivo(arbol)
-        arbol.layout()
+        arbol.layout(prog='dot')
         arbol.draw(nombre)
         return arbol
 

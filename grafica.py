@@ -1,6 +1,6 @@
  #-*- coding: latin-1 -*-
 import matplotlib.pyplot as plt
-from READ import *
+from read import *
 import decimal as dc
 
 def puntos(entrada,clase):

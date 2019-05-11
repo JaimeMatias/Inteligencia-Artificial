@@ -7,6 +7,10 @@ import copy as cp
 import decimal as dc
 #from copy import cp.deepcopy
 #from dc.Decimal import dc.Decimal
+#
+#Lee un archivo csv y devuelve un arreglo de 2 posciones
+#La primera posicion tiene la lista de nombre de los atributos
+#La segunda posicion tiene cada uno de los registros
 def read_ar(arg):
     archivo=[[],[]]#Posicion 1 titulos atributo, Posicion 2 registros
     pos=-1
@@ -20,7 +24,7 @@ def read_ar(arg):
                 archivo[1][pos]=reg
             pos=pos+1
         return archivo
-
+#funcion que lee un areglo (los datos) y me devuelve otro arreglo sin las clases
 def read_at(entrada):
     archivo=[]
     pos=0
@@ -32,16 +36,21 @@ def read_at(entrada):
             atributo+=[[]]
             atributo[posi]=reg[i]
             posi=posi+1
-        #print(atributo)
         archivo+=[[]]
         archivo[pos]=atributo
         pos=pos+1
     return archivo
-
+#funcion que lee un conjunto de datos y los ordena por un atributo especifico
 def ordenar(entrada,atributo):
     ordenado = sorted(entrada,key=lambda it: it[atributo])
     return ordenado
 
+# funcion que va a recibir un conjunto de datos
+# primero va a generar 2 subconnjuntos el primero de los registros de 0 a rango y el segundo
+# de rango al liminte de archivot
+# A todos los elemento del primer cojunto les va a asignar el mismo valor al atributo seleccionado
+# A todos los elementos del segundo conjunto les va a asignar otro valor en el atributo seleccionado
+# va a devolver ambos conjuntos
 def genintervalo(entrada,rango,atributo,nuevo_valor):
     var1=[]
     var2=[]
@@ -56,30 +65,31 @@ def genintervalo(entrada,rango,atributo,nuevo_valor):
         var1=var1+[var3]
     return(var1)
 
-
+# funcion que va a recibir el conjunto de datos, el atributo a modificar y la posición
+# del ultimo corte.
+# En base a eso va a buscar cual es la proxima posicion para cortar
+# si encuentra devuelve la poscion sino devuelve -1
 def genproxcorte(entrada, rango,atributo):
     control=False
     i=rango
     while control==False:
-        #print('valor del indice: ',i)
-        #print(entrada)
         var1=entrada[rango][atributo]
         var1=float(var1)
         var2=float(entrada[i][atributo])
-        #print('atributo 1 ',var1,'atributo2 ',var2)
         if (var2-var1)!=0:
-            #print('distintos')
             control=True
             return(i)
         i=i+1
         if i==len(entrada):
             control=True
             return(-1)
-def valorcorte(entrada,rango,atributo):
-    #print('valor  para dividir',entrada[rango][atributo])
-    #print('valor  para dividir',entrada[rango-1][atributo])
-    valor=dc.Decimal(float(entrada[rango][atributo])+float(entrada[rango-1][atributo]))/2
 
+
+#Funcion que recibe el conjunto de datos, la posicion del corte y el atributos
+#y devuelve el valor medio entre los 2 puntos donde se genera el corte, con los valore de
+#ese atributo
+def valorcorte(entrada,rango,atributo):
+    valor=dc.Decimal(float(entrada[rango][atributo])+float(entrada[rango-1][atributo]))/2
     return round( valor,4)
 
 def extremos(entrada,atributo):
@@ -93,7 +103,9 @@ def extremos(entrada,atributo):
     return (min ,max)
 
 """Prueba"""
-#Archivo=read_ar('datos_continuo.csv')
+#archivo=read_ar('datos_continuo.csv')
+#atributo=read_at(archivo[1])
+#print(atributo)
 #var3=['si','no']
 #for i in range(0,(len(Archivo))):
 #    var1=genintervalo(Archivo[1],i,0,var3)

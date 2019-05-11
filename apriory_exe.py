@@ -1,6 +1,6 @@
 #-*- coding: latin-1 -*-
 import matplotlib.pyplot as plt
-import READ as rd
+import read as rd
 import grafica as gf
 import GAIN as gn
 import Arbol as ab
