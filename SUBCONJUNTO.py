@@ -1,7 +1,8 @@
 #!/usr/bin/python
  #-*- coding: latin-1 -*-
 import os, sys
-from copy import deepcopy
+import copy as cp
+
 #Devuelve los subconj de ese atributo
 
 def subconjuntoclase(datos):
@@ -31,7 +32,7 @@ def subconjuntoatributo(datos,k):
         elem=reg[k]
         if elem not in elementos:
             elementos=elementos+[elem]
-            Valor.extend([deepcopy(var3)])
+            Valor.extend([cp.deepcopy(var3)])
         j=0
         for pos in elementos:
             if pos==elem:

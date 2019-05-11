@@ -1,23 +1,15 @@
 #!/usr/bin/python3.6
  #-*- coding: latin-1 -*-
- #-*- Age,Has_job,Own_house,Credit_rating,Class
-
-import os, sys
-import csv, operator
-import math
-import decimal
-from decimal import Decimal
-import ENTROPY
-from ENTROPY import *
+import ENTROPY as ep
 def gain(entrada,i):
-    data=entropiaclase(entrada)
-    alternativa=entropiaatributo(entrada,i)
+    data=ep.entropiaclase(entrada)
+    alternativa=ep.entropiaatributo(entrada,i)
     ganancia=float(data)-float(alternativa)
     return round(ganancia,3)
 
 def gainRatio(entrada,i):
     numerado=gain(entrada,i)
-    denominador=entropiaratio(entrada,i)
+    denominador=ep.entropiaratio(entrada,i)
     return(round((numerado/denominador),2))
 """PRUEBA"""
 #import READ

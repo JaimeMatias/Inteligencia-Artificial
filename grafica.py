@@ -1,7 +1,8 @@
  #-*- coding: latin-1 -*-
 import matplotlib.pyplot as plt
 from READ import *
-from decimal import Decimal
+import decimal as dc
+
 def puntos(entrada,clase):
     ejex=[]
     ejey=[]
@@ -20,11 +21,11 @@ def cortes(arbol,limitex,limitey,restrix=[0,0],restriy=[0,0]):
         limi=0
         lims=1
         if restrix[0]!=0 :
-            var=round((Decimal(restrix[0]-float(limitex[0]))),2)
-            limi=round(Decimal(var)/Decimal(ancho),2)
+            var=round((dc.Decimal(restrix[0]-float(limitex[0]))),2)
+            limi=round(dc.Decimal(var)/dc.Decimal(ancho),2)
         if restrix[1]!=0:
-            var=round((Decimal(restrix[1]-float(limitex[0]))),2)
-            lims=round(Decimal(var)/Decimal(ancho),2)
+            var=round((dc.Decimal(restrix[1]-float(limitex[0]))),2)
+            lims=round(dc.Decimal(var)/dc.Decimal(ancho),2)
         plt.axhline(float(arbol.corte),limi,lims,color='r')
         if arbol.izq!=None:
             restriyn=[restriy[0],arbol.corte]
@@ -37,9 +38,9 @@ def cortes(arbol,limitex,limitey,restrix=[0,0],restriy=[0,0]):
         limi=0
         lims=1
         if restriy[0]!=0:
-            limi=((Decimal(restriy[0]-float(limitey[0]))/Decimal(alto)))
+            limi=((dc.Decimal(restriy[0]-float(limitey[0]))/dc.Decimal(alto)))
         if restriy[1]!=0:
-            lims=((Decimal(restriy[1]-float(limitey[0]))/Decimal(alto)))
+            lims=((dc.Decimal(restriy[1]-float(limitey[0]))/dc.Decimal(alto)))
         plt.axvline(float(arbol.corte),limi,lims,color='g')
         if arbol.izq!=None:
             restrixn=[restrix[0],arbol.corte]

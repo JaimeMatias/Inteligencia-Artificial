@@ -3,8 +3,10 @@
  #-*- Age,Has_job,Own_house,Credit_rating,Class
 import os, sys
 import csv, operator
-from copy import deepcopy
-from decimal import Decimal
+import copy as cp
+import decimal as dc
+#from copy import cp.deepcopy
+#from dc.Decimal import dc.Decimal
 def read_ar(arg):
     archivo=[[],[]]#Posicion 1 titulos atributo, Posicion 2 registros
     pos=-1
@@ -45,11 +47,11 @@ def genintervalo(entrada,rango,atributo,nuevo_valor):
     var2=[]
     var3=[]
     for i in range(0,rango):
-        var3=deepcopy(entrada[i])
+        var3=cp.deepcopy(entrada[i])
         var3[atributo]=nuevo_valor[0]
         var1=var1 +[var3]
     for i in range(rango,len(entrada)):
-        var3=deepcopy(entrada[i])
+        var3=cp.deepcopy(entrada[i])
         var3[atributo]=nuevo_valor[1]
         var1=var1+[var3]
     return(var1)
@@ -76,7 +78,7 @@ def genproxcorte(entrada, rango,atributo):
 def valorcorte(entrada,rango,atributo):
     #print('valor  para dividir',entrada[rango][atributo])
     #print('valor  para dividir',entrada[rango-1][atributo])
-    valor=Decimal(float(entrada[rango][atributo])+float(entrada[rango-1][atributo]))/2
+    valor=dc.Decimal(float(entrada[rango][atributo])+float(entrada[rango-1][atributo]))/2
 
     return round( valor,4)
 

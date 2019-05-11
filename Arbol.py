@@ -1,4 +1,6 @@
-from copy import deepcopy
+import pygraphviz as pgv
+import copy as cp
+
 class Nodo:
     """docstring for Nodo."""
 
@@ -18,8 +20,8 @@ class Nodo:
 
     def listar(self):
         if self!=None:
-            menor=('< '+str(deepcopy(self.corte)))
-            mayor=('> '+str(deepcopy(self.corte)))
+            menor=('< '+str(cp.deepcopy(self.corte)))
+            mayor=('> '+str(cp.deepcopy(self.corte)))
             print('lista: ',self.nombre,menor,mayor,self.cedula)
             if self.izq!=None:
                 #print(self.nombre,self.hoja,self.izq)
@@ -83,7 +85,6 @@ class Nodo:
         return(arbol)
 
     def plot(self,nombre):
-        import pygraphviz as pgv
         arbol = pgv.AGraph(directed=True,center=True,ordering="in")
         self.plot_recusivo(arbol)
         arbol.layout()
