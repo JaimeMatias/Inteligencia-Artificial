@@ -18,7 +18,7 @@ def Apriory(archivo,atributos,arbol=None,nivel=0):
         arbol=nod1
         return(arbol)
     else:
-        var4=['si','NO']
+        var4=['conjunto 1','conjunto 2']
         posicion=[0,0,0]
         corte=0
         valor=0
@@ -85,4 +85,4 @@ nodo=Apriory(Archivo[1],Archivo[0],nodo,nivel)
 #nodo.listar()
 print('LISTA')
 nodo.plot('prueba.png')
-gf.plotear(Archivo[1],nodo)
+gf.plotear(Archivo[2],Archivo[1],nodo)

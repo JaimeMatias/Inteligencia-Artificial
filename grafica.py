@@ -7,6 +7,7 @@ def puntos(entrada,clase):
     ejex=[]
     ejey=[]
     for registro in entrada:
+        print(registro[len(registro)-1])
         if registro[len(registro)-1]==clase:
             plt.scatter(float(registro[0]),float(registro[1]),c='red',marker="^")
         else:
@@ -21,11 +22,9 @@ def cortes(arbol,limitex,limitey,restrix=[0,0],restriy=[0,0]):
         limi=0
         lims=1
         if restrix[0]!=0 :
-            var=round((dc.Decimal(restrix[0]-float(limitex[0]))),2)
-            limi=round(dc.Decimal(var)/dc.Decimal(ancho),2)
+            limi=(float(restrix[0])-float(limitex[0]))/ancho
         if restrix[1]!=0:
-            var=round((dc.Decimal(restrix[1]-float(limitex[0]))),2)
-            lims=round(dc.Decimal(var)/dc.Decimal(ancho),2)
+            lims = (float(restrix[1]) - float(limitex[0])) / ancho
         plt.axhline(float(arbol.corte),limi,lims,color='r')
         if arbol.izq!=None:
             restriyn=[restriy[0],arbol.corte]
@@ -38,9 +37,9 @@ def cortes(arbol,limitex,limitey,restrix=[0,0],restriy=[0,0]):
         limi=0
         lims=1
         if restriy[0]!=0:
-            limi=((dc.Decimal(restriy[0]-float(limitey[0]))/dc.Decimal(alto)))
+            limi=(float(restriy[0])-float(limitey[0]))/alto
         if restriy[1]!=0:
-            lims=((dc.Decimal(restriy[1]-float(limitey[0]))/dc.Decimal(alto)))
+            lims=(float(restriy[1])-float(limitey[0]))/alto
         plt.axvline(float(arbol.corte),limi,lims,color='g')
         if arbol.izq!=None:
             restrixn=[restrix[0],arbol.corte]
@@ -48,9 +47,9 @@ def cortes(arbol,limitex,limitey,restrix=[0,0],restriy=[0,0]):
         if arbol.der!=None:
             restrixn=[arbol.corte,limitex[1]]
             cortes(arbol.der,limitex,limitey,restrixn,restriy)
-def plotear(archivo,arbol):
-    #arbol.listar()
-    puntos(archivo,'yes')
+def plotear(clase,archivo,arbol):
+    print(clase[0])
+    puntos(archivo,clase[0])
     limitex= extremos(archivo,0)
     limitey=extremos(archivo,1)
     minx=float(limitex[0])-0.5

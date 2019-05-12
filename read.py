@@ -12,7 +12,7 @@ import decimal as dc
 #La primera posicion tiene la lista de nombre de los atributos
 #La segunda posicion tiene cada uno de los registros
 def read_ar(arg):
-    archivo=[[],[]]#Posicion 1 titulos atributo, Posicion 2 registros
+    archivo=[[],[],[]]#Posicion 1 titulos atributo, Posicion 2 registros
     pos=-1
     with open(arg) as csvarchivo:
         entrada = csv.reader(csvarchivo)
@@ -22,6 +22,8 @@ def read_ar(arg):
             else:
                 archivo[1]+=[[]]
                 archivo[1][pos]=reg
+                if reg[len(reg)-1] not in  archivo[2]:
+                    archivo[2]+=[reg[len(reg)-1]]
             pos=pos+1
         return archivo
 #funcion que lee un areglo (los datos) y me devuelve otro arreglo sin las clases
@@ -96,10 +98,10 @@ def extremos(entrada,atributo):
     max=0
     min=0
     for reg in entrada:
-        if reg[atributo]< min :
-            min=reg[atributo]
-        if reg[atributo]> max :
-            max=reg[atributo]
+        if float(reg[atributo]) < min:
+            min=float(reg[atributo])
+        if float(reg[atributo]) > max:
+            max=float(reg[atributo])
     return (min ,max)
 
 """Prueba"""
