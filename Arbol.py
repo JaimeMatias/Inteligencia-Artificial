@@ -1,7 +1,7 @@
 #-*- coding: latin-1 -*-
 import pygraphviz as pgv
 import networkx as nw
-import matplotlib.pyplot as plt
+
 import copy as cp
 
 class Nodo:
@@ -96,6 +96,10 @@ def plot(nodo,nombre):
     nodo.plot_recusivo(arbol)
     arbol.layout(prog='dot')
     arbol.draw(nombre)
+    arbol.plot()
+
+
+    #plt.show()
 
 
 """PRUEBA """
