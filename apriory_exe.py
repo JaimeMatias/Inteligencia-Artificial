@@ -10,11 +10,11 @@ from copy import deepcopy
 
 
 #from Decimal import Decimal
-def Apriory(archivo,atributos,arbol=None,i=0):
+def Apriory(archivo,atributos,arbol=None,nivel=0):
     entropiac=en.entropiaclase(archivo)
     if entropiac==0:
         nombre=en.clase(archivo)#funcion de ENTROPY
-        nod1=ab.Nodo(nombre,None,len(archivo),1,'si')
+        nod1=ab.Nodo(nombre,None,nivel,len(archivo),1,'si')
         arbol=nod1
         return(arbol)
     else:
@@ -58,20 +58,20 @@ def Apriory(archivo,atributos,arbol=None,i=0):
         #print('entropia: ',entropiac)
         #print('valor: ',valor)
         if valor>0:
-            nod2=ab.Nodo(nombre,corte,len(archivo))
+            nod2=ab.Nodo(nombre,corte,nivel,len(archivo))
             arbol.genelemento(nod2)
             if conjunto1!=None:
                 nod1=ab.Nodo(nombre,None,None)
-                nod1=Apriory(conjunto1,atributos,nod1)
+                nod1=Apriory(conjunto1,atributos,nod1,nivel+1)
                 arbol.agregarizq(nod1)
             if conjunto2!=None:
                 nod1=ab.Nodo(nombre,None,None)
-                nod1=Apriory(conjunto2,atributos,nod1)
+                nod1=Apriory(conjunto2,atributos,nod1,nivel+1)
                 arbol.agregarder(nod1)
         else:
             clase1=en.clase(archivo)
             confianza=float(round(en.confianzaclase(archivo,clase1),2))
-            nod2=ab.Nodo(clase1,None,len(archivo),confianza,'si')
+            nod2=ab.Nodo(clase1,None,nivel,len(archivo),confianza,'si')
             arbol=nod2
         return(arbol)
 
@@ -80,7 +80,8 @@ def Apriory(archivo,atributos,arbol=None,i=0):
 Archivo=rd.read_ar('Pruebacsv.csv')
 #print(Archivo)
 nodo=ab.Nodo()
-nodo=Apriory(Archivo[1],Archivo[0],nodo)
+nivel=0
+nodo=Apriory(Archivo[1],Archivo[0],nodo,nivel)
 #nodo.listar()
 print('LISTA')
 nodo.plot('prueba.png')
