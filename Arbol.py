@@ -1,5 +1,7 @@
 #-*- coding: latin-1 -*-
 import pygraphviz as pgv
+import networkx as nw
+import matplotlib.pyplot as plt
 import copy as cp
 
 class Nodo:
@@ -89,12 +91,11 @@ class Nodo:
             var2.plot_recusivo(arbol)
         return(arbol)
 
-    def plot(self,nombre):
-        arbol = pgv.AGraph(directed=True,label='Arbol Desicion, RESOLVER CON PROFUNDIDAD')
-        self.plot_recusivo(arbol)
-        arbol.layout(prog='dot')
-        arbol.draw(nombre)
-        return arbol
+def plot(nodo,nombre):
+    arbol = pgv.AGraph(directed=True,label='Arbol Desicion, RESOLVER CON PROFUNDIDAD')
+    nodo.plot_recusivo(arbol)
+    arbol.layout(prog='dot')
+    arbol.draw(nombre)
 
 
 """PRUEBA """

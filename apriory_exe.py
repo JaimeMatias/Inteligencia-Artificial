@@ -5,7 +5,7 @@ import grafica as gf
 import GAIN as gn
 import Arbol as ab
 import ENTROPY as en
-
+import threading as th
 from copy import deepcopy
 
 
@@ -81,8 +81,12 @@ Archivo=rd.read_ar('Pruebacsv.csv')
 #print(Archivo)
 nodo=ab.Nodo()
 nivel=0
+print('comienza')
 nodo=Apriory(Archivo[1],Archivo[0],nodo,nivel)
 #nodo.listar()
 print('LISTA')
-nodo.plot('prueba.png')
-gf.plotear(Archivo[2],Archivo[1],nodo)
+hilo1=th.Thread(target=gf.plotear,args=[Archivo[2],Archivo[1],nodo,'grafica_desintegracion.png'])
+hilo2=th.Thread(target=ab.plot,args=[nodo,'prueba.png'])
+hilo1.start()
+hilo2.start()
+#gf.plotear()

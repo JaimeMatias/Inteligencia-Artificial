@@ -2,9 +2,11 @@
  #-*- coding: latin-1 -*-
 import os, sys
 import copy as cp
+import read as rd
 
-#Devuelve los subconj de ese atributo
-
+#Recibe un archivo y devuelve un arreglo, donde para cada elemento de la clase, indica la cantidad de ocurrencias que tiene
+#dentro del archivo
+#El orden va a coincider con el orden en que aparecen en los datos.
 def subconjuntoclase(datos):
     Valor=[]
     elementos=[]
@@ -21,23 +23,27 @@ def subconjuntoclase(datos):
                 i=i+1
     return(elementos,Valor)
 
-def subconjuntoatributo(datos,k):
+
+#Recibe un archivo y la posición del atributo
+# y devuelve un arreglo, donde para cada valor del atributo, indica la cantidad de ocurrencias de cada
+#clase que posee
+def subconjuntoatributo(datos,atributo):
     Valor=[]
     elementos=[]
-    var=subconjuntoclase(datos)
-    var3=[]
-    for i in range(0,len(var[1])):
-        var3.extend([0])
+    clases=subconjuntoclase(datos)
+    clasesdist=[]
+    for i in range(0,len(clases[1])):
+        clasesdist.extend([0])  #  sirve para determinar cuantas clases distintas hay
     for reg in datos:
-        elem=reg[k]
+        elem=reg[atributo]
         if elem not in elementos:
             elementos=elementos+[elem]
-            Valor.extend([cp.deepcopy(var3)])
+            Valor.extend([cp.deepcopy(clasesdist)])
         j=0
-        for pos in elementos:
+        for pos in elementos:# bucle para encontrar la coincidencia entre el valor del atributo, y la poscion que ocupa
             if pos==elem:
                 i=0
-                for reg2 in var[0]:
+                for reg2 in clases[0]: #bucle para encontrar la coincidencia entre el valor de la clase de ese atributo y la poscion que ocupa
                     if reg[len(reg)-1]==reg2:
                         Valor[j][i]=Valor[j][i]+1
                     i=i+1
@@ -47,13 +53,14 @@ def subconjuntoatributo(datos,k):
 
 
 """PRUEBA """
-#import READ
-#Archivo=READ.read_ar('datos_continuo.csv')
-#Archivo2=READ.read_ar('prestamo.csv')
-#clases=subconjuntoclase(Archivo[1])
-#clases2=subconjuntoatributo(Archivo2[1],0)
-#print(clases)
-#print('hola')
-#print(clases2)
-#clases3=subconjuntoatributo(Archivo[1],0)
-#print(clases3)
+
+"NECESARIO PARA TODAS LAS FUNCIONES"
+#Archivo=rd.read_ar('datos_continuo.csv')
+
+"PRUEBA FUNCION SUBCONJUNTOCLASE"
+#subconjunto=subconjuntoclase(Archivo[1])
+#print(subconjunto)
+
+"PRUEBA FUNCION SUBCONJUNTOATRIBUTO"
+#atributo=subconjuntoatributo(Archivo[1],0)
+#print(atributo)

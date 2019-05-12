@@ -7,7 +7,6 @@ def puntos(entrada,clase):
     ejex=[]
     ejey=[]
     for registro in entrada:
-        print(registro[len(registro)-1])
         if registro[len(registro)-1]==clase:
             plt.scatter(float(registro[0]),float(registro[1]),c='red',marker="^")
         else:
@@ -47,8 +46,7 @@ def cortes(arbol,limitex,limitey,restrix=[0,0],restriy=[0,0]):
         if arbol.der!=None:
             restrixn=[arbol.corte,limitex[1]]
             cortes(arbol.der,limitex,limitey,restrixn,restriy)
-def plotear(clase,archivo,arbol):
-    print(clase[0])
+def plotear(clase,archivo,arbol,nombre):
     puntos(archivo,clase[0])
     limitex= extremos(archivo,0)
     limitey=extremos(archivo,1)
@@ -66,7 +64,8 @@ def plotear(clase,archivo,arbol):
     plt.ylabel('Eje Y')        # Etiqueta del eje OY
     plt.title('Grafico de Corte')    # Título del gráfico
     cortes(arbol,limitex,limitey,restrix,restriy)
-    plt.savefig("grafica_desintegracion.png")
+    plt.savefig(nombre)
+    #plt.savefig("grafica_desintegracion.png")
     plt.show()
 
 """PRUEBA"""
