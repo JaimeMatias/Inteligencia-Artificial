@@ -8,7 +8,7 @@ import decimal as dc
 #from copy import cp.deepcopy
 #from dc.Decimal import dc.Decimal
 #
-#Lee un archivo csv y devuelve un arreglo de 2 posciones
+#Lee un archivo csv y devuelve un arreglo de 3 posciones
 #La primera posicion tiene la lista de nombre de los atributos
 #La segunda posicion tiene cada uno de los registros
 #La tercera cada una de las clase
@@ -43,14 +43,15 @@ def read_at(entrada):
         archivo[pos]=atributo
         pos=pos+1
     return archivo
-#funcion que lee un conjunto de datos y los ordena por un atributo especifico
+#funcion que lee un conjunto de datos y la posición de un atributo
+# y los ordena por un atributo especifico
 def ordenar(entrada,atributo):
     ordenado = sorted(entrada,key=lambda it: it[atributo])
     return ordenado
 
 # funcion que va a recibir un conjunto de datos
 # primero va a generar 2 subconnjuntos el primero de los registros de 0 a rango y el segundo
-# de rango al liminte de archivot
+# de rango al liminte de archivo
 # A todos los elemento del primer cojunto les va a asignar el mismo valor al atributo seleccionado
 # A todos los elementos del segundo conjunto les va a asignar otro valor en el atributo seleccionado
 # va a devolver ambos conjuntos
@@ -94,7 +95,8 @@ def genproxcorte(entrada, rango,atributo):
 def valorcorte(entrada,rango,atributo):
     valor=dc.Decimal(float(entrada[rango][atributo])+float(entrada[rango-1][atributo]))/2
     return round( valor,4)
-
+#Función que va a recibir el conjunto de datos, y la posición del atributo
+#y va a devolver el valor maximo y minimo de ese atributo.
 def extremos(entrada,atributo):
     max=0
     min=0

@@ -1,23 +1,21 @@
 #-*- coding: latin-1 -*-
 import pygraphviz as pgv
-import networkx as nw
+#import networkx as nw
 
 import copy as cp
 
 class Nodo:
     """docstring for Nodo."""
-
+    #Constructor
     def __init__(self,nombre=None,corte=None,nivel=0,soporte=0,confianza=0,hoja=None,izq=None,der=None):
-        self.nombre=nombre
-        self.soporte=soporte
-        self.nivel=nivel
-        self.corte=corte
-        self.confianza=confianza
-        self.hoja=hoja
-        self.izq=izq
-        self.der=der
-        #self.menor=menor
-        #self.mayor=mayor
+        self.nombre=nombre#nombre del nodo
+        self.corte = corte #Valor del corte
+        self.nivel = nivel#profundidad dentro del arbol
+        self.soporte=soporte #Soport del nodo
+        self.confianza=confianza#Confianza del nodo
+        self.hoja=hoja#si es hoja o no
+        self.izq=izq #Nodo hijo izquierdo todo a la izquierda del corte
+        self.der=der#Nodo hijo derecho todo a la derecha del corte
 
     def __str__(self):
         return"%s %s" %(self.nombre,self.soporte)
@@ -28,75 +26,58 @@ class Nodo:
             mayor=('> '+str(cp.deepcopy(self.corte)))
             print('lista: ',self.nombre,menor,mayor,self.soporte)
             if self.izq!=None:
-                #print(self.nombre,self.hoja,self.izq)
                 var1=self.izq
                 var1.listar()
             if self.der!=None:
-                #print(self.izq)
                 var2=self.der
                 var2.listar()
 
-
+    #Funcion que recibe otro nodo, y sobre escribe los valor del nodo actual
     def genelemento(self,elemento):
         self.nombre=elemento.nombre
         self.nivel=elemento.nivel
         self.soporte=elemento.soporte
         self.corte=elemento.corte
+
+    #agrega un nodo como hijo del lado izquierdo
     def agregarizq(self,elemento):
-        if self.nombre==None:
-            self.nombre=elemento.nombre
-            self.nivel=elemento.nivel
-            self.soporte=elemento.soporte
-            if elemento.izq!=None:
-                self.izq=elemento.izq
-            if elemento.der!=None:
-                self.der=elemento.der
-        else:
-            self.izq=elemento
+        self.izq=elemento
 
+    #Agrega un nodo como hijo del lado derecho
     def agregarder(self,elemento):
-        if self.nombre==None:
-            self.nombre=elemento.nombre
-            self.nivel=elemento.nivel
-            self.soporte=elemento.soporte
-            if elemento.izq!=None:
-                self.izq=elemento.izq
-            if elemento.der!=None:
-                self.der=elemento.der
-        else:
-            self.der=elemento
+        self.der=elemento
 
+    #Funcion recursiva que se recibe a si mismo y al grafico
+    #genera todos los nodos y los arcos del grafico
     def plot_recusivo(self,arbol):
         #print(self.nombre,self)
-        if self!=None and self.izq!=None:
+        if self!=None and self.izq!=None:#Pregunto  si es el nodo existe y si tiene hijo
             var1=self.izq
-            menor=('< '+str(self.corte))
+            menor=('< '+str(self.corte))#Genero las etiquetas de los arcos
             mayor=('> '+str(self.corte))
-            if var1.hoja=='si':
+            if var1.hoja=='si': #Genero los 2 nodos origen destino, teniendo al nodo destino como hoja
                 arbol.add_edge((self.nombre,self.nivel,self.soporte),(var1.nombre,var1.nivel,var1.soporte,var1.confianza),label=menor,color='red')
-                #print(self.nombre,var1.nombre,'entra condicion izq')
-            else:
+            else:#Genero los 2 nodos origen destino, teniendo al nodo destino como nodo de decisión
                 arbol.add_edge((self.nombre,self.nivel,self.soporte,),(var1.nombre,var1.nivel,var1.soporte),label=menor,)
-                #print(self.nombre,var1.nombre,'no entra condicion izq')
             var1.plot_recusivo(arbol)
-
+        #Lo mismo que el anterior
         if self!=None and self.der!=None:
             var2=self.der
             if var2.hoja=='si':
                 arbol.add_edge((self.nombre,self.nivel,self.soporte),(var2.nombre,var2.nivel,var2.soporte,var2.confianza),label=mayor)
-                #print(self.nombre,var2.nombre,'entra condicion')
             else:
                 arbol.add_edge((self.nombre,self.nivel,self.soporte),(var2.nombre,var2.nivel,var2.soporte),label=mayor)
-                #print(self.nombre,var2.nombre,'no entra condicion')
             var2.plot_recusivo(arbol)
         return(arbol)
 
+#recibe el nodo raiz y un nombre
+#Genera el arbol de Desición
 def plot(nodo,nombre):
-    arbol = pgv.AGraph(directed=True,label='Arbol Desicion, RESOLVER CON PROFUNDIDAD')
+    arbol = pgv.AGraph(directed=True,label='Arbol Desicion')
     nodo.plot_recusivo(arbol)
     arbol.layout(prog='dot')
     arbol.draw(nombre)
-    arbol.plot()
+    #arbol.plot()
 
 
     #plt.show()

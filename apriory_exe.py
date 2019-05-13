@@ -11,6 +11,8 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 
 #from Decimal import Decimal
+#Recibe el archivo, los atributos, la raiz y el nivel
+#Genera el arbol aplicando el algoritmo aprendido en clase
 def Apriory(archivo,atributos,arbol=None,nivel=0):
     entropiac=en.entropiaclase(archivo)
     if entropiac==0:
@@ -87,11 +89,11 @@ nodo=Apriory(Archivo[1],Archivo[0],nodo,nivel)
 #nodo.listar()
 print('LISTA')
 hilo1=th.Thread(target=gf.plotear,args=[Archivo[2],Archivo[1],nodo,'grafica_desintegracion.png'])
-nombre='prueba.png'
+nombre='Arbol_Decisión.png'
 hilo2=th.Thread(target=ab.plot,args=[nodo,nombre])
 hilo1.start()
 hilo2.start()
-img = mpimg.imread(nombre)
-imgplot = plt.imshow(img)
-plt.show()
+#img = mpimg.imread(nombre)
+#imgplot = plt.imshow(img)
+#plt.show()
 #gf.plotear()

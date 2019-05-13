@@ -1,8 +1,8 @@
 #-*- coding: latin-1 -*-
-"""import Tkinter as tk
-from Tkinter import ttk
-from Tkinter import filedialog as fd
-from READ import *
+import tkinter as tk
+from tkinter import ttk
+from tkinter import filedialog as fd
+from read import *
 
 class Aplicacion:
     def __init__(self):
@@ -50,4 +50,3 @@ class Aplicacion:
             ##############################################################
 
 aplicacion1=Aplicacion()
-"""
