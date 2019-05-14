@@ -31,7 +31,7 @@ class Aplicacion:
         self.tv.pack(pady="8")
         ########################################
 
-        self.btnGenArbol = tk.Button(self.ventana1, text="Generar Arbol de Decision")
+        self.btnGenArbol = tk.Button(self.ventana1, text="Generar Arbol de Decision",command=self.gen_graficas)
         self.btnGenArbol.pack(pady="10")
 
         self.btnGen2D = tk.Button(self.ventana1, text="Generar Grafico 2D")
@@ -39,14 +39,17 @@ class Aplicacion:
 
         self.ventana1.mainloop()
 
-    def abrirArchivo(self):
+    def abrirArchivo(self,nombre):
         nombrearch=fd.askopenfilename(initialdir = "/",title = "Seleccione archivo",filetypes = (('.csv', '.csv'),("todos los archivos","*.*")))
         if nombrearch!='':  #Si se apreto cancel devuelve String vacio ""
 
             ################# Muestra Archivo en tabla #####################
             archivo = read_ar(nombrearch)
+            print(nombrearch)
             for reg in archivo[1]:
                 self.tv.insert('', 'end', text=reg[0], values=(reg[1],reg[2]))
             ##############################################################
 
+    def gen_grafica(self):
+nombre=''
 aplicacion1=Aplicacion()

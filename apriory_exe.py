@@ -1,5 +1,6 @@
 #-*- coding: latin-1 -*-
 import matplotlib.pyplot as plt
+import tkinter as tk
 import read as rd
 import grafica as gf
 import GAIN as gn
@@ -78,22 +79,25 @@ def Apriory(archivo,atributos,arbol=None,nivel=0):
             arbol=nod2
         return(arbol)
 
-
+def principal(archivo):
+    Archivo = rd.read_ar(archivo)
+    nodo = ab.Nodo()
+    nivel = 0
+    print('comienza')
+    nodo = Apriory(Archivo[1], Archivo[0], nodo, nivel)
+    print('LISTA')
+    hilo1 = th.Thread(target=gf.plotear, args=[Archivo[2], Archivo[1], nodo, 'grafica_desintegracion.png'])
+    nombre = 'Arbol_Decisión.png'
+    hilo2 = th.Thread(target=ab.plot, args=[nodo, nombre])
+    hilo1.start()
+    hilo2.start()
 """PRUEBA """
-Archivo=rd.read_ar('Pruebacsv.csv')
-#print(Archivo)
-nodo=ab.Nodo()
-nivel=0
-print('comienza')
-nodo=Apriory(Archivo[1],Archivo[0],nodo,nivel)
-#nodo.listar()
-print('LISTA')
-hilo1=th.Thread(target=gf.plotear,args=[Archivo[2],Archivo[1],nodo,'grafica_desintegracion.png'])
-nombre='Arbol_Decisión.png'
-hilo2=th.Thread(target=ab.plot,args=[nodo,nombre])
-hilo1.start()
-hilo2.start()
-#img = mpimg.imread(nombre)
-#imgplot = plt.imshow(img)
-#plt.show()
-#gf.plotear()
+
+from tkinter import filedialog
+from tkinter import *
+
+root = Tk()
+root.filename =  filedialog.asksaveasfilename(initialdir = "/",title = "Select file",filetypes = (('.csv', '.csv'),("all files","*.*")))
+print (root.filename)
+
+principal(root.filename)
