@@ -5,8 +5,8 @@ from read import *
 import decimal as dc
 
 #recibe un conjunto de datos y el valor de una clase
-#a todos los regitros cuya clase coincida con la clase ingresada van a tener un tipo de representación en el grafico
-#al resto de registros van a tener otra representación
+#a todos los regitros cuya clase coincida con la clase ingresada van a tener un tipo de representaciï¿½n en el grafico
+#al resto de registros van a tener otra representaciï¿½n
 def puntos(entrada,clase):
     ejex=[]
     ejey=[]
@@ -23,7 +23,7 @@ def cortes(arbol,limitex,limitey,restrix=[0,0],restriy=[0,0]):
     if arbol.nombre=="'Eje y'":#Pregunta si el corte es sobre el eje Y
         limi=0#establece el limite inferior en 0
         lims=1#establece el limite superior en 1
-        #Si tiene alguna restricción distinta de 0 hay que actualizar los limites
+        #Si tiene alguna restricciï¿½n distinta de 0 hay que actualizar los limites
         if restrix[0]!=0 :#
             limi=(float(restrix[0])-float(limitex[0]))/ancho
         if restrix[1]!=0:
@@ -54,7 +54,7 @@ def cortes(arbol,limitex,limitey,restrix=[0,0],restriy=[0,0]):
             restrixn=[arbol.corte,limitex[1]]
             cortes(arbol.der,limitex,limitey,restrixn,restriy)
 
-#Función que recibe los valores de las clases, el conjunto de datos del archivo, el nodo raiz y el nombre del archivo
+#Funciï¿½n que recibe los valores de las clases, el conjunto de datos del archivo, el nodo raiz y el nombre del archivo
 #Genera el grafico de 2D con los cortes
 def plotear(clase,archivo,arbol,nombre):
     puntos(archivo,clase[0])#plotea los puntos
@@ -76,7 +76,7 @@ def plotear(clase,archivo,arbol,nombre):
     cortes(arbol,limitex,limitey,restrix,restriy) #Llama a la funcion Cortes
     plt.savefig(nombre)#Guada el archivo
     #plt.savefig("grafica_desintegracion.png")
-    plt.show()#Lo muestra
+    #plt.show()#Lo muestra
 
 """PRUEBA"""
 #from READ import *
