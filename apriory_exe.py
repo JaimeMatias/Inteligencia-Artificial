@@ -87,17 +87,8 @@ def principal(archivo):
     nodo = Apriory(Archivo[1], Archivo[0], nodo, nivel)
     print('LISTA')
     hilo1 = th.Thread(target=gf.plotear, args=[Archivo[2], Archivo[1], nodo, 'grafica_desintegracion.png'])
-    nombre = 'Arbol_Decisión.png'
+    nombre = 'Arbol_Decision.png'
     hilo2 = th.Thread(target=ab.plot, args=[nodo, nombre])
     hilo1.start()
     hilo2.start()
-"""PRUEBA """
 
-from tkinter import filedialog
-from tkinter import *
-
-root = Tk()
-root.filename =  filedialog.asksaveasfilename(initialdir = "/",title = "Select file",filetypes = (('.csv', '.csv'),("all files","*.*")))
-print (root.filename)
-
-principal(root.filename)
