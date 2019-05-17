@@ -56,13 +56,13 @@ class Ventana(QMainWindow):
 
     def generarGraficos(self):
         principal(self.nombre_fichero)  #Llama a la funcion principal de apriory_exe que es el que genera los graficos
-
         img=mpimg.imread('grafica_desintegracion.png')
         plt.imshow(img)
         plt.figure()  #Crea otra ventana
         img2=mpimg.imread('Arbol_Decision.png')
         plt.imshow(img2)
         plt.show()
+
 
 #========== Inicia la App ============
 app = QApplication(sys.argv)

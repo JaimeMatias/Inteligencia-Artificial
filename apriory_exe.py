@@ -1,6 +1,5 @@
 #-*- coding: latin-1 -*-
 import matplotlib.pyplot as plt
-import tkinter as tk
 import read as rd
 import grafica as gf
 import GAIN as gn
@@ -86,9 +85,11 @@ def principal(archivo):
     print('comienza')
     nodo = Apriory(Archivo[1], Archivo[0], nodo, nivel)
     print('LISTA')
-    hilo1 = th.Thread(target=gf.plotear, args=[Archivo[2], Archivo[1], nodo, 'grafica_desintegracion.png'])
+    #hilo1 = th.Thread(target=gf.plotear, args=[Archivo[2], Archivo[1], nodo, 'grafica_desintegracion.png'])
+    gf.plotear(Archivo[2], Archivo[1], nodo, 'grafica_desintegracion.png')
     nombre = 'Arbol_Decision.png'
-    hilo2 = th.Thread(target=ab.plot, args=[nodo, nombre])
-    hilo1.start()
-    hilo2.start()
+    #hilo2 = th.Thread(target=ab.plot, args=[nodo, nombre])
+    ab.plot(nodo, nombre)
+    #hilo1.start()
+    #hilo2.start()
 
