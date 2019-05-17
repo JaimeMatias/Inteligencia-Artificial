@@ -57,7 +57,7 @@ class Nodo:
             mayor=('> '+str(self.corte))
             if var1.hoja=='si': #Genero los 2 nodos origen destino, teniendo al nodo destino como hoja
                 arbol.add_edge((self.nombre,self.nivel,self.soporte),(var1.nombre,var1.nivel,var1.soporte,var1.confianza),label=menor,color='red')
-            else:#Genero los 2 nodos origen destino, teniendo al nodo destino como nodo de decisiï¿½n
+            else:#Genero los 2 nodos origen destino, teniendo al nodo destino como nodo de decisión
                 arbol.add_edge((self.nombre,self.nivel,self.soporte,),(var1.nombre,var1.nivel,var1.soporte),label=menor,)
             var1.plot_recusivo(arbol)
         #Lo mismo que el anterior
@@ -71,7 +71,7 @@ class Nodo:
         return(arbol)
 
 #recibe el nodo raiz y un nombre
-#Genera el arbol de Desiciï¿½n
+#Genera el arbol de Desición
 def plot(nodo,nombre):
     arbol = pgv.AGraph(directed=True,label='Arbol Desicion')
     nodo.plot_recusivo(arbol)
