@@ -1,14 +1,11 @@
 #-*- coding: latin-1 -*-
-import matplotlib.pyplot as plt
-import read as rd
-import grafica as gf
-import GAIN as gn
-import Arbol as ab
-import ENTROPY as en
-import threading as th
+from Read import read as rd
+from Grafica import grafica as gf
+from Gain import GAIN as gn
+from Arbol import arbol as ab
+from Entropy import ENTROPY as en
 from copy import deepcopy
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
+
 
 #from Decimal import Decimal
 #Recibe el archivo, los atributos, la raiz y el nivel
