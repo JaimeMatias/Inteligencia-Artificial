@@ -3,7 +3,7 @@
 
 import math as mt
 import copy as cp
-import SUBCONJUNTO as sb
+from Subconjunto import SUBCONJUNTO as sb
 import decimal as dc
 
 #Función que recibe el conjunto de datos

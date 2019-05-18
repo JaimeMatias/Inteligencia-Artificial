@@ -1,10 +1,9 @@
  #-*- coding: latin-1 -*-
 import matplotlib.pyplot as plt
-import read as rd
-from read import *
-import decimal as dc
+from Read import read as rd
 
-#recibe un conjunto de datos y el valor de una clase
+
+ #recibe un conjunto de datos y el valor de una clase
 #a todos los regitros cuya clase coincida con la clase ingresada van a tener un tipo de representaci�n en el grafico
 #al resto de registros van a tener otra representaci�n
 def puntos(entrada,clase):

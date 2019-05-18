@@ -1,8 +1,7 @@
 #!/usr/bin/python
  #-*- coding: latin-1 -*-
-import os, sys
 import copy as cp
-import read as rd
+
 
 #Recibe un archivo y devuelve un arreglo, donde para cada elemento de la clase, indica la cantidad de ocurrencias que tiene
 #dentro del archivo

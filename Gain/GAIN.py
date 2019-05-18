@@ -1,6 +1,8 @@
 #!/usr/bin/python3.6
  #-*- coding: latin-1 -*-
-import ENTROPY as ep
+from Entropy import ENTROPY as ep
+
+
 #Función que recibe el conjunto de datos y la posicion de un atributo
 #Genera la gananca de información de ese atributo
 def gain(entrada,atributo):

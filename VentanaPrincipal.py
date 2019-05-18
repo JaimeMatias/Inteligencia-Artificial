@@ -1,15 +1,13 @@
 # coding=utf-8
 import sys
-from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QTableWidget, QTableWidgetItem, QAbstractItemView, QHeaderView
+from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QTableWidgetItem, QAbstractItemView
 from PyQt5 import uic
-from PyQt5 import QtGui
 from PyQt5.QtCore import Qt
-from read import read_ar
+from Read.read import read_ar
 from apriory_exe import principal
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
-import numpy as np
-import img_rc
+
 
 class Ventana(QMainWindow):
     def __init__(self):
