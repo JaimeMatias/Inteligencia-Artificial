@@ -20,43 +20,33 @@ def Apriory(archivo,atributos,arbol=None,nivel=0):
     else:
         var4=['conjunto 1','conjunto 2']
         posicion=[0,0,0]
-        corte=0
         valor=0
-        atributo=0
-        control=False
-        archivo=rd.ordenar(archivo,atributo)
-        while control==False:
-            var1=rd.genintervalo(archivo,corte,atributo,var4)
-            var2=gn.gain(var1,atributo)
-            if var2>valor:
-                valor=var2
-                posicion[1]=corte
-            corte=rd.genproxcorte(archivo,corte,atributo)
-            if corte==-1:
-                control=True
-        atributo=1
-        corte=0
-        control=False
-        archivo=rd.ordenar(archivo,atributo)
-        while control==False:
-            var1=rd.genintervalo(archivo,corte,atributo,var4)
-            var2=gn.gain(var1,atributo)
-            if var2>valor:
-                valor=var2
-                posicion[0]=1
-                posicion[1]=corte
+        for i in range(0,2):
+            corte=0
+            atributo = i
+            control = False
+            archivo = rd.ordenar(archivo, atributo)
 
-            corte=rd.genproxcorte(archivo,corte,atributo)
-            if corte==-1:
-                control=True
+            while control == False:
+                var1 = rd.genintervalo(archivo, corte, atributo, var4)
+                var2 = gn.gain(var1, atributo)
+                if var2 > valor:
+                    valor = var2
+                    if i==0:
+                        posicion[1] = corte
+                    else:
+                        posicion[0] = 1
+                        posicion[1] = corte
+                corte = rd.genproxcorte(archivo, corte, atributo)
+                if corte == -1:
+                    control = True
+
         archivo=rd.ordenar(archivo,posicion[0])
         posicion[2]=rd.valorcorte(archivo,posicion[1],posicion[0])
         conjunto1=deepcopy(archivo[0:posicion[1]])
         conjunto2=deepcopy(archivo[posicion[1]:])
         nombre=atributos[posicion[0]]
         corte=posicion[2]
-        #print('entropia: ',entropiac)
-        #print('valor: ',valor)
         if valor>0:
             nod2=ab.Nodo(nombre,corte,nivel,len(archivo))
             arbol.genelemento(nod2)
@@ -89,4 +79,6 @@ def principal(archivo):
     ab.plot(nodo, nombre)
     #hilo1.start()
     #hilo2.start()
+
+principal('Pruebacsv.csv')
 

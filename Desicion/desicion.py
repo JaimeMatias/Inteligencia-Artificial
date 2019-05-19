@@ -88,5 +88,5 @@ def principal(archivo):
     nombre = 'Arbol_Decision.png'
     ab.plot(nodo, nombre) # Plotea otro grafico
 
-principal('Pruebacsv.csv')
+principal('datos_continuo.csv')
 

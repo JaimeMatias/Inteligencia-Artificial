@@ -65,8 +65,7 @@ class Nodo:
             menor = ('< ' + str(self.corte))  # Genero las etiquetas de los arcos
             if var1.hoja == 'si':  # Genero los 2 nodos origen destino, teniendo al nodo destino como hoja
                 arbol.add_edge((self.nombre, self.nivel, self.soporte),
-                               (var1.nombre, 'IZQ', var1.nivel, var1.soporte, var1.confianza), label=menor,
-                               color='blue')
+                               (var1.nombre, 'IZQ', var1.nivel, var1.soporte, var1.confianza), label=menor)
             else:  # Genero los 2 nodos origen destino, teniendo al nodo destino como nodo de decisi�n
                 arbol.add_edge((self.nombre, self.nivel, self.soporte,), (var1.nombre, var1.nivel, var1.soporte),
                                label=menor, )
