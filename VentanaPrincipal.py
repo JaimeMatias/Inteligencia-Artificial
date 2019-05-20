@@ -4,9 +4,10 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QTableWidget
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
 from Read.read import read_ar
-from Apriory_exe.apriory_exe import principal
+from Desicion.apriory2 import principal
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+import img_rc
 
 
 class Ventana(QMainWindow):
