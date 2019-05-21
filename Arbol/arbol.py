@@ -31,8 +31,8 @@ class Nodo:
     # Funcion que recibe otro nodo, y sobre escribe los valor del nodo actual
     def genelemento(self, elemento):
         """
-        actualiza la información del nodo
-        :param elemento: nodo con la información
+        actualiza la informaciï¿½n del nodo
+        :param elemento: nodo con la informaciï¿½n
         :return:
         """
         self.nombre = elemento.nombre
@@ -67,7 +67,7 @@ class Nodo:
                 arbol.add_edge((self.nombre, self.nivel, self.soporte),
                                (var1.nombre, 'IZQ', var1.nivel, var1.soporte, var1.confianza), label=menor)
             else:  # Genero los 2 nodos origen destino, teniendo al nodo destino como nodo de decisiï¿½n
-                arbol.add_edge((self.nombre, self.nivel, self.soporte,), (var1.nombre, var1.nivel, var1.soporte),
+                arbol.add_edge((self.nombre, 'IZQ', self.nivel, self.soporte,), (var1.nombre, var1.nivel, var1.soporte),
                                label=menor, )
             var1.plot_recusivo(arbol)
         # Lo mismo que el anterior
@@ -78,7 +78,7 @@ class Nodo:
                 arbol.add_edge((self.nombre, self.nivel, self.soporte),
                                (var2.nombre, 'DER', var2.nivel, var2.soporte, var2.confianza), label=mayor)
             else:
-                arbol.add_edge((self.nombre, self.nivel, self.soporte), (var2.nombre, var2.nivel, var2.soporte),
+                arbol.add_edge((self.nombre,'DER' , self.nivel, self.soporte), (var2.nombre, var2.nivel, var2.soporte),
                                label=mayor)
             var2.plot_recusivo(arbol)
         return arbol
