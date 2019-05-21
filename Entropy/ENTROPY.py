@@ -33,8 +33,9 @@ def clase(archivo):
         entropi = 0
 
         i = 0
+        clase = []
         for reg in subconjunto[0]:
-            clase = []
+
             if subconjunto[1][i] > entropi:
                 clase = reg
                 entropi = subconjunto[1][i]
