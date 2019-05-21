@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QTableWidget
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
 from Read.read import read_ar
-from Desicion.apriory2 import principal
+from Desicion.desicion import principal
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import img_rc

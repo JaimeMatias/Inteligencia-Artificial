@@ -9,13 +9,13 @@ from copy import deepcopy
 
 def decision_tree(archivo, atributos, arbol=None, nivel=0):
     """
-    la implementación del algoritmo c4.5
+    la implementaciï¿½n del algoritmo c4.5
     :param archivo: un arreglo con todos los datos
     :param atributos: los nombre de los atributos
     :param arbol: el nodo actual
     :param nivel: la profundidad en el arbol
 
-    :return: un arbol de decisión
+    :return: un arbol de decisiï¿½n
     """
     entropiac = en.entropiaclase(archivo)
     if entropiac == 0:
@@ -73,7 +73,7 @@ def decision_tree(archivo, atributos, arbol=None, nivel=0):
 
 def principal(archivo):
     """
-    Es la función mas amplia y que engloba el programa
+    Es la funciï¿½n mas amplia y que engloba el programa
     :param archivo: la direccion del archivo
     :return: nada
     """
@@ -82,11 +82,11 @@ def principal(archivo):
     nodo = ab.Nodo()  # Genera el nodo raiz
     nivel = 0  # Genera la profundidad inicial
     # print('comienza')
-    nodo = decision_tree(archivo[1], archivo[0], nodo, nivel)  # Llama al algoritmo de Decisión
+    nodo = decision_tree(archivo[1], archivo[0], nodo, nivel)  # Llama al algoritmo de Decisiï¿½n
     # print('LISTA')
     gf.plotear(archivo[2], archivo[1], nodo, 'grafica_desintegracion.png') #Plotea un grafio
     nombre = 'Arbol_Decision.png'
     ab.plot(nodo, nombre) # Plotea otro grafico
 
-principal('datos_continuo.csv')
+#principal('datos_continuo.csv')
 
