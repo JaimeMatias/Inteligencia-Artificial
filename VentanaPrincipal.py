@@ -17,6 +17,9 @@ class Ventana(QMainWindow):
         uic.loadUi("ventana1.ui",self)
         self.btnBuscar.clicked.connect(self.leerArchivo)
         self.btnGenerar.clicked.connect(self.generarGraficos)
+        self.btnClasificar.clicked.connect(self.clasificarPunto)
+        self.bloqueoClasificacion()
+        self.bloqueoGeneracion()
 
         # ================== Configurar Tabla ==================
 
@@ -42,6 +45,9 @@ class Ventana(QMainWindow):
             archivo = read_ar(self.nombre_fichero) #Llama a la funcion que lee el .csv
             self.tabla.clearContents() #limpia la tabla
             self.ruta.setText(self.nombre_fichero)
+            self.btnGenerar.setEnabled(True)  #Una vez cargado los datos activo el boton para generar
+            self.btnGenerar.setStyleSheet('QPushButton {background-color: red; color: black;}')  #Le devuelvo color
+            self.bloqueoClasificacion() #Boqueo el clasificador hasta que se genere el nuevo arbol
 
             #=================== Rellena la tabla ==================
             row = 0
@@ -54,6 +60,9 @@ class Ventana(QMainWindow):
             # ======================================================    
 
     def generarGraficos(self):
+
+        print(self.limite.value()) #Para leer el valor del limite
+
         principal(self.nombre_fichero)  #Llama a la funcion principal de apriory_exe que es el que genera los graficos
         img=mpimg.imread('grafica_desintegracion.png')
         plt.imshow(img)
@@ -61,6 +70,22 @@ class Ventana(QMainWindow):
         img2=mpimg.imread('Arbol_Decision.png')
         plt.imshow(img2)
         plt.show()
+        self.btnClasificar.setEnabled(True)  #Una vez cargado los datos activo el boton para generar
+        self.btnClasificar.setStyleSheet('QPushButton {background-color: blue; color: black;}')  #Le devuelvo color
+
+
+    def clasificarPunto(self):
+        print(self.puntox.value())
+        print(self.puntoy.value())
+        #Aca llamá a la funcion y pasale eso como parametro
+
+    def bloqueoGeneracion(self):
+        self.btnGenerar.setEnabled(False)
+        self.btnGenerar.setStyleSheet('QPushButton {background-color: grey; color: black;}')
+
+    def bloqueoClasificacion(self):
+        self.btnClasificar.setEnabled(False)
+        self.btnClasificar.setStyleSheet('QPushButton {background-color: grey; color: black;}')
 
 
 #========== Inicia la App ============
