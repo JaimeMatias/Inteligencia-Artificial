@@ -18,12 +18,13 @@ def puntos(entrada, clase):
 # y genera las lineas de cortes
 def cortes(arbol, limitex, limitey, restrix=None, restriy=None):
     if restriy is None:
-        restriy = [0, 0]
+        restriy = [limitey[0], limitey[1]]
     if restrix is None:
-        restrix = [0, 0]
+        restrix = [limitex[0], limitex[1]]
     ancho = float(limitex[1]) - float(limitex[0])  # Establece el ancho de la grafica
     alto = float(limitey[1]) - float(limitey[0])  # Establece el alto de la grafica
-    if arbol.nombre == "'Eje y'":  # Pregunta si el corte es sobre el eje Y
+
+    if arbol.nombre == "Eje y":  # Pregunta si el corte es sobre el eje Y
         limi = 0  # establece el limite inferior en 0
         lims = 1  # establece el limite superior en 1
         # Si tiene alguna restricci�n distinta de 0 hay que actualizar los limites
@@ -31,19 +32,30 @@ def cortes(arbol, limitex, limitey, restrix=None, restriy=None):
             limi = (float(restrix[0]) - float(limitex[0])) / ancho
         if restrix[1] != 0:
             lims = (float(restrix[1]) - float(limitex[0])) / ancho
-
         plt.axhline(float(arbol.corte), limi, lims,
                     color='r')  # Funcion que plotea, recibe el valor del eje y en terminos relativos, donde comienza
         # y donde termina la linea, los valores van de 0 a 1
         # Actualiza los valores y se llama recursivamente
         if arbol.izq is not None:
-            restriyn = [restriy[0], arbol.corte]
+            restriyn=[0,0]
+            if restriy[0]== limitey[0]:
+               restriyn = [restriy[0], arbol.corte]
+               #print('LA restriccion: ', restriyn)
+            if restriy[0]!=limitey[0]:
+                restriyn=[restriy[0],arbol.corte]
+                #print('LA restriccion: ',restriy,restriyn)
+            #print('Eje y, izq: ',restriyn)
             cortes(arbol.izq, limitex, limitey, restrix, restriyn)
         if arbol.der is not None:
-            restriyn = [arbol.corte, limitey[1]]
+            restriyn = [0, 0]
+            if restriy[1] == limitey[1]:
+                restriyn = [arbol.corte,restriy[1]]
+            if restriy[1]!=limitey[1]:
+                restriyn=[arbol.corte,restriy[1]]
+            #print('Eje y, der: ',restriyn)
             cortes(arbol.der, limitex, limitey, restrix, restriyn)
     # Lo mismo para el eje X
-    if arbol.nombre == "'Eje x'":
+    if arbol.nombre == "Eje x":
         limi = 0
         lims = 1
         if restriy[0] != 0:
@@ -52,10 +64,17 @@ def cortes(arbol, limitex, limitey, restrix=None, restriy=None):
             lims = (float(restriy[1]) - float(limitey[0])) / alto
         plt.axvline(float(arbol.corte), limi, lims, color='g')
         if arbol.izq is not None:
-            restrixn = [restrix[0], arbol.corte]
+            restrixn=[0,0]
+            if restrix[0]==limitex[0]:
+                restrixn=[restrix[0],arbol.corte]
+            if restrix[0]!=limitex[0]:
+                restrixn = [restrix[0], arbol.corte]
+            #print('Ejex, izq: ',restrixn )
             cortes(arbol.izq, limitex, limitey, restrixn, restriy)
         if arbol.der is not None:
-            restrixn = [arbol.corte, limitex[1]]
+            restrixn = [0, 0]
+            restrixn = [arbol.corte, restrix[1]]
+            #print('Ejex, der: ', restrixn)
             cortes(arbol.der, limitex, limitey, restrixn, restriy)
 
 
@@ -73,12 +92,11 @@ def plotear(clase, archivo, arbol, nombre):
     limitey = [miny, maxy]
     plt.xlim(minx, maxx)
     plt.ylim(miny, maxy)
-    restrix = [0, 0]
-    restriy = [0, 0]
+
     plt.xlabel('Eje X')  # Etiqueta del eje OX
     plt.ylabel('Eje Y')  # Etiqueta del eje OY
     plt.title('Grafico de Corte')  # Título del gráfico
-    cortes(arbol, limitex, limitey, restrix, restriy)  # Llama a la funcion Cortes
+    cortes(arbol, limitex, limitey)  # Llama a la funcion Cortes
     plt.savefig(nombre)  # Guada el archivo
     # plt.savefig("grafica_desintegracion.png")
     # plt.show()#Lo muestra

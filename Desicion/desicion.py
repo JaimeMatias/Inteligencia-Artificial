@@ -20,7 +20,7 @@ def decision_tree(archivo, atributos, arbol=None, nivel=0):
     entropiac = en.entropiaclase(archivo)
     if entropiac == 0:
         nombre = en.clase(archivo)  # funcion de ENTROPY
-        nod1 = ab.Nodo(nombre, None, nivel, len(archivo), 1, 'si')
+        nod1 = ab.Nodo(nombre, 0, nivel, len(archivo), 1, 'si')
         arbol = nod1
         return arbol
     else:
@@ -59,14 +59,18 @@ def decision_tree(archivo, atributos, arbol=None, nivel=0):
                 nod1 = ab.Nodo(nombre, None, None)
                 nod1 = decision_tree(conjunto1, atributos, nod1, nivel + 1)
                 arbol.agregarizq(nod1)
+                #arbol.izq.corte=corte
             if conjunto2 is not None:
                 nod1 = ab.Nodo(nombre, None, None)
                 nod1 = decision_tree(conjunto2, atributos, nod1, nivel + 1)
+
                 arbol.agregarder(nod1)
+                #arbol.der.corte = corte
         else:
             clase1 = en.clase(archivo)
+            print('nodo hoja: ', clase1)
             confianza = float(round(en.confianzaclase(archivo, clase1), 2))
-            nod2 = ab.Nodo(clase1, None, nivel, len(archivo), confianza, 'si')
+            nod2 = ab.Nodo(clase1, 0, nivel, len(archivo), confianza, 'si')
             arbol = nod2
         return arbol
 
@@ -84,9 +88,8 @@ def principal(archivo):
     # print('comienza')
     nodo = decision_tree(archivo[1], archivo[0], nodo, nivel)  # Llama al algoritmo de Decisi�n
     # print('LISTA')
-    gf.plotear(archivo[2], archivo[1], nodo, 'grafica_desintegracion.png') #Plotea un grafio
+
     nombre = 'Arbol_Decision.png'
     ab.plot(nodo, nombre) # Plotea otro grafico
-
-#principal('datos_continuo.csv')
-
+    gf.plotear(archivo[2], archivo[1], nodo, 'grafica_desintegracion.png') #Plotea un grafio
+principal('Pruebacsv.csv')
