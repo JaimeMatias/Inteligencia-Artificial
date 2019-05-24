@@ -7,7 +7,9 @@ from Read import read as rd
 # a todos los regitros cuya clase coincida con la clase ingresada van a tener un tipo de representaci�n en el grafico
 # al resto de registros van a tener otra representaci�n
 def puntos(entrada, clase):
+
     for registro in entrada:
+        #print(registro)
         if registro[len(registro) - 1] == clase:
             plt.scatter(float(registro[0]), float(registro[1]), c='red', marker="^")
         else:
@@ -44,7 +46,7 @@ def cortes(arbol, limitex, limitey, restrix=None, restriy=None):
             if restriy[0]!=limitey[0]:
                 restriyn=[restriy[0],arbol.corte]
                 #print('LA restriccion: ',restriy,restriyn)
-            #print('Eje y, izq: ',restriyn)
+            #print('Eje y, izq: ',arbol.corte,restriyn)
             cortes(arbol.izq, limitex, limitey, restrix, restriyn)
         if arbol.der is not None:
             restriyn = [0, 0]
@@ -52,7 +54,7 @@ def cortes(arbol, limitex, limitey, restrix=None, restriy=None):
                 restriyn = [arbol.corte,restriy[1]]
             if restriy[1]!=limitey[1]:
                 restriyn=[arbol.corte,restriy[1]]
-            #print('Eje y, der: ',restriyn)
+            #print('Eje y, der: ',arbol.corte,restriyn)
             cortes(arbol.der, limitex, limitey, restrix, restriyn)
     # Lo mismo para el eje X
     if arbol.nombre == "Eje x":
@@ -69,12 +71,12 @@ def cortes(arbol, limitex, limitey, restrix=None, restriy=None):
                 restrixn=[restrix[0],arbol.corte]
             if restrix[0]!=limitex[0]:
                 restrixn = [restrix[0], arbol.corte]
-            #print('Ejex, izq: ',restrixn )
+            #print('Ejex, izq: ',arbol.corte,restrixn )
             cortes(arbol.izq, limitex, limitey, restrixn, restriy)
         if arbol.der is not None:
             restrixn = [0, 0]
             restrixn = [arbol.corte, restrix[1]]
-            #print('Ejex, der: ', restrixn)
+            #print('Ejex, der: ',arbol.corte, restrixn)
             cortes(arbol.der, limitex, limitey, restrixn, restriy)
 
 

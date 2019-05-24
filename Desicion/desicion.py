@@ -47,9 +47,13 @@ def decision_tree(archivo, atributos, arbol=None, nivel=0,ganancia=0):
                 if corte == -1:
                     control = True
         archivo = rd.ordenar(archivo, posicion[0])
+        #print('archivo ordenado:',archivo)
         posicion[2] = rd.valorcorte(archivo, posicion[1], posicion[0])
+
         conjunto1 = deepcopy(archivo[0:posicion[1]])
         conjunto2 = deepcopy(archivo[posicion[1]:])
+        #print(conjunto1)
+        #print(conjunto2)
         nombre = atributos[posicion[0]]
         corte = posicion[2]
         diferencia=valor-ganancia
@@ -59,17 +63,21 @@ def decision_tree(archivo, atributos, arbol=None, nivel=0,ganancia=0):
             nod2 = ab.Nodo(nombre, corte, nivel, len(archivo))
             arbol.genelemento(nod2)
             if conjunto1 is not None:
+                #print(len(conjunto1),conjunto1)
+                #print()
                 nod1 = ab.Nodo(nombre, None, None)
                 nod1 = decision_tree(conjunto1, atributos, nod1, nivel + 1,ganancia)
                 arbol.agregarizq(nod1)
             if conjunto2 is not None:
+                #print(len(conjunto2),conjunto2)
+                #print()
                 nod1 = ab.Nodo(nombre, None, None)
                 nod1 = decision_tree(conjunto2, atributos, nod1, nivel + 1,ganancia)
 
                 arbol.agregarder(nod1)
         else:
             clase1 = en.clase(archivo)
-            print('nodo hoja: ', clase1)
+            #print('nodo hoja: ', clase1)
             confianza = float(round(en.confianzaclase(archivo, clase1), 2))
             nod2 = ab.Nodo(clase1, 0, nivel, len(archivo), confianza, 'si')
             arbol = nod2
@@ -92,6 +100,6 @@ def principal(archivo,nodo):
     gf.plotear(archivo[2], archivo[1], nodo, 'grafica_desintegracion.png') #Plotea un grafio
     return nodo
 nodo=ab.Nodo()
-#print('Creo Nodo')
-#principal('datos1.csv',nodo)
-#nodo.clasepunto(1,1.5)
+print('Creo Nodo')
+principal('datos3.csv',nodo)
+nodo.clasepunto(1,1.5)

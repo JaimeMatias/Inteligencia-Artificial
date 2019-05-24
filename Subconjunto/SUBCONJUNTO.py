@@ -9,7 +9,9 @@ import copy as cp
 def subconjuntoclase(datos):
     Valor=[]
     elementos=[]
+    #print(datos)
     for reg in datos:
+        #print(reg)
         elem=reg[len(reg)-1] #Posicion de la clase
         if elem not in elementos:
             elementos=elementos+[elem]

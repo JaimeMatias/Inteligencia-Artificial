@@ -24,10 +24,11 @@ def read_ar(arg):
                 archivo[0] = ['Eje x','Eje y','Clase:']
             else:
                 # archivo[1]+=[[]]
-                archivo[1] += [reg]
+                archivo[1] += [[float(reg[0]),float(reg[1]),reg[2]]]
                 if reg[len(reg) - 1] not in archivo[2]:
                     archivo[2] += [reg[len(reg) - 1]]
             pos = pos + 1
+        #print(archivo)
         return archivo
 
 
