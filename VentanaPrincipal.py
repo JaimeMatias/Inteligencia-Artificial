@@ -8,6 +8,7 @@ from Desicion.desicion import principal
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import img_rc
+from Arbol import arbol as ab
 
 
 class Ventana(QMainWindow):
@@ -55,8 +56,8 @@ class Ventana(QMainWindow):
             row = 0
             for reg in archivo[1]:
                 self.tabla.setRowCount(row + 1)
-                self.tabla.setItem(row, 0, QTableWidgetItem(reg[0]))
-                self.tabla.setItem(row, 1, QTableWidgetItem(reg[1]))
+                self.tabla.setItem(row, 0, QTableWidgetItem(str(reg[0])))
+                self.tabla.setItem(row, 1, QTableWidgetItem(str(reg[1])))
                 self.tabla.setItem(row, 2, QTableWidgetItem(reg[2]))
                 row += 1
             # ======================================================    
@@ -65,7 +66,8 @@ class Ventana(QMainWindow):
 
         print(self.limite.value()) #Para leer el valor del limite
 
-        principal(self.nombre_fichero)  #Llama a la funcion principal de apriory_exe que es el que genera los graficos
+        nodo=ab.Nodo() #Creo un nodo vacio
+        principal(self.nombre_fichero, nodo)  #Llama a la funcion principal de apriory_exe que es el que genera los graficos
         img=mpimg.imread('grafica_desintegracion.png')
         plt.imshow(img)
         plt.figure()  #Crea otra ventana

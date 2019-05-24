@@ -99,7 +99,7 @@ def principal(archivo,nodo):
     ab.plot(nodo, nombre) # Plotea otro grafico
     gf.plotear(archivo[2], archivo[1], nodo, 'grafica_desintegracion.png') #Plotea un grafio
     return nodo
-nodo=ab.Nodo()
-print('Creo Nodo')
-principal('datos3.csv',nodo)
-nodo.clasepunto(1,1.5)
+#nodo=ab.Nodo()
+#print('Creo Nodo')
+#principal('datos3.csv',nodo)
+#nodo.clasepunto(1,1.5)
