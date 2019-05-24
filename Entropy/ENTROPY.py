@@ -27,6 +27,7 @@ def entropiaclase(archivo):
 def clase(archivo):
     entropi = entropiaclase(archivo)
     subconjunto = sb.subconjuntoclase(archivo)
+    #print(subconjunto)
     if entropi == 0:
         return subconjunto[0][0]
     else:

@@ -7,7 +7,8 @@ import copy as cp
 class Nodo:
     """docstring for Nodo."""
 
-    def __init__(self, nombre=None, corte=None, nivel=0, soporte=0, confianza=0, hoja=None,tipo=None, izq=None, der=None):
+    def __init__(self, nombre=None, corte=None, nivel=0, soporte=0, confianza=0, hoja=None, tipo=None, izq=None,
+                 der=None):
         """
         Constructor
         :param nombre: nombre del nodo
@@ -61,15 +62,15 @@ class Nodo:
     # genera todos los nodos y los arcos del grafico
     def plot_recusivo(self, arbol):
         # print(self.nombre,self)
-        id=(str(self.nombre)+str(self.corte)+str(self.nivel))
+        id = (str(self.nombre) + str(self.corte) + str(self.nivel))
         if self is not None and self.izq is not None:  # Pregunto  si es el nodo existe y si tiene hijo
             var1 = self.izq
             menor = ('< ' + str(self.corte))  # Genero las etiquetas de los arcos
-            id_local=(str(var1.nombre)+str(var1.corte)+str(var1.nivel))
+            id_local = (str(var1.nombre) + str(var1.corte) + str(var1.nivel))
             if var1.hoja == 'si':  # Genero los 2 nodos origen destino, teniendo al nodo destino como hoja
                 id_local = (str(var1.nombre) + str(self.corte) + str(var1.nivel))
                 arbol.add_edge((id, self.soporte),
-                               (id_local,  var1.soporte, var1.confianza), label=menor)
+                               (id_local, var1.soporte, var1.confianza), label=menor)
             else:  # Genero los 2 nodos origen destino, teniendo al nodo destino como nodo de decisi�n
                 arbol.add_edge((id, self.soporte,), (id_local, var1.soporte),
                                label=menor, )
@@ -82,12 +83,28 @@ class Nodo:
             if var2.hoja == 'si':
                 id_local = (str(var2.nombre) + str(self.corte) + str(var2.nivel))
                 arbol.add_edge((id, self.soporte),
-                               (id_local,  var2.soporte, var2.confianza), label=mayor)
+                               (id_local, var2.soporte, var2.confianza), label=mayor)
             else:
                 arbol.add_edge((id, self.soporte), (id_local, var2.soporte),
                                label=mayor)
             var2.plot_recusivo(arbol)
         return arbol
+
+    def clasepunto(self, valorx=float, valory=float):
+        var = self
+        while var is not None:
+            if var.hoja == "si":
+                return print('Es de la clase: ', var.nombre)
+            if var.nombre == "Eje y":
+                if valory < var.corte:
+                    var = var.izq
+                else:
+                    var = var.der
+            if var.nombre == "Eje x":
+                if valorx < var.corte:
+                    var = var.izq
+                else:
+                    var = var.der
 
 
 # recibe el nodo raiz y un nombre

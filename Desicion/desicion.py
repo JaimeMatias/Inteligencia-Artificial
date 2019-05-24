@@ -7,7 +7,7 @@ from Entropy import ENTROPY as en
 from copy import deepcopy
 
 
-def decision_tree(archivo, atributos, arbol=None, nivel=0):
+def decision_tree(archivo, atributos, arbol=None, nivel=0,ganancia=0):
     """
     la implementaci�n del algoritmo c4.5
     :param archivo: un arreglo con todos los datos
@@ -52,20 +52,21 @@ def decision_tree(archivo, atributos, arbol=None, nivel=0):
         conjunto2 = deepcopy(archivo[posicion[1]:])
         nombre = atributos[posicion[0]]
         corte = posicion[2]
-        if valor > 0:
+        diferencia=valor-ganancia
+
+        ganancia=valor
+        if valor >0:
             nod2 = ab.Nodo(nombre, corte, nivel, len(archivo))
             arbol.genelemento(nod2)
             if conjunto1 is not None:
                 nod1 = ab.Nodo(nombre, None, None)
-                nod1 = decision_tree(conjunto1, atributos, nod1, nivel + 1)
+                nod1 = decision_tree(conjunto1, atributos, nod1, nivel + 1,ganancia)
                 arbol.agregarizq(nod1)
-                #arbol.izq.corte=corte
             if conjunto2 is not None:
                 nod1 = ab.Nodo(nombre, None, None)
-                nod1 = decision_tree(conjunto2, atributos, nod1, nivel + 1)
+                nod1 = decision_tree(conjunto2, atributos, nod1, nivel + 1,ganancia)
 
                 arbol.agregarder(nod1)
-                #arbol.der.corte = corte
         else:
             clase1 = en.clase(archivo)
             print('nodo hoja: ', clase1)
@@ -75,7 +76,7 @@ def decision_tree(archivo, atributos, arbol=None, nivel=0):
         return arbol
 
 
-def principal(archivo):
+def principal(archivo,nodo):
     """
     Es la funci�n mas amplia y que engloba el programa
     :param archivo: la direccion del archivo
@@ -83,13 +84,14 @@ def principal(archivo):
     """
 
     archivo = rd.read_ar(archivo) # Transforma el archivo csv a una estructura en memoria
-    nodo = ab.Nodo()  # Genera el nodo raiz
     nivel = 0  # Genera la profundidad inicial
-    # print('comienza')
     nodo = decision_tree(archivo[1], archivo[0], nodo, nivel)  # Llama al algoritmo de Decisi�n
-    # print('LISTA')
 
     nombre = 'Arbol_Decision.png'
     ab.plot(nodo, nombre) # Plotea otro grafico
     gf.plotear(archivo[2], archivo[1], nodo, 'grafica_desintegracion.png') #Plotea un grafio
-principal('Pruebacsv.csv')
+    return nodo
+nodo=ab.Nodo()
+#print('Creo Nodo')
+#principal('datos1.csv',nodo)
+#nodo.clasepunto(1,1.5)

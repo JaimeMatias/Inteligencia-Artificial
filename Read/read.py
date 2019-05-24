@@ -21,7 +21,7 @@ def read_ar(arg):
         entrada = csv.reader(csvarchivo)
         for reg in entrada:
             if pos == -1:
-                archivo[0] = reg
+                archivo[0] = ['Eje x','Eje y','Clase:']
             else:
                 # archivo[1]+=[[]]
                 archivo[1] += [reg]
