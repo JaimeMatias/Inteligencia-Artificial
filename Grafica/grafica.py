@@ -1,4 +1,6 @@
 # -*- coding: latin-1 -*-
+import pygraphviz as pgv
+from Arbol import arbol
 import matplotlib.pyplot as plt
 from Read import read as rd
 
@@ -103,6 +105,43 @@ def plotear(clase, archivo, arbol, nombre):
     # plt.savefig("grafica_desintegracion.png")
     # plt.show()#Lo muestra
 
+
+# Funcion recursiva que se recibe a si mismo y al grafico
+    # genera todos los nodos y los arcos del grafico
+def plot_recusivo(arbol,grafica):
+    id = (str(arbol.nombre) + str(arbol.corte) + str(arbol.nivel))
+    if arbol is not None and arbol.izq is not None:  # Pregunto  si es el nodo existe y si tiene hijo
+        nodo_hijo = arbol.izq
+        menor = ('< ' + str(arbol.corte))  # Genero las etiquetas de los arcos
+        id_local = (str(nodo_hijo.nombre) + str(nodo_hijo.corte) + str(nodo_hijo.nivel))
+        if nodo_hijo.hoja == 'si':  # Genero los 2 nodos origen destino, teniendo al nodo destino como hoja
+            id_local = (str(nodo_hijo.nombre) + str(arbol.corte) + str(nodo_hijo.nivel))
+            grafica.add_edge((id, arbol.soporte),
+                               (id_local, nodo_hijo.soporte, nodo_hijo.confianza), label=menor)
+        else:  # Genero los 2 nodos origen destino, teniendo al nodo destino como nodo de decisi�n
+             grafica.add_edge((id, arbol.soporte,), (id_local, nodo_hijo.soporte),
+                               label=menor, )
+        plot_recusivo(arbol.izq,grafica)
+        # Lo mismo que el anterior
+    if arbol is not None and arbol.der is not None:
+        nodo_hijo = arbol.der
+        mayor = ('> ' + str(arbol.corte))
+        id_local = (str(nodo_hijo.nombre) + str(nodo_hijo.corte) + str(nodo_hijo.nivel))
+        if nodo_hijo.hoja == 'si':
+            id_local = (str(nodo_hijo.nombre) + str(arbol.corte) + str(nodo_hijo.nivel))
+            grafica.add_edge((id, arbol.soporte),(id_local, nodo_hijo.soporte, nodo_hijo.confianza), label=mayor)
+        else:
+            grafica.add_edge((id, arbol.soporte), (id_local, nodo_hijo.soporte),label=mayor)
+        plot_recusivo(arbol.der,grafica)
+
+
+
+
+def plot(arbol,nombre):
+    grafica = pgv.AGraph(directed=True, label='Arbol Desicion')
+    plot_recusivo(arbol,grafica)
+    grafica.layout(prog='dot')
+    grafica.draw(nombre)
 
 """PRUEBA"""
 # from READ import *
