@@ -53,13 +53,13 @@ def decision_tree(archivo, atributos, arbol=None, nivel=0, ganancia=0):
             0])  # ordeno el archivo por el atributo que me genera la mayor ganancia de informcion
         valor_corte = rd.valorcorte(archivo, posicion[1],
                                     posicion[0])  # Obtengo el valor del corte que me genera la mayor ganancia
-
         subconjunto_izq = deepcopy(
             archivo[0:posicion[1]])  # Genero el primer subconjunto, todo lo que está a la izquierda
         subconjunto_der = deepcopy(
             archivo[posicion[1]:])  # Genero el segundo subconjunto, todo lo que está a la izquierda
         nombre = atributos[posicion[0]]  # nombre del eje
         ganancia = ganancia_inf
+
         if ganancia_inf > 0:
             nod2 = ab.Nodo(nombre, valor_corte, nivel, len(archivo))  # Genero el nodo raiz para esta iteracion
             arbol.genelemento(nod2)  # Lo agrego al arbol
@@ -91,15 +91,15 @@ def principal(archivo, nodo):
 
     archivo = rd.read_ar(archivo)  # Transforma el archivo csv a una estructura en memoria
     nivel = 0  # Genera la profundidad inicial
-    nodo = decision_tree(archivo[1], archivo[0], nodo, nivel)  # Llama al algoritmo de Decisiï¿½n
+    nodo = decision_tree(archivo[1], archivo[0], nodo, nivel,0)  # Llama al algoritmo de Decisiï¿½n
 
     nombre = 'Arbol_Decision.png'
-    ab.plot(nodo, nombre)  # Plotea otro grafico
-    gf.plotear(archivo[2], archivo[1], nodo, 'grafica_desintegracion.png')  # Plotea un grafio
+    gf.graficar_arbol(nodo, nombre)  # Plotea otro grafico
+    gf.graficar_diagrama_cortes(archivo[2], archivo[1], nodo, 'grafica_desintegracion.png')  # Plotea un grafio
     return nodo
 
 
 nodo = ab.Nodo()
 print('Creo Nodo')
-principal('datos1.csv', nodo)
+principal('datos2.csv', nodo)
 nodo.clasepunto(1, 1.5)
