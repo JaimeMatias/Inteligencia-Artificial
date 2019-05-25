@@ -1,107 +1,106 @@
  # !/usr/bin/python
  #  -*- coding: latin-1 -*-
 
+
 import math as mt
 import copy as cp
 from Subconjunto import SUBCONJUNTO as sb
 import decimal as dc
 
 
-# Función que recibe el conjunto de datos
-# Me devuelve el nivel de entropia del conjunto
 def entropiaclase(archivo):
-    var1 = sb.subconjuntoclase(archivo)
-    entro = cp.deepcopy(var1[1])
-    resultado = 0
-    total = contar_tot(archivo)  # calculo la cantidad de registros
-    for reg in entro:
-        if reg != 0:
-            c = dc.Decimal(reg) / dc.Decimal(total)  # divido
-            resultado = resultado - float(c) * mt.log(float(c), 2)  # lo voy resguardando
+    """
+    Calcula la entropia de la clase para un conjunto de datos
+
+    :param archivo: el conjunto de datos
+    :return:
+    """
+    subconjuntos_clase = sb.subconjuntoclase(archivo)
+    valores_clases = cp.deepcopy(subconjuntos_clase[1])
+    resultado: float = 0
+    total = len(archivo)  # calculo la cantidad de registros
+    for registros in valores_clases:
+        if registros != 0:
+            valor_parcial = dc.Decimal(registros) / dc.Decimal(total)  # divido
+            resultado = resultado - float(valor_parcial) * mt.log(float(valor_parcial), 2)  # lo voy resguardando
     return resultado
 
 
-# Recibe un conjunto de datos
-# Me devuelve la clase en caso de ser una hoja pura
-# Me devuelve la clase mas probable en caso de ser una hoja impura
+
 def clase(archivo):
-    entropi = entropiaclase(archivo)
-    subconjunto = sb.subconjuntoclase(archivo)
-    #print(subconjunto)
-    if entropi == 0:
-        return subconjunto[0][0]
+    """
+    Me devuelve la clase en caso de ser una hoja pura
+    Me devuelve la clase mas probable en caso de ser una hoja impura
+
+    :param archivo: un conjunto de datos
+    :return:
+    """
+    entropia_datos = entropiaclase(archivo)
+    subconjuntos = sb.subconjuntoclase(archivo)
+    if entropia_datos == 0:
+        return subconjuntos[0][0]
     else:
-        entropi = 0
+        entropia_datos = 0
 
         i = 0
-        clase = []
-        for reg in subconjunto[0]:
+        clase= []
+        for registros in subconjuntos[0]:
 
-            if subconjunto[1][i] > entropi:
-                clase = reg
-                entropi = subconjunto[1][i]
+            if subconjuntos[1][i] > entropia_datos:
+                clase = registros
+                entropia_datos = subconjuntos[1][i]
             i = i + 1
-        return clase
+        return clase #Devuelve la clase mas frecuente
 
 
 # Función que recibe un conjunto de datos y un valor de la clase
 # Genera la probabilidad de esa clase
-def confianzaclase(entrada, clase):
-    cuenta = 0
-    for reg in entrada:
+def confianzaclase(archivo, clase):
+    """Genera la probabilidad de esa clase
+
+    :param archivo: El conjunto de Datos
+    :param clase: la clase sobre las que se quier calcular la confianz
+    :return:
+    """
+    confianza = 0
+    total=len(archivo)
+    for reg in archivo:
         if reg[len(reg) - 1] == clase:
-            cuenta = cuenta + 1
-    cuenta = dc.Decimal(cuenta) / dc.Decimal(contar_tot(entrada))
-    return cuenta
+            confianza = confianza + 1
+    confianza = dc.Decimal(confianza) / dc.Decimal(total)
+    return confianza
     pass
 
 
 # Función que recibe un conjunto de datos y la posicion del atributo
 # Genera la entropia de ese atributo
 def entropiaatributo(archivo, atributo):
-    var1 = sb.subconjuntoatributo(archivo, atributo)
-    entro = cp.deepcopy(var1[1])
-    totalelementos = contar_tot(archivo)
+    """
+    Calcula la entropia del conjunto de datos para ese atributo
+
+    :param archivo: El conjunto de Datos
+    :param atributo: El atributo
+    :return:
+    """
+    subconjuntos = sb.subconjuntoatributo(archivo, atributo)
+    entropia = cp.deepcopy(subconjuntos[1])
+    totalelementos = len(archivo)
     total = 0
-    for reg in entro:
+    for registro in entropia:
         denominador_parcial = 0
-        for reg2 in reg:
-            denominador_parcial = denominador_parcial + reg2
+        for instancia in registro:
+            denominador_parcial = denominador_parcial + instancia
+
         resultado_parcial = 0
-        for reg2 in reg:
-            c = 0
-            if reg2 != 0:
-                c = dc.Decimal(reg2) / dc.Decimal(denominador_parcial)
-                resultado_parcial = resultado_parcial - float(c) * mt.log(float(c), 2)
+        for instancia in registro:
+            if instancia != 0:
+                probabilidad = dc.Decimal(instancia) / dc.Decimal(denominador_parcial)
+                resultado_parcial = resultado_parcial - float(probabilidad) * mt.log(float(probabilidad), 2)
         total = total + dc.Decimal(resultado_parcial) * dc.Decimal(denominador_parcial) / dc.Decimal(totalelementos)
     return round(total, 2)
 
 
-# Funcion que recibe un conjunto de datos y la posición del atributo
-"""
-def entropiaratio(archivo,atributo):
-    var1=sb.subconjuntoatributo(archivo,atributo)
-    entro=cp.deepcopy(var1[1])
-    totalelementos=contar_tot(archivo)
-    total=0
-    for reg in entro:
-        ocurrencia_atributo=0
-        for reg2 in reg:
-            ocurrencia_atributo=ocurrencia_atributo+reg2
-        c=0
-        if ocurrencia_atributo!=0:
-            c=dc.Decimal(ocurrencia_atributo)/dc.Decimal(totalelementos)
-        total=total-float(c)*mt.log(float(c),2)
-    return(round(total,2))
-"""
-
-
 # Una simple función que cuenta la cantidad de registro
-def contar_tot(entrada):
-    total = 0
-    for reg in entrada:
-        total = total + 1
-    return total
 
 
 """PRUEBA """
