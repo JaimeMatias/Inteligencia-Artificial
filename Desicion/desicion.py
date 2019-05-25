@@ -3,7 +3,7 @@ from Read import read as rd
 from Grafica import grafica as gf
 from Gain import GAIN as gn
 from Arbol import arbol as ab
-from Entropy import ENTROPY as en
+from Entropy import entropy as en
 from copy import deepcopy
 
 

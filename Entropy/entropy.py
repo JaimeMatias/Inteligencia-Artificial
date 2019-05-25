@@ -4,7 +4,7 @@
 
 import math as mt
 import copy as cp
-from Subconjunto import SUBCONJUNTO as sb
+from Subconjunto import subconjunto as sb
 import decimal as dc
 
 

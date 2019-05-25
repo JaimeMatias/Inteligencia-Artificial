@@ -1,6 +1,6 @@
 #!/usr/bin/python3.6
 # -*- coding: latin-1 -*-
-from Entropy import ENTROPY as ep
+from Entropy import entropy as ep
 
 
 # Función que recibe el conjunto de datos y la posicion de un atributo
