@@ -14,46 +14,42 @@ import decimal as dc
 # La primera posicion tiene la lista de nombre de los atributos
 # La segunda posicion tiene cada uno de los registros
 # La tercera cada una de las clase
-def read_ar(arg):
+def read_ar(dataset):
+    """
+    Lee un archivo csv y devuelve un arreglo de 3 posciones
+    :param archivo: un conjunto de datos
+    :return:
+    La primera posicion tiene la lista de nombre de los atributos
+    La segunda posicion tiene cada uno de los registros
+    La tercera cada una de las clase
+    """
     archivo = [[], [], []]  # Posicion 1 titulos atributo, Posicion 2 registros
     pos = -1
-    with open(arg) as csvarchivo:
-        entrada = csv.reader(csvarchivo)
-        for reg in entrada:
+    with open(dataset) as csvarchivo:
+        datos = csv.reader(csvarchivo)
+        for reg in datos:
             if pos == -1:
-                archivo[0] = ['Eje x','Eje y','Clase:']
+                archivo[0] = ['Eje x', 'Eje y', 'Clase:']
             else:
-                # archivo[1]+=[[]]
-                archivo[1] += [[float(reg[0]),float(reg[1]),reg[2]]]
+                archivo[1] += [[float(reg[0]), float(reg[1]), reg[2]]]
                 if reg[len(reg) - 1] not in archivo[2]:
                     archivo[2] += [reg[len(reg) - 1]]
             pos = pos + 1
-        #print(archivo)
         return archivo
-
-
-# funcion que lee un areglo (los datos) y me devuelve otro arreglo sin las clases
-def read_at(entrada):
-    archivo = []
-    pos = 0
-    for reg in entrada:
-        atributo = []
-
-        posi = 0
-        for i in range(0, (len(reg) - 1)):
-            atributo += [[]]
-            atributo[posi] = reg[i]
-            posi = posi + 1
-        archivo += [[]]
-        archivo[pos] = atributo
-        pos = pos + 1
-    return archivo
 
 
 # funcion que lee un conjunto de datos y la posición de un atributo
 # y los ordena por un atributo especifico
-def ordenar(entrada, atributo):
-    ordenado = sorted(entrada, key=lambda it: it[atributo])
+def ordenar(archivo, atributo):
+    """
+    lee un conjunto de datos y la posición de un atributo
+
+    :param archivo: un conjunto de datos
+    :param atributo: el atributo con el que se va a ordenar
+    :return:
+    """
+
+    ordenado = sorted(archivo, key=lambda it: it[atributo])
     return ordenado
 
 
@@ -63,14 +59,28 @@ def ordenar(entrada, atributo):
 # A todos los elemento del primer cojunto les va a asignar el mismo valor al atributo seleccionado
 # A todos los elementos del segundo conjunto les va a asignar otro valor en el atributo seleccionado
 # va a devolver ambos conjuntos
-def genintervalo(entrada, rango, atributo, nuevo_valor):
+def genintervalo(archivo, rango, atributo, nuevo_valor):
+    """
+    funcion que va a recibir un conjunto de datos
+    primero va a generar 2 subconnjuntos el primero de los registros de 0 a rango y el segundo
+    de rango al liminte de archivo
+    A todos los elemento del primer cojunto les va a asignar el mismo valor al atributo seleccionado
+    A todos los elementos del segundo conjunto les va a asignar otro valor en el atributo seleccionado
+    va a devolver ambos conjuntos
+
+    :param archivo: un cojunto de datos
+    :param rango: la cantidad de elementos que van a pertenecer al priemr conjunto
+    :param atributo: el atributo que se va a sobre escribir
+    :param nuevo_valor: el valor con el que se va a sobreescribir
+    :return:
+    """
     var1 = []
     for i in range(0, rango):
-        var3 = cp.deepcopy(entrada[i])
+        var3 = cp.deepcopy(archivo[i])
         var3[atributo] = nuevo_valor[0]
         var1 = var1 + [var3]
-    for i in range(rango, len(entrada)):
-        var3 = cp.deepcopy(entrada[i])
+    for i in range(rango, len(archivo)):
+        var3 = cp.deepcopy(archivo[i])
         var3[atributo] = nuevo_valor[1]
         var1 = var1 + [var3]
     return var1
@@ -80,34 +90,65 @@ def genintervalo(entrada, rango, atributo, nuevo_valor):
 # del ultimo corte.
 # En base a eso va a buscar cual es la proxima posicion para cortar
 # si encuentra devuelve la poscion sino devuelve -1
-def genproxcorte(entrada, rango, atributo):
+def genproxcorte(archivo, desplazamiento, atributo):
+    """
+    va a buscar la proxima posición a cortar
+    :param archivo: un conjunto de datos
+    :param desplazamiento: el punto a partir de donde se busca
+    :param atributo: el atributo que se analiza
+    :return:
+    """
     control = False
-    i = rango
+    i = desplazamiento
     while control is False:
-        var1 = entrada[rango][atributo]
+        # print(len(archivo), i)
+        var1 = archivo[desplazamiento][atributo]
         var1 = float(var1)
-        var2 = float(entrada[i][atributo])
-        if (var2 - var1) != 0:
-            return i
-        i = i + 1
-        if i == len(entrada):
-            return -1
+        var2 = float(archivo[i][atributo])
+        # print(var1,var2)
+        # print(archivo[i][2],archivo[desplazamiento][2])
+        # print(archivo[i][2]!= archivo[desplazamiento][2])
+        if archivo[i][2] != archivo[desplazamiento][2]:
+            # print((var2 - var1) != 0)
+            if (var2 - var1) != 0:
+                return i
+            i = i + 1
+            if i == len(archivo):
+                return -1
+
+        else:
+            i = i + 1
+            if i == len(archivo):
+                return -1
 
 
 # Funcion que recibe el conjunto de datos, la posicion del corte y el atributos
 # y devuelve el valor medio entre los 2 puntos donde se genera el corte, con los valore de
 # ese atributo
-def valorcorte(entrada, rango, atributo):
-    valor = dc.Decimal(float(entrada[rango][atributo]) + float(entrada[rango - 1][atributo])) / 2
+def valorcorte(archivo, rango, atributo):
+    """
+    el promedio de los 2 valores de los puntos
+    :param archivo: un conjunto de datos
+    :param rango: la poscion donde se va a cortar
+    :param atributo: el atributo a analizar
+    :return:
+    """
+    valor = dc.Decimal(float(archivo[rango][atributo]) + float(archivo[rango - 1][atributo])) / 2
     return round(valor, 4)
 
 
 # Función que va a recibir el conjunto de datos, y la posición del atributo
 # y va a devolver el valor maximo y minimo de ese atributo.
-def extremos(entrada, atributo):
+def extremos(archivo, atributo):
+    """
+    devolver el valor maximo y minimo de ese atributo.
+    :param archivo: un conjunto de datos
+    :param atributo: la posicion del atributo
+    :return:
+    """
     max = 0.0
     min = 0.0
-    for reg in entrada:
+    for reg in archivo:
         if float(reg[atributo]) < min:
             min = float(reg[atributo])
         if float(reg[atributo]) > max:
