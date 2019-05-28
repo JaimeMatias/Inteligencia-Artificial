@@ -61,7 +61,7 @@ class Nodo:
         var = self
         while var is not None:
             if var.hoja == "si":
-                return print('Es de la clase: ', var.nombre)
+                return var.nombre
             if var.nombre == "Eje y":
                 if valory < var.corte:
                     var = var.izq

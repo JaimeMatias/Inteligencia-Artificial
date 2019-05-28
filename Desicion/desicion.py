@@ -99,7 +99,7 @@ def principal(archivo, nodo):
     return nodo
 
 
-nodo = ab.Nodo()
-print('Creo Nodo')
-principal('datos2.csv', nodo)
-nodo.clasepunto(1, 1.5)
+#nodo = ab.Nodo()
+#print('Creo Nodo')
+#principal('datos2.csv', nodo)
+#nodo.clasepunto(1, 1.5)
