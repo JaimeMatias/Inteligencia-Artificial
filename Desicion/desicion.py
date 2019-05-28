@@ -18,7 +18,7 @@ def decision_tree(archivo, atributos, arbol=None, nivel=0, ganancia=0):
     :return: un arbol de decisiï¿½n
     """
     entropiac = en.entropiaclase(archivo)  # Calculo la entropia del archivo
-    if entropiac == 0:  # Condición de parada, el conjunto de datos es puro
+    if entropiac == 0:  # Condiciï¿½n de parada, el conjunto de datos es puro
         nombre = en.clase(archivo)  # determino la clase del conjunto
         nuevo_nodo = ab.Nodo(nombre=nombre, corte=0, nivel=nivel, soporte=len(archivo), confianza=1,
                              hoja='si')  # Genero el Nodo
@@ -26,11 +26,11 @@ def decision_tree(archivo, atributos, arbol=None, nivel=0, ganancia=0):
         return arbol  # Devuelvo el nodo
     else:  # Trato a los datos continuos oomo conjuntos de datos
         nombre_conjunto = ['conjunto 1', 'conjunto 2']  # Defino los 2 conjuntos
-        posicion = [0, 0]  # Primer posición, que eje, Segunda posicion desplazamiento dentro del conjunto de datos
-        ganancia_inf = 0  # Ganancia de Información
+        posicion = [0, 0]  # Primer posiciï¿½n, que eje, Segunda posicion desplazamiento dentro del conjunto de datos
+        ganancia_inf = 0  # Ganancia de Informaciï¿½n
         for i in range(0, 2):
             valor_corte = 0  # Valor de corte es decir el promedio de los 2 puntos
-            atributo_pos = i  # la poscición del atributo
+            atributo_pos = i  # la posciciï¿½n del atributo
             archivo = rd.ordenar(archivo, atributo_pos)  # Ordeno el archivo por el atributo
             control = False  # Seteo Variable Corntro
             while not control:
@@ -38,7 +38,7 @@ def decision_tree(archivo, atributos, arbol=None, nivel=0, ganancia=0):
                                                 nombre_conjunto)  # Genero el sib intervalo
                 ganancia_sub_intervalo = gn.gain(sub_intervalo,
                                                  atributo_pos)  # Generola ganancia del intervalo anterior
-                if ganancia_sub_intervalo > ganancia_inf:  # Pregunto si el nuevo corte, mejora la ganancia de información
+                if ganancia_sub_intervalo > ganancia_inf:  # Pregunto si el nuevo corte, mejora la ganancia de informaciï¿½n
                     ganancia_inf = ganancia_sub_intervalo  # Actualizao la ganancia
                     if i == 0:  # Estamos en el primer bucle
                         posicion[1] = valor_corte  # Actualizo la poscion del corte, desplazamientos
@@ -54,16 +54,16 @@ def decision_tree(archivo, atributos, arbol=None, nivel=0, ganancia=0):
         valor_corte = rd.valorcorte(archivo, posicion[1],
                                     posicion[0])  # Obtengo el valor del corte que me genera la mayor ganancia
         subconjunto_izq = deepcopy(
-            archivo[0:posicion[1]])  # Genero el primer subconjunto, todo lo que está a la izquierda
+            archivo[0:posicion[1]])  # Genero el primer subconjunto, todo lo que estï¿½ a la izquierda
         subconjunto_der = deepcopy(
-            archivo[posicion[1]:])  # Genero el segundo subconjunto, todo lo que está a la izquierda
+            archivo[posicion[1]:])  # Genero el segundo subconjunto, todo lo que estï¿½ a la izquierda
         nombre = atributos[posicion[0]]  # nombre del eje
         ganancia = ganancia_inf
 
         if ganancia_inf > 0:
             nod2 = ab.Nodo(nombre, valor_corte, nivel, len(archivo))  # Genero el nodo raiz para esta iteracion
             arbol.genelemento(nod2)  # Lo agrego al arbol
-            if subconjunto_izq is not None:  # Pregunto si el subconjunto no está vacio
+            if subconjunto_izq is not None:  # Pregunto si el subconjunto no estï¿½ vacio
                 nuevo_nodo_izq = ab.Nodo()  # Creo el nodo
                 nuevo_nodo_izq = decision_tree(archivo=subconjunto_izq, atributos=atributos, arbol=nuevo_nodo_izq,
                                                nivel=nivel + 1, ganancia=ganancia)  # llamo a la funcion recursiva
@@ -85,11 +85,10 @@ def decision_tree(archivo, atributos, arbol=None, nivel=0, ganancia=0):
 def principal(archivo, nodo):
     """
     Es la funciï¿½n mas amplia y que engloba el programa
-    :param archivo: la direccion del archivo
+    :param archivo: archivo con el conjunto de entrenamiento y conjunto de prueba
     :return: nada
     """
 
-    archivo = rd.read_ar(archivo)  # Transforma el archivo csv a una estructura en memoria
     nivel = 0  # Genera la profundidad inicial
     nodo = decision_tree(archivo[1], archivo[0], nodo, nivel,0)  # Llama al algoritmo de Decisiï¿½n
 

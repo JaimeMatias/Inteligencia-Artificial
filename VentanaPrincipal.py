@@ -13,7 +13,7 @@ from Arbol import arbol as ab
 
 class Ventana(QMainWindow):
     def __init__(self):
-        global nombre_fichero
+        global archivo
         QMainWindow.__init__(self)
         uic.loadUi("ventana1.ui",self)
         self.btnBuscar.clicked.connect(self.leerArchivo)
@@ -22,20 +22,31 @@ class Ventana(QMainWindow):
         self.bloqueoClasificacion()
         self.bloqueoGeneracion()
 
-        # ================== Configurar Tabla ==================
+        # ================== Configurar Tablas ==================
 
-        self.tabla.setEditTriggers(QAbstractItemView.NoEditTriggers) # Deshabilitar edición
-        self.tabla.setDragDropOverwriteMode(False) # Deshabilitar el comportamiento de arrastrar y soltar
-        self.tabla.setSelectionBehavior(QAbstractItemView.SelectRows) # Seleccionar toda la fila
-        self.tabla.setSelectionMode(QAbstractItemView.SingleSelection) # Seleccionar una fila a la vez
-        self.tabla.setColumnCount(3) # Establecer el número de columnas
-        self.tabla.setRowCount(0) # Establecer el número de filas        
-        self.tabla.horizontalHeader().setDefaultAlignment(Qt.AlignHCenter|Qt.AlignVCenter|Qt.AlignCenter) # Alineación del texto del encabezado
-        self.tabla.setAlternatingRowColors(True) # Dibujar el fondo usando colores alternados
-        self.tabla.verticalHeader().setDefaultSectionSize(20) # Establecer altura de las filas
+        self.tablaEntrenamiento.setDragDropOverwriteMode(False) # Deshabilitar el comportamiento de arrastrar y soltar
+        self.tablaEntrenamiento.setSelectionBehavior(QAbstractItemView.SelectRows) # Seleccionar toda la fila
+        self.tablaEntrenamiento.setSelectionMode(QAbstractItemView.SingleSelection) # Seleccionar una fila a la vez
+        self.tablaEntrenamiento.setColumnCount(3) # Establecer el número de columnas
+        self.tablaEntrenamiento.setRowCount(0) # Establecer el número de filas        
+        self.tablaEntrenamiento.horizontalHeader().setDefaultAlignment(Qt.AlignHCenter|Qt.AlignVCenter|Qt.AlignCenter) # Alineación del texto del encabezado
+        self.tablaEntrenamiento.setAlternatingRowColors(True) # Dibujar el fondo usando colores alternados
+        self.tablaEntrenamiento.verticalHeader().setDefaultSectionSize(20) # Establecer altura de las filas
         nombreColumnas = ("Eje X","Eje Y", "Clase")
-        self.tabla.setHorizontalHeaderLabels(nombreColumnas) # Establecer las etiquetas de encabezado horizontal usando etiquetas
-        self.tabla.horizontalHeader().setStretchLastSection(True) #Hace que el la fila de encabezado ocupe todo el ancho
+        self.tablaEntrenamiento.setHorizontalHeaderLabels(nombreColumnas) # Establecer las etiquetas de encabezado horizontal usando etiquetas
+        self.tablaEntrenamiento.horizontalHeader().setStretchLastSection(True) #Hace que el la fila de encabezado ocupe todo el ancho
+
+        self.tablaPrueba.setDragDropOverwriteMode(False) # Deshabilitar el comportamiento de arrastrar y soltar
+        self.tablaPrueba.setSelectionBehavior(QAbstractItemView.SelectRows) # Seleccionar toda la fila
+        self.tablaPrueba.setSelectionMode(QAbstractItemView.SingleSelection) # Seleccionar una fila a la vez
+        self.tablaPrueba.setColumnCount(3) # Establecer el número de columnas
+        self.tablaPrueba.setRowCount(0) # Establecer el número de filas        
+        self.tablaPrueba.horizontalHeader().setDefaultAlignment(Qt.AlignHCenter|Qt.AlignVCenter|Qt.AlignCenter) # Alineación del texto del encabezado
+        self.tablaPrueba.setAlternatingRowColors(True) # Dibujar el fondo usando colores alternados
+        self.tablaPrueba.verticalHeader().setDefaultSectionSize(20) # Establecer altura de las filas
+        nombreColumnas = ("Eje X","Eje Y", "Clase")
+        self.tablaPrueba.setHorizontalHeaderLabels(nombreColumnas) # Establecer las etiquetas de encabezado horizontal usando etiquetas
+        self.tablaPrueba.horizontalHeader().setStretchLastSection(True) #Hace que el la fila de encabezado ocupe todo el ancho
 
         # ======================================================
 
@@ -45,20 +56,31 @@ class Ventana(QMainWindow):
         self.nombre_fichero, _ = QFileDialog.getOpenFileName(self,'.csv', '~/Escritorio/','*.csv',options=options) #Lee archivo
 
         if self.nombre_fichero!='':  #Pregunta si es vacio(Se apreto cancel)
-            archivo = read_ar(self.nombre_fichero) #Llama a la funcion que lee el .csv
-            self.tabla.clearContents() #limpia la tabla
+            self.archivo = read_ar(self.nombre_fichero, 80) #Llama a la funcion que lee el .csv
+            self.tablaEntrenamiento.clearContents() #limpia la tabla
             self.ruta.setText(self.nombre_fichero)
             self.btnGenerar.setEnabled(True)  #Una vez cargado los datos activo el boton para generar
             self.btnGenerar.setStyleSheet('QPushButton {background-color: red; color: black;}')  #Le devuelvo color
             self.bloqueoClasificacion() #Boqueo el clasificador hasta que se genere el nuevo arbol
 
-            #=================== Rellena la tabla ==================
+            #=================== Rellena la tabla Entrenamiento ==================
             row = 0
-            for reg in archivo[1]:
-                self.tabla.setRowCount(row + 1)
-                self.tabla.setItem(row, 0, QTableWidgetItem(str(reg[0])))
-                self.tabla.setItem(row, 1, QTableWidgetItem(str(reg[1])))
-                self.tabla.setItem(row, 2, QTableWidgetItem(reg[2]))
+            for reg in self.archivo[1]:
+                self.tablaEntrenamiento.setRowCount(row + 1)
+                self.tablaEntrenamiento.setItem(row, 0, QTableWidgetItem(str(reg[0])))
+                self.tablaEntrenamiento.setItem(row, 1, QTableWidgetItem(str(reg[1])))
+                self.tablaEntrenamiento.setItem(row, 2, QTableWidgetItem(reg[2]))
+                row += 1
+            # ======================================================    
+
+            self.tablaPrueba.clearContents() #limpia la tabla
+            #=================== Rellena la tabla Prueba ==================
+            row = 0
+            for reg in self.archivo[3]:
+                self.tablaPrueba.setRowCount(row + 1)
+                self.tablaPrueba.setItem(row, 0, QTableWidgetItem(str(reg[0])))
+                self.tablaPrueba.setItem(row, 1, QTableWidgetItem(str(reg[1])))
+                self.tablaPrueba.setItem(row, 2, QTableWidgetItem(reg[2]))
                 row += 1
             # ======================================================    
 
@@ -67,7 +89,7 @@ class Ventana(QMainWindow):
         print(self.limite.value()) #Para leer el valor del limite
 
         nodo=ab.Nodo() #Creo un nodo vacio
-        principal(self.nombre_fichero, nodo)  #Llama a la funcion principal de apriory_exe que es el que genera los graficos
+        principal(self.archivo, nodo)  #Llama a la funcion principal de apriory_exe que es el que genera los graficos
         img=mpimg.imread('grafica_desintegracion.png')
         plt.imshow(img)
         plt.figure()  #Crea otra ventana
