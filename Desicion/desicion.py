@@ -100,5 +100,6 @@ def principal(archivo, nodo):
 
 #nodo = ab.Nodo()
 #print('Creo Nodo')
-#principal('datos2.csv', nodo)
+#archivo=rd.read_ar('datos2.csv',80)
+#principal(archivo, nodo)
 #nodo.clasepunto(1, 1.5)

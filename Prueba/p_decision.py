@@ -4,17 +4,19 @@ from Read import read as Rd
 from Write import write as Wr
 import matplotlib.pyplot as plt  # importando matplotlib
 
-Analisis = [['intento','probabilidad','media', 'min', 'max', 'Varianza', 'Desvio Estandar']]
+analisis_Positivo_desvio = [['intento', 'probabilidad', 'media', 'min', 'max', 'Varianza', 'Desvio Estandar']]
+analisis_Positivo_media = [['intento', 'probabilidad', 'media', 'min', 'max', 'Varianza', 'Desvio Estandar']]
+analisis_Negativo = [['intento', 'probabilidad', 'media', 'min', 'max', 'Varianza', 'Desvio Estandar']]
 resultado = [0, 0, 0, [], []]
 prueb=1
-for prob in range(60,90):
-    salida = [['intento', 'longitud', 'aciertos', 'fallos']]
-
+for prob in range(30,101):
+    salida = [['longitud','Cantidad Acierto', 'Cantidad Fallo', 'Porcentja aciertos', 'Porcentaje fallos']]
+    subindicie=1
     for i in range(1, 40):
-        salida += [[[], [], [], [], []]]
+
         nodo = Ab.Nodo()
         archivo = Rd.read_ar('Pruebacsv.csv', prob)
-        salida[i][0] = len(archivo[3])
+
         nivel = 0
         nodo = Ds.decision_tree(archivo[1], archivo[0], nodo, nivel, 0)
         cont_true = 0
@@ -24,38 +26,56 @@ for prob in range(60,90):
                 cont_true += 1
             else:
                 cont_false += 1
-        salida[i][1] = cont_true
-        salida[i][2] = cont_false
-        if len(archivo[3])!=0:
-            salida[i][3] = round((cont_true / len(archivo[3])) * 100, 2)
-            salida[i][4] = round((cont_false / len(archivo[3])) * 100, 2)
-        else:
-            salida[i][3]=0
-            salida[i][4] = 0
+        salida += [[[], [], [], [], []]]
+        salida[subindicie][0] = len(archivo[3])
+        salida[subindicie][1] = cont_true
+        salida[subindicie][2] = cont_false
 
+        if len(archivo[3])!=0:
+            salida[subindicie][3] = round((cont_true / len(archivo[3])) * 100, 2)
+            salida[subindicie][4] = round((cont_false / len(archivo[3])) * 100, 2)
+        else:
+            salida[subindicie][3]=100
+            salida[subindicie][4] = 100
+        subindicie+=1
+
+
+    if prob== 60:
+        Wr.write_ar(salida, 'resultados_prueba60.csv')
+    if prob== 99:
+        Wr.write_ar(salida, 'resultados_prueba99.csv')
     Wr.write_ar(salida, 'resultados_prueba.csv')
     import pandas as pd
 
     df = pd.read_csv('resultados_prueba.csv', index_col=0)
-    # df.mean()
-
-    media = round(df[['aciertos']].get_values().mean(), 2)
-    mini = round(df[['aciertos']].get_values().min(), 2)
-    maxi = round(df[['aciertos']].get_values().max(), 2)
-    var = round(df[['aciertos']].get_values().var(), 2)
-    desvi = round(df[['aciertos']].get_values().std(), 2)
-    Analisis += [[prueb,prob,
-        media, mini,
-        maxi, var, desvi]]
+    #print(df[['Porcentja aciertos']])
+    #print()
+    media = round(df[['Porcentja aciertos']].get_values().mean(), 2)
+    mini = round(df[['Porcentja aciertos']].get_values().min(), 2)
+    maxi = round(df[['Porcentja aciertos']].get_values().max(), 2)
+    var = round(df[['Porcentja aciertos']].get_values().var(), 2)
+    desvi = round(df[['Porcentja aciertos']].get_values().std(), 2)
+    analisis_Positivo_desvio += [[prueb, prob,
+                                  media, mini,
+                                  maxi, var, desvi]]
     prueb+=1
-Wr.write_ar(Analisis, 'Analisi_resultados_prueba.csv')
+Wr.write_ar(analisis_Positivo_desvio, 'Analisi_resultados_prueba.csv')
 df=pd.read_csv('Analisi_resultados_prueba.csv',index_col=0)
-print(df)
-df.get
+#print(df)
+#df2=pd.read_csv('resultados_prueba.csv',index_col=0)
+#print(df2[['Porcentja aciertos']].get_values().mean())
 prob=df[['probabilidad']].get_values()
 desvi = df[['Desvio Estandar']].get_values()
 plt.scatter(prob,desvi)
-plt.savefig('Disperción.png')
+plt.savefig('Analisis Desvio Positivo.png')
 plt.xlabel('Porcentaje de Datos Entrenamiento')
 plt.ylabel('Desvio EStandar')
+plt.show()
+#prob=df[['probabilidad']].get_values()
+#desvi = df[['media']].get_values()
+#plt.scatter(prob,desvi)
+#plt.savefig('Analisis Media Positivo.png')
+#plt.xlabel('Porcentaje de Datos Entrenamiento')
+#plt.ylabel('Media de Acierto')
+
 plt.show()
