@@ -12,7 +12,9 @@ prueb=1
 for prob in range(30,101):
     salida = [['longitud','Cantidad Acierto', 'Cantidad Fallo', 'Porcentja aciertos', 'Porcentaje fallos']]
     subindicie=1
-    for i in range(1, 40):
+    control=0
+    print('la prob es: ',prob)
+    for i in range(1, 50):
 
         nodo = Ab.Nodo()
         archivo = Rd.read_ar('Pruebacsv.csv', prob)
@@ -26,20 +28,32 @@ for prob in range(30,101):
                 cont_true += 1
             else:
                 cont_false += 1
-        salida += [[[], [], [], [], []]]
-        salida[subindicie][0] = len(archivo[3])
-        salida[subindicie][1] = cont_true
-        salida[subindicie][2] = cont_false
 
+        #print(len(archivo[3])!=0)
         if len(archivo[3])!=0:
+            salida += [[[], [], [], [], []]]
+            salida[subindicie][0] = len(archivo[3])
+            salida[subindicie][1] = cont_true
+            salida[subindicie][2] = cont_false
             salida[subindicie][3] = round((cont_true / len(archivo[3])) * 100, 2)
             salida[subindicie][4] = round((cont_false / len(archivo[3])) * 100, 2)
+
+            subindicie += 1
+          #  if control !=0:
+         #       print('detecta error: ',salida)
+
         else:
-            salida[subindicie][3]=100
-            salida[subindicie][4] = 100
-        subindicie+=1
-
-
+            if control==0:
+                salida += [[[], [], [], [], []]]
+                control=1
+                salida[subindicie][0] = len(archivo[3])
+                salida[subindicie][1] = cont_true
+                salida[subindicie][2] = cont_false
+                salida[subindicie][3]=100
+                salida[subindicie][4] = 100
+                subindicie+=1
+            #print(salida)
+        #print(salida)
     if prob== 60:
         Wr.write_ar(salida, 'resultados_prueba60.csv')
     if prob== 99:
