@@ -19,6 +19,7 @@ for prob in range(30,101):
         nodo = Ab.Nodo()
         archivo = Rd.read_ar('datos3.csv', prob)
 
+
         nivel = 0
         nodo = Ds.decision_tree(archivo[1], archivo[0], nodo, nivel, 0)
         cont_true = 0
