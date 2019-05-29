@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QTableWidget
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
 from Read.read import read_ar
-from Desicion.desicion import principal
+from Desicion.desicion import principal, probar_arbol
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import img_rc
@@ -89,25 +89,30 @@ class Ventana(QMainWindow):
 
         print(self.limite.value()) #Para leer el valor del limite
 
-        nodo=ab.Nodo() #Creo un nodo vacio
-        self.arbol=principal(self.archivo, nodo)  #Llama a la funcion principal de apriory_exe que es el que genera los graficos
-        img=mpimg.imread('grafica_desintegracion.png')
+        nodo = ab.Nodo() #Creo un nodo vacio
+        self.arbol = principal(self.archivo, nodo)  #Llama a la funcion principal de apriory_exe que es el que genera los graficos
+        
+        ########## Prueba el arbol y muestra la eficiencia ##################
+        eficiencia = probar_arbol(self.archivo, self.arbol)
+        mensaje = "La eficiencia del Arbol es: "+ str(round(eficiencia,2))+"%"
+        self.mostrarMensaje("Eficiencia del Arbol de Decision",mensaje)
+        
+        ######### Muestra las 2 figuras que se generaron #########
+        img = mpimg.imread('grafica_desintegracion.png')
         plt.imshow(img)
         plt.figure()  #Crea otra ventana
-        img2=mpimg.imread('Arbol_Decision.png')
+        img2 = mpimg.imread('Arbol_Decision.png')
         plt.imshow(img2)
         plt.show()
+
         self.btnClasificar.setEnabled(True)  #Una vez cargado los datos activo el boton para generar
         self.btnClasificar.setStyleSheet('QPushButton {background-color: blue; color: black;}')  #Le devuelvo color
 
-
     def clasificarPunto(self):
         clase = self.arbol.clasepunto(self.puntox.value(),self.puntoy.value())  #Llama a la funcion para clasificar el punto en Arbol
-        msg = QMessageBox()  #Crea mensaje
-        msg.setIcon(QMessageBox.Information)
-        msg.setText("El punto "+str(self.puntox.value())+","+str(self.puntoy.value())+" es de la clase: " +str(clase))
-        msg.setWindowTitle("Clasificacion de punto")
-        msg.exec_()  #Muestra mensaje
+        mensaje = "El punto x:"+str(self.puntox.value())+" y:"+str(self.puntoy.value())+" es de la clase: " +str(clase)
+        self.mostrarMensaje("Clasificiacion del punto",mensaje)
+        
 
     def bloqueoGeneracion(self):
         self.btnGenerar.setEnabled(False)
@@ -116,6 +121,13 @@ class Ventana(QMainWindow):
     def bloqueoClasificacion(self):
         self.btnClasificar.setEnabled(False)
         self.btnClasificar.setStyleSheet('QPushButton {background-color: grey; color: black;}')
+
+    def mostrarMensaje(self, titulo, mensaje):
+        msg = QMessageBox()  #Crea mensaje
+        msg.setIcon(QMessageBox.Information)
+        msg.setText(mensaje)
+        msg.setWindowTitle(titulo)
+        msg.exec_()  #Muestra mensaje
 
 
 #========== Inicia la App ============

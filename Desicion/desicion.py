@@ -95,7 +95,6 @@ def principal(archivo, nodo):
     nombre = 'Arbol_Decision.png'
     gf.graficar_arbol(nodo, nombre)  # Plotea otro grafico
     gf.graficar_diagrama_cortes(archivo[2], archivo[1], nodo, 'grafica_desintegracion.png')  # Plotea un grafio
-    probar_arbol(archivo,nodo)
     return nodo
 
 def probar_arbol(archivo,nodo):
@@ -108,7 +107,7 @@ def probar_arbol(archivo,nodo):
         else:
             cont_false += 1
     eficiencia=(cont_true/cont_total)*100
-    print('la eficiencia del conjunto es: ',eficiencia)
+    return eficiencia
 
 
 #nodo = ab.Nodo()
