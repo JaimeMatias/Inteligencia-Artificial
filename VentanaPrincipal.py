@@ -1,6 +1,6 @@
 # coding=utf-8
 import sys
-from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QTableWidgetItem, QAbstractItemView
+from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QTableWidgetItem, QAbstractItemView, QMessageBox
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
 from Read.read import read_ar
@@ -14,6 +14,7 @@ from Arbol import arbol as ab
 class Ventana(QMainWindow):
     def __init__(self):
         global archivo
+        global arbol
         QMainWindow.__init__(self)
         uic.loadUi("ventana1.ui",self)
         self.btnBuscar.clicked.connect(self.leerArchivo)
@@ -89,7 +90,7 @@ class Ventana(QMainWindow):
         print(self.limite.value()) #Para leer el valor del limite
 
         nodo=ab.Nodo() #Creo un nodo vacio
-        principal(self.archivo, nodo)  #Llama a la funcion principal de apriory_exe que es el que genera los graficos
+        self.arbol=principal(self.archivo, nodo)  #Llama a la funcion principal de apriory_exe que es el que genera los graficos
         img=mpimg.imread('grafica_desintegracion.png')
         plt.imshow(img)
         plt.figure()  #Crea otra ventana
@@ -101,9 +102,12 @@ class Ventana(QMainWindow):
 
 
     def clasificarPunto(self):
-        print(self.puntox.value())
-        print(self.puntoy.value())
-        #Aca llamá a la funcion y pasale eso como parametro
+        clase = self.arbol.clasepunto(self.puntox.value(),self.puntoy.value())  #Llama a la funcion para clasificar el punto en Arbol
+        msg = QMessageBox()  #Crea mensaje
+        msg.setIcon(QMessageBox.Information)
+        msg.setText("El punto "+str(self.puntox.value())+","+str(self.puntoy.value())+" es de la clase: " +str(clase))
+        msg.setWindowTitle("Clasificacion de punto")
+        msg.exec_()  #Muestra mensaje
 
     def bloqueoGeneracion(self):
         self.btnGenerar.setEnabled(False)
