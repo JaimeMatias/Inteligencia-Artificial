@@ -23,7 +23,7 @@ def entropiaclase(archivo):
         if registros != 0:
             valor_parcial = dc.Decimal(registros) / dc.Decimal(total)  # divido
             resultado = resultado - float(valor_parcial) * mt.log(float(valor_parcial), 2)  # lo voy resguardando
-    return resultado
+    return round(resultado, 4)
 
 
 
@@ -68,7 +68,7 @@ def confianzaclase(archivo, clase):
         if reg[len(reg) - 1] == clase:
             confianza = confianza + 1
     confianza = dc.Decimal(confianza) / dc.Decimal(total)
-    return confianza
+    return round(confianza, 4)
     pass
 
 
@@ -97,7 +97,7 @@ def entropiaatributo(archivo, atributo):
                 probabilidad = dc.Decimal(instancia) / dc.Decimal(denominador_parcial)
                 resultado_parcial = resultado_parcial - float(probabilidad) * mt.log(float(probabilidad), 2)
         total = total + dc.Decimal(resultado_parcial) * dc.Decimal(denominador_parcial) / dc.Decimal(totalelementos)
-    return round(total, 2)
+    return round(total, 4)
 
 
 # Una simple función que cuenta la cantidad de registro

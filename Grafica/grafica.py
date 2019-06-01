@@ -52,8 +52,9 @@ def graficar_diagrama_cortes_recursivo(arbol, limitex, limitey, restrix=None, re
             limi = (float(restrix[0]) - float(limitex[0])) / ancho
         if restrix[1] != 0:
             lims = (float(restrix[1]) - float(limitex[0])) / ancho
-        plt.axhline(float(arbol.corte), limi, lims,
-                    color='r')  # Funcion que plotea, recibe el valor del eje y en terminos relativos, donde comienza
+        plt.hlines(float(arbol.corte),restrix[0],restrix[1] ,color='r')  # Funcion que plotea, recibe el valor del eje y en terminos relativos, donde comienza
+        #plt.hlines(float(arbol.corte), limi, lims,
+
         # y donde termina la linea, los valores van de 0 a 1
         # Actualiza los valores y se llama recursivamente
         if arbol.izq is not None:
@@ -77,7 +78,7 @@ def graficar_diagrama_cortes_recursivo(arbol, limitex, limitey, restrix=None, re
             limi = (float(restriy[0]) - float(limitey[0])) / alto
         if restriy[1] != 0:
             lims = (float(restriy[1]) - float(limitey[0])) / alto
-        plt.axvline(float(arbol.corte), limi, lims, color='g')
+        plt.vlines(float(arbol.corte), restriy[0],restriy[1], color='g')
         if arbol.izq is not None:
             if restrix[0]==limitex[0]:
                 restrixn=[restrix[0],arbol.corte]
@@ -104,19 +105,19 @@ def graficar_diagrama_cortes(clase, archivo, arbol, nombre):
     graficar_puntos(archivo, clase[0])  # plotea los puntos
     limitex = rd.extremos(archivo, 0)  # Establece los limites del grafico
     limitey = rd.extremos(archivo, 1)
-    minx = float(limitex[0]) - 0.5
-    maxx = float(limitex[1]) + 0.5
+    minx = float(limitex[0]) #- 0.5
+    maxx = float(limitex[1]) #+ 0.5
     limitex = [minx, maxx]
-    miny = float(limitey[0]) - 0.5
-    maxy = float(limitey[1]) + 0.5
+    miny = float(limitey[0])# - 0.5
+    maxy = float(limitey[1]) #+ 0.5
     limitey = [miny, maxy]
-    plt.xlim(minx, maxx)
-    plt.ylim(miny, maxy)
-
+    #plt.xlim(minx, maxx)
+    #plt.ylim(miny, maxy)
+    graficar_diagrama_cortes_recursivo(arbol, limitex, limitey)  # Llama a la funcion Cortes
     plt.xlabel('Eje X')  # Etiqueta del eje OX
     plt.ylabel('Eje Y')  # Etiqueta del eje OY
     plt.title('Grafico de Corte')  # Título del gráfico
-    graficar_diagrama_cortes_recursivo(arbol, limitex, limitey)  # Llama a la funcion Cortes
+
     plt.savefig(nombre)  # Guada el archivo
 
 
@@ -129,13 +130,13 @@ def graficar_arbol_recursivo(arbol, grafica):
     :param grafica: el grafico
     :return:
     """
-    id = (str(arbol.nombre) + str(arbol.corte) + str(arbol.nivel))
+    id = (str(arbol.nombre)+' ' + str(arbol.corte) + str(arbol.nivel))
     if arbol is not None and arbol.izq is not None:  # Pregunto  si es el nodo existe y si tiene hijo
         nodo_hijo = arbol.izq
         menor = ('< ' + str(arbol.corte))  # Genero las etiquetas de los arcos
-        id_local = (str(nodo_hijo.nombre) + str(nodo_hijo.corte) + str(nodo_hijo.nivel))
+        id_local = (str(nodo_hijo.nombre)+' ' + str(nodo_hijo.corte) + str(nodo_hijo.nivel))
         if nodo_hijo.hoja == 'si':  # Genero los 2 nodos origen destino, teniendo al nodo destino como hoja
-            id_local = (str(nodo_hijo.nombre) + str(arbol.corte) + str(nodo_hijo.nivel))
+            id_local = (str(nodo_hijo.nombre) +' '+ str(arbol.corte) + str(nodo_hijo.nivel))
             grafica.add_edge((id, arbol.soporte),
                                (id_local, nodo_hijo.soporte, nodo_hijo.confianza), label=menor)
         else:  # Genero los 2 nodos origen destino, teniendo al nodo destino como nodo de decisi�n
@@ -146,9 +147,9 @@ def graficar_arbol_recursivo(arbol, grafica):
     if arbol is not None and arbol.der is not None:
         nodo_hijo = arbol.der
         mayor = ('> ' + str(arbol.corte))
-        id_local = (str(nodo_hijo.nombre) + str(nodo_hijo.corte) + str(nodo_hijo.nivel))
+        id_local = (str(nodo_hijo.nombre) +' '+ str(nodo_hijo.corte) + str(nodo_hijo.nivel))
         if nodo_hijo.hoja == 'si':
-            id_local = (str(nodo_hijo.nombre) + str(arbol.corte) + str(nodo_hijo.nivel))
+            id_local = (str(nodo_hijo.nombre)+' ' + str(arbol.corte) + str(nodo_hijo.nivel))
             grafica.add_edge((id, arbol.soporte),(id_local, nodo_hijo.soporte, nodo_hijo.confianza), label=mayor)
         else:
             grafica.add_edge((id, arbol.soporte), (id_local, nodo_hijo.soporte),label=mayor)

@@ -58,9 +58,8 @@ def decision_tree(archivo, atributos, arbol=None, nivel=0, ganancia=0):
         subconjunto_der = deepcopy(
             archivo[posicion[1]:])  # Genero el segundo subconjunto, todo lo que est� a la izquierda
         nombre = atributos[posicion[0]]  # nombre del eje
-        ganancia = ganancia_inf
 
-        if ganancia_inf > 0:
+        if ganancia_inf > ganancia:
             nod2 = ab.Nodo(nombre, valor_corte, nivel, len(archivo))  # Genero el nodo raiz para esta iteracion
             arbol.genelemento(nod2)  # Lo agrego al arbol
             if subconjunto_izq is not None:  # Pregunto si el subconjunto no est� vacio
@@ -82,17 +81,18 @@ def decision_tree(archivo, atributos, arbol=None, nivel=0, ganancia=0):
         return arbol
 
 
-def principal(archivo, nodo):
+def principal(archivo, nodo,limite_ganancia=None):
     """
     Es la funci�n mas amplia y que engloba el programa
     :param archivo: archivo con el conjunto de entrenamiento y conjunto de prueba
     :return: nada
     """
-
+    if limite_ganancia is None:
+        limite_ganancia=0
     nivel = 0  # Genera la profundidad inicial
-    nodo = decision_tree(archivo[1], archivo[0], nodo, nivel,0)  # Llama al algoritmo de Decisi�n
+    nodo = decision_tree(archivo[1], archivo[0], nodo, nivel,limite_ganancia)  # Llama al algoritmo de Decisi�n
 
-    nombre = 'Arbol_Decision.png'
+    nombre = 'Arbol_Decision 2.png'
     gf.graficar_arbol(nodo, nombre)  # Plotea otro grafico
     gf.graficar_diagrama_cortes(archivo[2], archivo[1], nodo, 'grafica_desintegracion.png')  # Plotea un grafio
     return nodo
