@@ -41,17 +41,7 @@ def graficar_diagrama_cortes_recursivo(arbol, limitex, limitey, restrix=None, re
         restriy = [limitey[0], limitey[1]]
     if restrix is None:
         restrix = [limitex[0], limitex[1]]
-    ancho = float(limitex[1]) - float(limitex[0])  # Establece el ancho de la grafica
-    alto = float(limitey[1]) - float(limitey[0])  # Establece el alto de la grafica
-
     if arbol.nombre == "Eje y":  # Pregunta si el corte es sobre el eje Y
-        limi = 0  # establece el limite inferior en 0
-        lims = 1  # establece el limite superior en 1
-        # Si tiene alguna restricci�n distinta de 0 hay que actualizar los limites
-        if restrix[0] != 0:  #
-            limi = (float(restrix[0]) - float(limitex[0])) / ancho
-        if restrix[1] != 0:
-            lims = (float(restrix[1]) - float(limitex[0])) / ancho
         plt.hlines(float(arbol.corte),restrix[0],restrix[1] ,color='r')  # Funcion que plotea, recibe el valor del eje y en terminos relativos, donde comienza
         #plt.hlines(float(arbol.corte), limi, lims,
 
@@ -72,12 +62,6 @@ def graficar_diagrama_cortes_recursivo(arbol, limitex, limitey, restrix=None, re
 
     # Lo mismo para el eje X
     if arbol.nombre == "Eje x":
-        limi = 0
-        lims = 1
-        if restriy[0] != 0:
-            limi = (float(restriy[0]) - float(limitey[0])) / alto
-        if restriy[1] != 0:
-            lims = (float(restriy[1]) - float(limitey[0])) / alto
         plt.vlines(float(arbol.corte), restriy[0],restriy[1], color='g')
         if arbol.izq is not None:
             if restrix[0]==limitex[0]:
