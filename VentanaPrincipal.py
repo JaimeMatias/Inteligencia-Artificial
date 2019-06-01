@@ -88,7 +88,7 @@ class Ventana(QMainWindow):
     def generarGraficos(self):
 
         nodo = ab.Nodo() #Creo un nodo vacio
-        self.arbol = principal(self.archivo, nodo , self.limite.value())  #Llama a la funcion principal de apriory_exe que es el que genera los graficos
+        self.arbol = principal(self.archivo, nodo , self.limite.value()/100)  #Llama a la funcion principal de apriory_exe que es el que genera los graficos
         
         ########## Prueba el arbol y muestra la eficiencia ##################
         eficiencia = probar_arbol(self.archivo, self.arbol)
