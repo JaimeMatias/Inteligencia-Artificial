@@ -54,7 +54,7 @@ class Ventana(QMainWindow):
     def leerArchivo(self):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        self.nombre_fichero, _ = QFileDialog.getOpenFileName(self,'.csv', '~/Escritorio/','*.csv',options=options) #Lee archivo
+        self.nombre_fichero, _ = QFileDialog.getOpenFileName(self,'.csv ;; .txt', '~/Escritorio/','*.csv;; *.txt',options=options) #Lee archivo
 
         if self.nombre_fichero!='':  #Pregunta si es vacio(Se apreto cancel)
             self.archivo = read_ar(self.nombre_fichero, 80) #Llama a la funcion que lee el .csv
