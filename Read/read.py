@@ -111,10 +111,20 @@ def genproxcorte(archivo, desplazamiento, atributo):
         var1 = archivo[desplazamiento][atributo]
         var1 = float(var1)
         var2 = float(archivo[i][atributo])
+        #print(var1,var2)#modificacion
         # print(var1,var2)
         # print(archivo[i][2],archivo[desplazamiento][2])
         # print(archivo[i][2]!= archivo[desplazamiento][2])
-        if archivo[i][2] != archivo[desplazamiento][2]:
+        if (var2 - var1) != 0:
+            return i
+
+        else:
+           i = i + 1
+
+        if i == len(archivo):
+            return -1
+
+        """if archivo[i][2] != archivo[desplazamiento][2]:
             # print((var2 - var1) != 0)
             if (var2 - var1) != 0:
                 return i
@@ -127,7 +137,7 @@ def genproxcorte(archivo, desplazamiento, atributo):
             if i == len(archivo):
                 return -1
 
-
+"""
 # Funcion que recibe el conjunto de datos, la posicion del corte y el atributos
 # y devuelve el valor medio entre los 2 puntos donde se genera el corte, con los valore de
 # ese atributo
