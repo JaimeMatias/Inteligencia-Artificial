@@ -24,24 +24,24 @@ def read_ar(dataset, extraccion):
     La tercera cada una de las clase
     """
     archivo = [[], [], [],[]]  # Posicion 1 titulos atributo, Posicion 2 registros
-    pos = -1
+    pos = 0
     with open(dataset) as csvarchivo:
         dialect = csv.Sniffer().sniff(csvarchivo.read(),delimiters=";,") #Para que funcione para los separadores , y ;
         csvarchivo.seek(0)
-        datos = csv.reader(csvarchivo, dialect)
-        for reg in datos:
-            if pos == -1:
-                archivo[0] = ['Eje x', 'Eje y', 'Clase:']
+        reader = csv.reader(csvarchivo, dialect)
+        data = []
+        for row in reader:
+            data.append(row)
+        data.pop(0) # Eliminar fila de titulos
+        random.shuffle(data) # Mezcla al azar
+        archivo[0] = ['Eje x', 'Eje y', 'Clase:']
+        for reg in data:
+            if pos < int(extraccion/100 * len(data)):
+                archivo[1] += [[float(reg[0]), float(reg[1]), reg[2]]]
             else:
-                prob = random.random() * 100
-                if prob < extraccion:
-                    archivo[1] += [[float(reg[0]), float(reg[1]), reg[2]]]
-                else:
-                    archivo[3] += [[float(reg[0]), float(reg[1]), reg[2]]]
-                if reg[len(reg) - 1] not in archivo[2]:
-
-                        archivo[2] += [reg[len(reg) - 1]]
-
+                archivo[3] += [[float(reg[0]), float(reg[1]), reg[2]]]
+            if reg[len(reg) - 1] not in archivo[2]:
+                archivo[2] += [reg[len(reg) - 1]]
             pos = pos + 1
         return archivo
 

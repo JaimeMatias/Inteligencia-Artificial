@@ -1,5 +1,6 @@
 # coding=utf-8
 import sys
+import os
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QTableWidgetItem, QAbstractItemView, QMessageBox
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
@@ -16,7 +17,12 @@ class Ventana(QMainWindow):
         global archivo
         global arbol
         QMainWindow.__init__(self)
-        uic.loadUi("ventana1.ui",self)
+        try:
+            # PyInstaller creates a temp folder and stores path in _MEIPASS
+            base_path = sys._MEIPASS
+        except Exception:
+            base_path = os.path.abspath(".")
+        uic.loadUi(os.path.join(base_path, "ventana1.ui"), self)
         self.btnBuscar.clicked.connect(self.leerArchivo)
         self.btnGenerar.clicked.connect(self.generarGraficos)
         self.btnClasificar.clicked.connect(self.clasificarPunto)
