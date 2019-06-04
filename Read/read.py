@@ -123,6 +123,7 @@ def genproxcorte(archivo, desplazamiento, atributo):
         else:
            i = i + 1
 
+
         if i == len(archivo):
             return -1
 
