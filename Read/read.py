@@ -26,7 +26,9 @@ def read_ar(dataset, extraccion):
     archivo = [[], [], [],[]]  # Posicion 1 titulos atributo, Posicion 2 registros
     pos = -1
     with open(dataset) as csvarchivo:
-        datos = csv.reader(csvarchivo)
+        dialect = csv.Sniffer().sniff(csvarchivo.read(),delimiters=";,") #Para que funcione para los separadores , y ;
+        csvarchivo.seek(0)
+        datos = csv.reader(csvarchivo, dialect)
         for reg in datos:
             if pos == -1:
                 archivo[0] = ['Eje x', 'Eje y', 'Clase:']
@@ -44,11 +46,11 @@ def read_ar(dataset, extraccion):
         return archivo
 
 
-# funcion que lee un conjunto de datos y la posición de un atributo
+# funcion que lee un conjunto de datos y la posiciï¿½n de un atributo
 # y los ordena por un atributo especifico
 def ordenar(archivo, atributo):
     """
-    lee un conjunto de datos y la posición de un atributo
+    lee un conjunto de datos y la posiciï¿½n de un atributo
 
     :param archivo: un conjunto de datos
     :param atributo: el atributo con el que se va a ordenar
@@ -98,7 +100,7 @@ def genintervalo(archivo, rango, atributo, nuevo_valor):
 # si encuentra devuelve la poscion sino devuelve -1
 def genproxcorte(archivo, desplazamiento, atributo):
     """
-    va a buscar la proxima posición a cortar
+    va a buscar la proxima posiciï¿½n a cortar
     :param archivo: un conjunto de datos
     :param desplazamiento: el punto a partir de donde se busca
     :param atributo: el atributo que se analiza
@@ -153,7 +155,7 @@ def valorcorte(archivo, rango, atributo):
     return round(valor, 4)
 
 
-# Función que va a recibir el conjunto de datos, y la posición del atributo
+# Funciï¿½n que va a recibir el conjunto de datos, y la posiciï¿½n del atributo
 # y va a devolver el valor maximo y minimo de ese atributo.
 def extremos(archivo, atributo):
     """

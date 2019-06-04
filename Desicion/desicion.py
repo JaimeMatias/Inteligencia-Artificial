@@ -92,7 +92,7 @@ def principal(archivo, nodo,limite_ganancia=None):
     nivel = 0  # Genera la profundidad inicial
     nodo = decision_tree(archivo[1], archivo[0], nodo, nivel,limite_ganancia)  # Llama al algoritmo de Decisi�n
 
-    nombre = 'Arbol_Decision 2.png'
+    nombre = 'Arbol_Decision.png'
     gf.graficar_arbol(nodo, nombre)  # Plotea otro grafico
     gf.graficar_diagrama_cortes(archivo[2], archivo[1], nodo, 'grafica_desintegracion.png')  # Plotea un grafio
     return nodo

@@ -54,7 +54,7 @@ class Ventana(QMainWindow):
     def leerArchivo(self):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        self.nombre_fichero, _ = QFileDialog.getOpenFileName(self,'.csv', '~/Escritorio/','*.csv',options=options) #Lee archivo
+        self.nombre_fichero, _ = QFileDialog.getOpenFileName(self,'.csv ;; .txt', '~/Escritorio/','*.csv;; *.txt',options=options) #Lee archivo
 
         if self.nombre_fichero!='':  #Pregunta si es vacio(Se apreto cancel)
             self.archivo = read_ar(self.nombre_fichero, 80) #Llama a la funcion que lee el .csv
@@ -87,10 +87,8 @@ class Ventana(QMainWindow):
 
     def generarGraficos(self):
 
-        print(self.limite.value()) #Para leer el valor del limite
-
         nodo = ab.Nodo() #Creo un nodo vacio
-        self.arbol = principal(self.archivo, nodo)  #Llama a la funcion principal de apriory_exe que es el que genera los graficos
+        self.arbol = principal(self.archivo, nodo , self.limite.value()/100)  #Llama a la funcion principal de apriory_exe que es el que genera los graficos
         
         ########## Prueba el arbol y muestra la eficiencia ##################
         eficiencia = probar_arbol(self.archivo, self.arbol)
@@ -98,8 +96,9 @@ class Ventana(QMainWindow):
         self.mostrarMensaje("Eficiencia del Arbol de Decision",mensaje)
         
         ######### Muestra las 2 figuras que se generaron #########
-        img = mpimg.imread('grafica_desintegracion.png')
-        plt.imshow(img)
+        #img = mpimg.imread('grafica_desintegracion.png')
+        #plt.imshow(img)
+        #plt.show()
         plt.figure()  #Crea otra ventana
         img2 = mpimg.imread('Arbol_Decision.png')
         plt.imshow(img2)
