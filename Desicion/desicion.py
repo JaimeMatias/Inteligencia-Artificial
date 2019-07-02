@@ -38,7 +38,7 @@ def decision_tree(archivo, atributos, arbol=None, nivel=0, ganancia=0):
                                                 nombre_conjunto)  # Genero el sib intervalo
                 ganancia_sub_intervalo = gn.gain(sub_intervalo,
                                                  atributo_pos)  # Generola ganancia del intervalo anterior
-                if ganancia_sub_intervalo > ganancia_inf:  # Pregunto si el nuevo corte, mejora la ganancia de informaci�n
+                if ganancia_sub_intervalo >= ganancia_inf:  # Pregunto si el nuevo corte, mejora la ganancia de informaci�n
                     ganancia_inf = ganancia_sub_intervalo  # Actualizao la ganancia
                     if i == 0:  # Estamos en el primer bucle
                         posicion[1] = valor_corte  # Actualizo la poscion del corte, desplazamientos
@@ -59,7 +59,7 @@ def decision_tree(archivo, atributos, arbol=None, nivel=0, ganancia=0):
             archivo[posicion[1]:])  # Genero el segundo subconjunto, todo lo que est� a la izquierda
         nombre = atributos[posicion[0]]  # nombre del eje
 
-        if ganancia_inf > ganancia:
+        if ganancia_inf >= ganancia:
             nod2 = ab.Nodo(nombre, valor_corte, nivel, len(archivo))  # Genero el nodo raiz para esta iteracion
             arbol.genelemento(nod2)  # Lo agrego al arbol
             if subconjunto_izq is not None:  # Pregunto si el subconjunto no est� vacio
@@ -92,7 +92,7 @@ def principal(archivo, nodo,limite_ganancia=None):
     nivel = 0  # Genera la profundidad inicial
     nodo = decision_tree(archivo[1], archivo[0], nodo, nivel,limite_ganancia)  # Llama al algoritmo de Decisi�n
 
-    nombre = 'Arbol_Decision.png'
+    nombre = 'Arbol_Decision'
     gf.graficar_arbol(nodo, nombre)  # Plotea otro grafico
     gf.graficar_diagrama_cortes(archivo[2], archivo[1], nodo, 'grafica_desintegracion.png')  # Plotea un grafio
     return nodo

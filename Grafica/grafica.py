@@ -1,9 +1,8 @@
 # -*- coding: latin-1 -*-
-import pygraphviz as pgv
 from Arbol import arbol
 import matplotlib.pyplot as plt
 from Read import read as rd
-
+from graphviz import Digraph, nohtml
 
 # recibe un conjunto de datos y el valor de una clase
 # a todos los regitros cuya clase coincida con la clase ingresada van a tener un tipo de representaci�n en el grafico
@@ -105,41 +104,40 @@ def graficar_diagrama_cortes(clase, archivo, arbol, nombre):
     plt.savefig(nombre)  # Guada el archivo
 
 
-# Funcion recursiva que se recibe a si mismo y al grafico
-    # genera todos los nodos y los arcos del grafico
-def graficar_arbol_recursivo(arbol, grafica):
-    """
+def graficar_arbol_recursivo(arbol, grafica, id):
+    """    
     Genera de manera recusiva cada uno de los nodos y de las aristas del grafico de manera recursiva
     :param arbol: el arbol de decision del problema
     :param grafica: el grafico
+    :param id: ID del nodo padre
     :return:
     """
-    id = (str(arbol.nombre)+' ' + str(arbol.corte) + str(arbol.nivel))
+
     if arbol is not None and arbol.izq is not None:  # Pregunto  si es el nodo existe y si tiene hijo
         nodo_hijo = arbol.izq
         menor = ('< ' + str(arbol.corte))  # Genero las etiquetas de los arcos
-        id_local = (str(nodo_hijo.nombre)+' ' + str(nodo_hijo.corte) + str(nodo_hijo.nivel))
+        id_local = (str(nodo_hijo.nombre)+' ' + str(nodo_hijo.corte) + str(nodo_hijo.nivel)+'<')
         if nodo_hijo.hoja == 'si':  # Genero los 2 nodos origen destino, teniendo al nodo destino como hoja
-            id_local = (str(nodo_hijo.nombre) +' '+ str(arbol.corte) + str(nodo_hijo.nivel))
-            grafica.add_edge((id, arbol.soporte),
-                               (id_local, nodo_hijo.soporte, nodo_hijo.confianza), label=menor)
+            id_local = (str(nodo_hijo.nombre) +' '+ str(arbol.corte) + str(nodo_hijo.nivel)+'<')
+            grafica.node(id_local, nohtml('<f1> '+ str(nodo_hijo.nombre)), color='green')
+            grafica.edge(id, id_local, label=menor)
         else:  # Genero los 2 nodos origen destino, teniendo al nodo destino como nodo de decisi�n
-             grafica.add_edge((id, arbol.soporte,), (id_local, nodo_hijo.soporte),
-                               label=menor, )
-        graficar_arbol_recursivo(arbol.izq, grafica)
+            grafica.node(id_local, nohtml('<f1> '+ str(nodo_hijo.nombre)))
+            grafica.edge(id, id_local, label=menor)
+        graficar_arbol_recursivo(arbol.izq, grafica,id_local)
         # Lo mismo que el anterior
     if arbol is not None and arbol.der is not None:
         nodo_hijo = arbol.der
         mayor = ('> ' + str(arbol.corte))
-        id_local = (str(nodo_hijo.nombre) +' '+ str(nodo_hijo.corte) + str(nodo_hijo.nivel))
+        id_local = (str(nodo_hijo.nombre) +' '+ str(nodo_hijo.corte) + str(nodo_hijo.nivel)+'>')
         if nodo_hijo.hoja == 'si':
-            id_local = (str(nodo_hijo.nombre)+' ' + str(arbol.corte) + str(nodo_hijo.nivel))
-            grafica.add_edge((id, arbol.soporte),(id_local, nodo_hijo.soporte, nodo_hijo.confianza), label=mayor)
+            id_local = (str(nodo_hijo.nombre)+' ' + str(arbol.corte) + str(nodo_hijo.nivel)+'>')
+            grafica.node(id_local, nohtml('<f1> '+ str(nodo_hijo.nombre)), color='green')
+            grafica.edge(id, id_local, label=mayor)
         else:
-            grafica.add_edge((id, arbol.soporte), (id_local, nodo_hijo.soporte),label=mayor)
-        graficar_arbol_recursivo(arbol.der, grafica)
-
-
+            grafica.node(id_local, nohtml('<f1> '+ str(nodo_hijo.nombre)))
+            grafica.edge(id, id_local, label=mayor)
+        graficar_arbol_recursivo(arbol.der, grafica, id_local)
 
 
 def graficar_arbol(arbol, nombre):
@@ -149,10 +147,11 @@ def graficar_arbol(arbol, nombre):
     :param nombre: el nombre de la grafica
     :return:
     """
-    grafica = pgv.AGraph(directed=True, label='Arbol Desicion')
-    graficar_arbol_recursivo(arbol, grafica)
-    grafica.layout(prog='dot')
-    grafica.draw(nombre)
+    grafica= Digraph('g', filename='btree.gv', node_attr={'shape': 'record', 'height': '.1'}, format='png')
+    id = (str(arbol.nombre)+' ' + str(arbol.corte) + str(arbol.nivel))
+    grafica.node(id, nohtml('<f1> '+ str(arbol.nombre)))
+    graficar_arbol_recursivo(arbol, grafica, id)
+    grafica.render(nombre)
 
 """PRUEBA"""
 # from READ import *
