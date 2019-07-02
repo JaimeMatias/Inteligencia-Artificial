@@ -17,7 +17,7 @@ def entropiaclase(archivo):
     """
     subconjuntos_clase = sb.subconjuntoclase(archivo)
     valores_clases = cp.deepcopy(subconjuntos_clase[1])
-    resultado: float = 0
+    resultado = float(0)
     total = len(archivo)  # calculo la cantidad de registros
     for registros in valores_clases:
         if registros != 0:

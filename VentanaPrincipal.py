@@ -2,7 +2,7 @@
 import sys
 import os
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QTableWidgetItem, QAbstractItemView, QMessageBox
-from PyQt5 import uic
+from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import Qt
 from Read.read import read_ar
 from Desicion.desicion import principal, probar_arbol
@@ -26,6 +26,8 @@ class Ventana(QMainWindow):
         self.btnBuscar.clicked.connect(self.leerArchivo)
         self.btnGenerar.clicked.connect(self.generarGraficos)
         self.btnClasificar.clicked.connect(self.clasificarPunto)
+        self.btnTrainToTest.clicked.connect(self.trainToTest)
+        self.btnTestToTrain.clicked.connect(self.testToTrain)
         self.bloqueoClasificacion()
         self.bloqueoGeneracion()
 
@@ -41,7 +43,9 @@ class Ventana(QMainWindow):
         self.tablaEntrenamiento.verticalHeader().setDefaultSectionSize(20) # Establecer altura de las filas
         nombreColumnas = ("Eje X","Eje Y", "Clase")
         self.tablaEntrenamiento.setHorizontalHeaderLabels(nombreColumnas) # Establecer las etiquetas de encabezado horizontal usando etiquetas
-        self.tablaEntrenamiento.horizontalHeader().setStretchLastSection(True) #Hace que el la fila de encabezado ocupe todo el ancho
+        self.tablaEntrenamiento.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+        self.tablaEntrenamiento.setEditTriggers(QAbstractItemView.NoEditTriggers) # No editable
+        # self.tablaEntrenamiento.horizontalHeader().setStretchLastSection(True) #Hace que el la fila de encabezado ocupe todo el ancho
 
         self.tablaPrueba.setDragDropOverwriteMode(False) # Deshabilitar el comportamiento de arrastrar y soltar
         self.tablaPrueba.setSelectionBehavior(QAbstractItemView.SelectRows) # Seleccionar toda la fila
@@ -53,7 +57,8 @@ class Ventana(QMainWindow):
         self.tablaPrueba.verticalHeader().setDefaultSectionSize(20) # Establecer altura de las filas
         nombreColumnas = ("Eje X","Eje Y", "Clase")
         self.tablaPrueba.setHorizontalHeaderLabels(nombreColumnas) # Establecer las etiquetas de encabezado horizontal usando etiquetas
-        self.tablaPrueba.horizontalHeader().setStretchLastSection(True) #Hace que el la fila de encabezado ocupe todo el ancho
+        self.tablaPrueba.horizontalHeader().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+        self.tablaPrueba.setEditTriggers(QAbstractItemView.NoEditTriggers) # No editable
 
         # ======================================================
 
@@ -94,17 +99,22 @@ class Ventana(QMainWindow):
     def generarGraficos(self):
 
         nodo = ab.Nodo() #Creo un nodo vacio
+        if len(self.archivo[1]) == 0:
+            mensaje = "No hay datos de entrenamiento para generar el árbol."
+            self.mostrarMensaje("Error",mensaje)
+            return
+
         self.arbol = principal(self.archivo, nodo , self.limite.value()/100)  #Llama a la funcion principal de apriory_exe que es el que genera los graficos
         
         ########## Prueba el arbol y muestra la eficiencia ##################
-        eficiencia = probar_arbol(self.archivo, self.arbol)
-        mensaje = "La eficiencia del Arbol es: "+ str(round(eficiencia,2))+"%"
+        eficienciaEntr = probar_arbol(self.archivo[1], self.arbol)
+        mensaje = "Se entrenó con una eficiencia del: "+ str(round(eficienciaEntr,2))+"% \n"
+        if len(self.archivo[3]) > 0:
+            eficienciaPrueba = probar_arbol(self.archivo[3], self.arbol)
+            mensaje += "Se probó con una eficiencia del: "+ str(round(eficienciaPrueba,2))+"%"
         self.mostrarMensaje("Eficiencia del Arbol de Decision",mensaje)
-        
+
         ######### Muestra las 2 figuras que se generaron #########
-        #img = mpimg.imread('grafica_desintegracion.png')
-        #plt.imshow(img)
-        #plt.show()
         plt.figure()  #Crea otra ventana
         img2 = mpimg.imread('Arbol_Decision.png')
         plt.imshow(img2)
@@ -118,6 +128,31 @@ class Ventana(QMainWindow):
         mensaje = "El punto x:"+str(self.puntox.value())+" y:"+str(self.puntoy.value())+" es de la clase: " +str(clase)
         self.mostrarMensaje("Clasificiacion del punto",mensaje)
         
+    def trainToTest(self):
+        indexes = self.tablaEntrenamiento.selectionModel().selectedRows()
+        for index in sorted(indexes):
+            row = index.row()
+            count = self.tablaPrueba.rowCount()
+            self.tablaPrueba.insertRow(count)
+            self.tablaPrueba.setItem(count, 0, QTableWidgetItem(self.tablaEntrenamiento.item(row, 0).text()))
+            self.tablaPrueba.setItem(count, 1, QTableWidgetItem(self.tablaEntrenamiento.item(row, 1).text()))
+            self.tablaPrueba.setItem(count, 2, QTableWidgetItem(self.tablaEntrenamiento.item(row, 2).text()))
+            self.tablaEntrenamiento.removeRow(row)
+        self.archivo[3].append(self.archivo[1][row])
+        del self.archivo[1][row]
+
+    def testToTrain(self):
+        indexes = self.tablaPrueba.selectionModel().selectedRows()
+        for index in sorted(indexes):
+            row = index.row()
+            count = self.tablaEntrenamiento.rowCount()
+            self.tablaEntrenamiento.insertRow(count)
+            self.tablaEntrenamiento.setItem(count, 0, QTableWidgetItem(self.tablaPrueba.item(row, 0).text()))
+            self.tablaEntrenamiento.setItem(count, 1, QTableWidgetItem(self.tablaPrueba.item(row, 1).text()))
+            self.tablaEntrenamiento.setItem(count, 2, QTableWidgetItem(self.tablaPrueba.item(row, 2).text()))
+            self.tablaPrueba.removeRow(row)
+        self.archivo[1].append(self.archivo[3][row])
+        del self.archivo[3][row]        
 
     def bloqueoGeneracion(self):
         self.btnGenerar.setEnabled(False)

@@ -97,11 +97,11 @@ def principal(archivo, nodo,limite_ganancia=None):
     gf.graficar_diagrama_cortes(archivo[2], archivo[1], nodo, 'grafica_desintegracion.png')  # Plotea un grafio
     return nodo
 
-def probar_arbol(archivo,nodo):
+def probar_arbol(archivo, nodo):
     cont_true = 0
     cont_false = 0
-    cont_total= len(archivo[3])
-    for reg in archivo[3]:
+    cont_total = len(archivo)
+    for reg in archivo:
         if reg[2] == nodo.clasepunto(reg[0], reg[1]):
             cont_true += 1
         else:
