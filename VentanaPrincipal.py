@@ -112,13 +112,7 @@ class Ventana(QMainWindow):
         if len(self.archivo[3]) > 0:
             eficienciaPrueba = probar_arbol(self.archivo[3], self.arbol)
             mensaje += "Se probó con una eficiencia del: "+ str(round(eficienciaPrueba,2))+"%"
-        # self.mostrarMensaje("Eficiencia del Arbol de Decision",mensaje)
-
-        ######### Muestra las 2 figuras que se generaron #########
-        # plt.figure()  #Crea otra ventana
-        # img2 = mpimg.imread('Arbol_Decision.png')
-        # plt.imshow(img2)
-        # plt.show()
+        self.mostrarMensaje("Eficiencia del Arbol de Decision",mensaje)
 
         self.btnClasificar.setEnabled(True)  #Una vez cargado los datos activo el boton para generar
         self.btnClasificar.setStyleSheet('QPushButton {background-color: blue; color: black;}')  #Le devuelvo color
@@ -138,8 +132,9 @@ class Ventana(QMainWindow):
             self.tablaPrueba.setItem(count, 1, QTableWidgetItem(self.tablaEntrenamiento.item(row, 1).text()))
             self.tablaPrueba.setItem(count, 2, QTableWidgetItem(self.tablaEntrenamiento.item(row, 2).text()))
             self.tablaEntrenamiento.removeRow(row)
-        self.archivo[3].append(self.archivo[1][row])
-        del self.archivo[1][row]
+        if indexes:
+            self.archivo[3].append(self.archivo[1][row])
+            del self.archivo[1][row]
 
     def testToTrain(self):
         indexes = self.tablaPrueba.selectionModel().selectedRows()
@@ -151,8 +146,9 @@ class Ventana(QMainWindow):
             self.tablaEntrenamiento.setItem(count, 1, QTableWidgetItem(self.tablaPrueba.item(row, 1).text()))
             self.tablaEntrenamiento.setItem(count, 2, QTableWidgetItem(self.tablaPrueba.item(row, 2).text()))
             self.tablaPrueba.removeRow(row)
-        self.archivo[1].append(self.archivo[3][row])
-        del self.archivo[3][row]        
+        if indexes:
+            self.archivo[1].append(self.archivo[3][row])
+            del self.archivo[3][row]        
 
     def bloqueoGeneracion(self):
         self.btnGenerar.setEnabled(False)

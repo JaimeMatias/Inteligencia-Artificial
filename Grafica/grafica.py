@@ -11,6 +11,8 @@ ax = fig.add_subplot(1, 1, 1)
 fig2 = plt.figure()
 ax2 = fig2.add_subplot(1, 1, 1)
 
+plt.ion()
+
 # recibe un conjunto de datos y el valor de una clase
 # a todos los regitros cuya clase coincida con la clase ingresada van a tener un tipo de representaci�n en el grafico
 # al resto de registros van a tener otra representaci�n
@@ -107,8 +109,8 @@ def graficar_diagrama_cortes(clase, archivo, arbol, nombre):
     ax.set_ylabel('Eje Y')  # Etiqueta del eje OY
     ax.set_title('Grafico de Corte')  # Título del gráfico
     fig.savefig(nombre)  # Guarda el archivo
-    fig.canvas.manager.window.move(0,0)
-    fig.show()
+    fig.canvas.manager.window.move(0,0) # Lo posiciona en la esquina superior izquierda
+    fig.show() # Plotea
 
 
 def graficar_arbol_recursivo(arbol, grafica, id):
@@ -161,15 +163,15 @@ def graficar_arbol(arbol, nombre):
     graficar_arbol_recursivo(arbol, grafica, id)
     grafica.render(nombre)
     # Mostrar el arbol de decision generado
-    dpi = 80
-    img = mpimg.imread('Arbol_Decision.png')
-    plt.pause(0.0005)
-    fig2.set_figheight(img.shape[0]/dpi)
-    fig2.set_figwidth(img.shape[1]/dpi)
-    ax2.axis('off')
-    ax2.imshow(img, interpolation='none', aspect='equal')
-    fig2.canvas.manager.window.move(0,0)
-    fig2.show()
+    dpi = 77 # Definicion de la imagen
+    img = mpimg.imread('Arbol_Decision.png') # Lee la imagen del arbol recientemente creada
+    plt.pause(0.0001) # Espera lectura de la imagen
+    fig2.set_figheight(img.shape[0]/dpi) # Ajusta la altura de la figura a la imagen
+    fig2.set_figwidth(img.shape[1]/dpi) # Ajusta el ancho de la figura a la imagen
+    ax2.axis('off') # Quita los ejes
+    ax2.imshow(img, interpolation='none', aspect='equal') # Agrega la imagen al subplot ax
+    fig2.canvas.manager.window.move(0,0) # Lo posiciona en la esquina superior izquierda
+    fig2.show() # Plotea
 
 """PRUEBA"""
 # from READ import *
