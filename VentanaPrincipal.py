@@ -112,13 +112,13 @@ class Ventana(QMainWindow):
         if len(self.archivo[3]) > 0:
             eficienciaPrueba = probar_arbol(self.archivo[3], self.arbol)
             mensaje += "Se probó con una eficiencia del: "+ str(round(eficienciaPrueba,2))+"%"
-        self.mostrarMensaje("Eficiencia del Arbol de Decision",mensaje)
+        # self.mostrarMensaje("Eficiencia del Arbol de Decision",mensaje)
 
         ######### Muestra las 2 figuras que se generaron #########
-        plt.figure()  #Crea otra ventana
-        img2 = mpimg.imread('Arbol_Decision.png')
-        plt.imshow(img2)
-        plt.show()
+        # plt.figure()  #Crea otra ventana
+        # img2 = mpimg.imread('Arbol_Decision.png')
+        # plt.imshow(img2)
+        # plt.show()
 
         self.btnClasificar.setEnabled(True)  #Una vez cargado los datos activo el boton para generar
         self.btnClasificar.setStyleSheet('QPushButton {background-color: blue; color: black;}')  #Le devuelvo color

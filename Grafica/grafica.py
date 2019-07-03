@@ -1,8 +1,15 @@
 # -*- coding: latin-1 -*-
 from Arbol import arbol
 import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 from Read import read as rd
 from graphviz import Digraph, nohtml
+
+fig = plt.figure()
+ax = fig.add_subplot(1, 1, 1)
+
+fig2 = plt.figure()
+ax2 = fig2.add_subplot(1, 1, 1)
 
 # recibe un conjunto de datos y el valor de una clase
 # a todos los regitros cuya clase coincida con la clase ingresada van a tener un tipo de representaci�n en el grafico
@@ -18,9 +25,9 @@ def graficar_puntos(entrada, clase):
     for registro in entrada:
         #print(registro)
         if registro[len(registro) - 1] == clase:
-            plt.scatter(float(registro[0]), float(registro[1]), c='red', marker="^")
+            ax.scatter(float(registro[0]), float(registro[1]), c='red', marker="^")
         else:
-            plt.scatter(float(registro[0]), float(registro[1]), c='blue')
+            ax.scatter(float(registro[0]), float(registro[1]), c='blue')
 
 
 # Funcion recursiva que recibe un nodo, los limtes del grafico tanto en x como en y, y las restricciones tanto en x como en y
@@ -41,7 +48,7 @@ def graficar_diagrama_cortes_recursivo(arbol, limitex, limitey, restrix=None, re
     if restrix is None:
         restrix = [limitex[0], limitex[1]]
     if arbol.nombre == "Eje y":  # Pregunta si el corte es sobre el eje Y
-        plt.hlines(float(arbol.corte),restrix[0],restrix[1] ,color='r')  # Funcion que plotea, recibe el valor del eje y en terminos relativos, donde comienza
+        ax.hlines(float(arbol.corte),restrix[0],restrix[1] ,color='r')  # Funcion que plotea, recibe el valor del eje y en terminos relativos, donde comienza
         #plt.hlines(float(arbol.corte), limi, lims,
 
         # y donde termina la linea, los valores van de 0 a 1
@@ -61,7 +68,7 @@ def graficar_diagrama_cortes_recursivo(arbol, limitex, limitey, restrix=None, re
 
     # Lo mismo para el eje X
     if arbol.nombre == "Eje x":
-        plt.vlines(float(arbol.corte), restriy[0],restriy[1], color='g')
+        ax.vlines(float(arbol.corte), restriy[0],restriy[1], color='g')
         if arbol.izq is not None:
             if restrix[0]==limitex[0]:
                 restrixn=[restrix[0],arbol.corte]
@@ -85,6 +92,7 @@ def graficar_diagrama_cortes(clase, archivo, arbol, nombre):
     :param nombre: El nombre de los datos
     :return:
     """
+    ax.clear()
     graficar_puntos(archivo, clase[0])  # plotea los puntos
     limitex = rd.extremos(archivo, 0)  # Establece los limites del grafico
     limitey = rd.extremos(archivo, 1)
@@ -94,14 +102,13 @@ def graficar_diagrama_cortes(clase, archivo, arbol, nombre):
     miny = float(limitey[0])# - 0.5
     maxy = float(limitey[1]) #+ 0.5
     limitey = [miny, maxy]
-    #plt.xlim(minx, maxx)
-    #plt.ylim(miny, maxy)
     graficar_diagrama_cortes_recursivo(arbol, limitex, limitey)  # Llama a la funcion Cortes
-    plt.xlabel('Eje X')  # Etiqueta del eje OX
-    plt.ylabel('Eje Y')  # Etiqueta del eje OY
-    plt.title('Grafico de Corte')  # Título del gráfico
-
-    plt.savefig(nombre)  # Guada el archivo
+    ax.set_xlabel('Eje X')  # Etiqueta del eje OX
+    ax.set_ylabel('Eje Y')  # Etiqueta del eje OY
+    ax.set_title('Grafico de Corte')  # Título del gráfico
+    fig.savefig(nombre)  # Guarda el archivo
+    fig.canvas.manager.window.move(0,0)
+    fig.show()
 
 
 def graficar_arbol_recursivo(arbol, grafica, id):
@@ -147,11 +154,22 @@ def graficar_arbol(arbol, nombre):
     :param nombre: el nombre de la grafica
     :return:
     """
-    grafica= Digraph('g', filename='btree.gv', node_attr={'shape': 'record', 'height': '.1'}, format='png')
+    ax2.clear()
+    grafica = Digraph('g', filename='btree.gv', node_attr={'shape': 'record', 'height': '.1'}, format='png')
     id = (str(arbol.nombre)+' ' + str(arbol.corte) + str(arbol.nivel))
     grafica.node(id, nohtml('<f1> '+ str(arbol.nombre)))
     graficar_arbol_recursivo(arbol, grafica, id)
     grafica.render(nombre)
+    # Mostrar el arbol de decision generado
+    dpi = 80
+    img = mpimg.imread('Arbol_Decision.png')
+    plt.pause(0.0005)
+    fig2.set_figheight(img.shape[0]/dpi)
+    fig2.set_figwidth(img.shape[1]/dpi)
+    ax2.axis('off')
+    ax2.imshow(img, interpolation='none', aspect='equal')
+    fig2.canvas.manager.window.move(0,0)
+    fig2.show()
 
 """PRUEBA"""
 # from READ import *
