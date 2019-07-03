@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['VentanaPrincipal.py'],
-             pathex=['/home/ia/Documents/Inteligencia-Artificial'],
+             pathex=['/home/gabriel/Documents/Inteligencia-Artificial'],
              binaries=[],
              datas=[('ventana1.ui', '.')],
              hiddenimports=[],

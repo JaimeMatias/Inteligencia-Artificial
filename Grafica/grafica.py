@@ -161,7 +161,7 @@ def graficar_arbol(arbol, nombre):
     id = (str(arbol.nombre)+' ' + str(arbol.corte) + str(arbol.nivel))
     grafica.node(id, nohtml('<f1> '+ str(arbol.nombre)))
     graficar_arbol_recursivo(arbol, grafica, id)
-    grafica.render(nombre)
+    grafica.render(nombre, cleanup='true')
     # Mostrar el arbol de decision generado
     dpi = 77 # Definicion de la imagen
     img = mpimg.imread('Arbol_Decision.png') # Lee la imagen del arbol recientemente creada
